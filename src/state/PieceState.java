@@ -1,11 +1,16 @@
 package state;
 
 import java.awt.event.MouseEvent;
+
+import model.Piece;
 import vue.Fenetre;
 
 public class PieceState extends State{
-	public PieceState(Fenetre f){
+	private Piece p;
+	
+	public PieceState(Fenetre f, Piece p){
 		super(f);
+		this.p=p;
 	}
 
 	public void mousePressed(MouseEvent e) {
