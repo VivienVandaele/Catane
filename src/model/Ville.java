@@ -16,18 +16,15 @@ public class Ville extends Piece{
 	
 	public Ville(int x, int y){
 		super(x, y);
-		image=new ImageIcon("ville.png");
+		image=new ImageIcon("images/pieces/ville1.png");
 	}
 	
 	public static void setEmplacements(){
 		emplacements=new Point[12][6];
     	Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        int WIDTH =(int)dimension.getWidth();
     	int margeGauche=3*PartiePanel.widthCase/2+5;
     	int margeTop=PartiePanel.widthCase/6;
-    	for(int i=0;i<3;i++){
-    		emplacements[0][i]=new Point(margeGauche+(1+i)*PartiePanel.widthCase, margeTop+3*PartiePanel.widthCase/4);
-    	}
+
 	}
 	
 	public boolean piecePosable(Plateau p) {

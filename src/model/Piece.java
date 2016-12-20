@@ -24,6 +24,10 @@ public abstract class Piece {
 		return y;
 	}
 	
+	public static Point[][] getEmplacements(){
+		return emplacements;
+	}
+	
 	public void setX(int x){
 		this.x=x;
 	}

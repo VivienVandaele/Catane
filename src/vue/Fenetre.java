@@ -1,10 +1,14 @@
 package vue;
+import java.awt.Color;
+
 import javax.swing.JFrame;
 
 import controller.Controller;
+import model.Ville;
 import observer.Observable;
 import observer.Observer;
 import state.NormalState;
+import state.PieceState;
 import state.State;
 
 
@@ -19,6 +23,8 @@ public class Fenetre extends JFrame implements Observer{
 		setExtendedState(this.MAXIMIZED_BOTH);
 		setUndecorated(true);
 		state=new NormalState(this);
+		setBackground(Color.decode("#f4eaaf"));
+
 		setVisible(true);
 		
 		afficherAccueil();
@@ -31,8 +37,9 @@ public class Fenetre extends JFrame implements Observer{
 	
 	public void afficherPartie(){
 		c=new Controller(this);
-		setContentPane(new PartiePanel(this));		
+		setContentPane(new PartiePanel(this));
 		revalidate();
+		setState(new PieceState(this, new Ville(0, 0)));
 	}
 	
 	public void afficherRegle(){
