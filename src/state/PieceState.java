@@ -10,10 +10,10 @@ import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
 
-import model.Piece;
+import model.Arete;
+import model.Noeud;
 import model.Plateau;
 import model.Position;
-import model.Ville;
 import vue.Fenetre;
 import vue.PartiePanel;
 
@@ -30,7 +30,9 @@ public class PieceState extends State{
         	public void paintComponent(Graphics g){
             	Graphics2D g2d = (Graphics2D)g;
                 g2d.setPaint(Color.white);
+                Arete a=new Arete(1, 1);
                 for(Position p : Plateau.positions){
+                	if(p instanceof Noeud || p instanceof Arete){
         			g2d.setStroke(new BasicStroke(4.0f));
         	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, transparence));
         			g2d.draw(new Ellipse2D.Double(p.getX()-circleSize/2, p.getY()-circleSize/2, circleSize, circleSize));
@@ -38,7 +40,7 @@ public class PieceState extends State{
         			g2d.setStroke(new BasicStroke(2.0f));
         	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
         			g2d.draw(new Ellipse2D.Double(p.getX()-7, p.getY()-7, 14, 14));
-
+                	}
                 }        		
         	}
         };
@@ -61,7 +63,7 @@ public class PieceState extends State{
 	            		transparence+=0.03f;
 	            	}
 	            	pan.repaint();
-	            	if(transparence<=0.6f || transparence >=1) flag=!flag;
+	            	if(transparence<=0.4f || transparence >=1) flag=!flag;
 	            	try {
 	            		if(transparence >=0.90) Thread.sleep(40);
 						Thread.sleep(30);

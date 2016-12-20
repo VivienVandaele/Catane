@@ -99,64 +99,60 @@ public class Plateau extends Observable{
 	}
 	
 	public void setPosition(){
-		int widthCase=PartiePanel.widthCase;
+		int width=PartiePanel.widthCase;
 		int margeGauche=PartiePanel.margeGauche;
 		int margeTop=PartiePanel.margeTop;
-		Noeud[] n=new Noeud[11];
-		Noeud[] n2=new Noeud[11];
-		Noeud[] nFin=new Noeud[11];
-		Noeud[] n2Fin=new Noeud[11];
+		Noeud[] n=new Noeud[6];
+		Noeud[] n2=new Noeud[6];
+		Noeud[] nFin=new Noeud[6];
+		Noeud[] n2Fin=new Noeud[6];
 		Arete a;
 		for(int i=0;i<3;i++){
-    		n[i]=new Noeud(margeGauche+(1+i)*widthCase, margeTop+3*widthCase/4);
+    		n[i]=new Noeud(margeGauche+(1+i)*width, margeTop+3*width/4);
     		positions.add(n[i]);
-    		nFin[i]=new Noeud(margeGauche+(1+i)*widthCase, margeTop+19*widthCase/4);
+    		nFin[i]=new Noeud(margeGauche+(1+i)*width, margeTop+19*width/4);
     		positions.add(nFin[i]);
     	}
 		for(int j=0;j<5;j++){
 			for(int i=0;i<4+j/2;i++){
 				if(j%2==0){
-		    		n2[i]=new Noeud(margeGauche+(1+i)*widthCase-widthCase/2-(j/2)*widthCase/2, margeTop+widthCase+(j/2+j%2)*widthCase/2+j/2*widthCase/4);
-		    		n2Fin[i]=new Noeud(margeGauche+(1+i)*widthCase-widthCase/2-(j/2)*widthCase/2, margeTop+9*widthCase/2-(j/2+j%2)*widthCase/2-j/2*widthCase/4);
+		    		n2[i]=new Noeud(margeGauche+width/4*(2+4*i-j), margeTop+width/4*(4+3*j/2));
+		    		n2Fin[i]=new Noeud(margeGauche+width/4*(2+4*i-j), (int)(margeTop+width/8.0*(36-3*j)));
 		    		positions.add(n2[i]);
 		    		positions.add(n2Fin[i]);
 		    		if(i<4+j/2-1){
-		        		a=new Arete(margeGauche+(1+i)*widthCase-widthCase/4-(j/2)*widthCase/2, margeTop+widthCase+(j/2+j%2)*widthCase/2+j/2*widthCase/4-1*widthCase/8);
+		        		a=new Arete(margeGauche+width/4*(3+4*i-j), (int)(margeTop+width/8.0*(7+3*j)));
 		        		positions.add(a);
 		    			n[i].ajouterNoeud(a, n2[i]);
-		    			
-		        		a=new Arete(margeGauche+(1+i)*widthCase-widthCase/4-(j/2)*widthCase/2, margeTop+9*widthCase/2-(j/2+j%2)*widthCase/2-j/2*widthCase/4+1*widthCase/8);
+		        		a=new Arete(margeGauche+width/4*(3+4*i-j), (int)(margeTop+width/8.0*(37-3*j)));
 		        		positions.add(a);
 		    			nFin[i].ajouterNoeud(a, n2Fin[i]);
 		    		}
 		    		if(i>0){
-		        		a=new Arete(margeGauche+(1+i)*widthCase-3*widthCase/4-(j/2)*widthCase/2, margeTop+widthCase+(j/2+j%2)*widthCase/2+j/2*widthCase/4-1*widthCase/8);
+		        		a=new Arete(margeGauche+width/4*(1+4*i-j), (int)(margeTop+width/8.0*(7+3*j)));
 		        		positions.add(a);
 		    			n[i-1].ajouterNoeud(a, n2[i]);
-		    			
-		        		a=new Arete(margeGauche+(1+i)*widthCase-3*widthCase/4-(j/2)*widthCase/2, margeTop+9*widthCase/2-(j/2+j%2)*widthCase/2-j/2*widthCase/4+1*widthCase/8);
+		        		a=new Arete(margeGauche+width/4*(1+4*i-j), (int)(margeTop+width/8.0*(37-3*j)));
 		        		positions.add(a);
 		    			nFin[i-1].ajouterNoeud(a, n2Fin[i]);
 		    		}
 				}
 				else{
-		    		n[i]=new Noeud(margeGauche+(1+i)*widthCase-widthCase/2-(j/2)*widthCase/2, margeTop+widthCase+(j/2+j%2)*widthCase/2+j/2*widthCase/4);
-		    		nFin[i]=new Noeud(margeGauche+(1+i)*widthCase-widthCase/2-(j/2)*widthCase/2, margeTop+9*widthCase/2-(j/2+j%2)*widthCase/2-j/2*widthCase/4);
+		    		n[i]=new Noeud(margeGauche+width/2*(1+2*i-j/2), margeTop+width/4*(6+3*(j/2)));
+		    		nFin[i]=new Noeud(margeGauche+width/2*(1+2*i-j/2), margeTop+width/4*(16-3*(j/2)));
 		    		positions.add(n[i]);
 		    		positions.add(nFin[i]);
-		    		
-		    		a=new Arete(margeGauche+(1+i)*widthCase-widthCase/2-(j/2)*widthCase/2, margeTop+widthCase+(j/2+j%2)*widthCase/2+j/2*widthCase/4-widthCase/4);
+		    		a=new Arete(margeGauche+width/2*(1+2*i-j/2), margeTop+width/4*(5+3*(j/2)));
 		    		positions.add(a);
 		    		n2[i].ajouterNoeud(a, n[i]);
-		    		
-		    		a=new Arete(margeGauche+(1+i)*widthCase-widthCase/2-(j/2)*widthCase/2, margeTop+9*widthCase/2-(j/2+j%2)*widthCase/2-j/2*widthCase/4+widthCase/4);
+		    		a=new Arete(margeGauche+width/2*(1+2*i-j/2), margeTop+width/4*(17-3*(j/2)));
 		    		positions.add(a);
 		    		n2Fin[i].ajouterNoeud(a, nFin[i]);
 				}
 			}
 		}
 		for(int i=0;i<6;i++){
-    		a=new Arete(margeGauche+(1+i)*widthCase-widthCase/2-(5/2)*widthCase/2, margeTop+widthCase+(5/2+5%2)*widthCase/2+5/2*widthCase/4-widthCase/4);
+    		a=new Arete(margeGauche+width/2*(-1+2*i), margeTop+11*width/4);
 			positions.add(a);
     		n2[i].ajouterNoeud(a, n2Fin[i]);
 		}
