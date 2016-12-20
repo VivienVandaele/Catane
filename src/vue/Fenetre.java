@@ -13,7 +13,6 @@ import state.State;
 
 
 public class Fenetre extends JFrame implements Observer{
-
 	private State state;
 	private Controller c;
 	
@@ -24,9 +23,7 @@ public class Fenetre extends JFrame implements Observer{
 		setUndecorated(true);
 		state=new NormalState(this);
 		setBackground(Color.decode("#f4eaaf"));
-
 		setVisible(true);
-		
 		afficherAccueil();
 	}
 	
@@ -39,15 +36,7 @@ public class Fenetre extends JFrame implements Observer{
 		c=new Controller(this);
 		setContentPane(new PartiePanel(this));
 		revalidate();
-		setState(new PieceState(this, new Ville(0, 0)));
-	}
-	
-	public void afficherRegle(){
-		
-	}
-	
-	public void afficherCreationPartie(){
-		
+		setState(new PieceState(this));
 	}
 	
 	public void setState(State s){

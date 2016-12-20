@@ -14,7 +14,6 @@ public class Controller {
 	
 	public Controller(Fenetre f){
 		joueurs = new Joueur[4];
-		Ville.setEmplacements();
 		p=new Plateau();
 		p.addObserver(f);
 	}
@@ -26,7 +25,7 @@ public class Controller {
 	public boolean poserPiece(int x, int y){
 		Ville v=new Ville(x, y);
 		if(v.piecePosable(p)){
-			p.ajouterPiece(v);
+			p.notifyObserver();
 			return true;
 		}
 		return false;

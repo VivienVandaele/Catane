@@ -1,20 +1,13 @@
 package vue;
-import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import model.Piece;
 import model.Plateau;
-import model.Ville;
+import model.Position;
 
 public class PartiePanel extends JPanel{
     public static final int WIDTH=(int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -25,21 +18,10 @@ public class PartiePanel extends JPanel{
 	private int widthJeton=60;
     private Plateau p;
     
-    private Thread t=null;
     
     public PartiePanel(Fenetre f) {
     	p=f.getController().getPlateau();
-
         setLayout(null);
-    	/* 
-        JButton acheterVille=new JButton("Acheter une ville");
-		acheterVille.addActionListener(new ActionListener(){ 
-	        public void actionPerformed(ActionEvent e){
-	        	if(f.getController().acheterVille())
-	        		new PieceState(f);
-	        }
-	    });
-		add(acheterVille);*/
     }
 	
 	public void paintComponent(Graphics g) {
@@ -59,9 +41,10 @@ public class PartiePanel extends JPanel{
 			}
 		}
 
-    	ArrayList<Piece> pieces=p.getListVille();
-    	for(Piece p : pieces){
-	        g2d.drawImage(p.getImage().getImage(), p.getX()-25, p.getY()-10, 50, 20, this);
+    	ArrayList<Position> positions=p.getPositions();
+    	for(Position p : positions){
+    		if(p.getPiece()!=null)
+    			g2d.drawImage(p.getPiece().getImage().getImage(), p.getX()-25, p.getY()-10, 50, 20, this);
     	}
 	}
 	

@@ -9,7 +9,6 @@ public abstract class Piece {
 	protected int x;
 	protected int y;
 	protected ImageIcon image;
-	protected static Point[][] emplacements;
 
 	public Piece(int x, int y){
 		this.x=x;
@@ -22,10 +21,6 @@ public abstract class Piece {
 	
 	public int getY(){
 		return y;
-	}
-	
-	public static Point[][] getEmplacements(){
-		return emplacements;
 	}
 	
 	public void setX(int x){

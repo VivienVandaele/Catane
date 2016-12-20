@@ -10,12 +10,10 @@ import vue.PartiePanel;
 
 public class Plateau extends Observable{
 	private Case[][] cases;
-	private ArrayList<Piece> pieces;
 	public static ArrayList<Position> positions;
 	
 	public Plateau(){
 		cases = new Case[7][7];
-		pieces = new ArrayList<Piece>();
 		positions=new ArrayList<Position>();
 		setPosition();
 
@@ -96,13 +94,8 @@ public class Plateau extends Observable{
 		
 	}
 	
-	public void ajouterPiece(Piece p){
-		pieces.add(p);
-		notifyObserver();
-	}
-	
-	public ArrayList<Piece> getListVille(){
-		return pieces;
+	public ArrayList<Position> getPositions(){
+		return positions;
 	}
 	
 	public void setPosition(){

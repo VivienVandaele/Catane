@@ -18,15 +18,13 @@ import vue.Fenetre;
 import vue.PartiePanel;
 
 public class PieceState extends State{
-	private Piece p;
 	private Thread t=null;
     private float transparence=1.0f;
     private int circleSize=44;
 	private JPanel pan;
     
-	public PieceState(Fenetre f, Piece p){
+	public PieceState(Fenetre f){
 		super(f);
-		this.p=p;
 		
         pan=new JPanel(){
         	public void paintComponent(Graphics g){
@@ -40,7 +38,7 @@ public class PieceState extends State{
         			g2d.setStroke(new BasicStroke(2.0f));
         	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
         			g2d.draw(new Ellipse2D.Double(p.getX()-7, p.getY()-7, 14, 14));
-                	
+
                 }        		
         	}
         };

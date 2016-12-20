@@ -6,36 +6,30 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
 import vue.PartiePanel;
 
 public class Ville extends Piece{
-	
-	
 	public Ville(int x, int y){
 		super(x, y);
 		image=new ImageIcon("images/pieces/ville1.png");
 	}
 	
-	public static void setEmplacements(){
-		emplacements=new Point[12][6];
-    	Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-    	int margeGauche=3*PartiePanel.widthCase/2+5;
-    	int margeTop=PartiePanel.widthCase/6;
-
-	}
-	
-	public boolean piecePosable(Plateau p) {
-		int marge=40;
-		for(int i=0;i<3;i++){
-			if(x>emplacements[0][i].getX()-marge && x<emplacements[0][i].getX()+marge && y>emplacements[0][i].getY()-marge && y<emplacements[0][i].getY()+marge){
-				setX((int)emplacements[0][i].getX());
-				setY((int)emplacements[0][i].getY());
+	public boolean piecePosable(Plateau pl) {
+		ArrayList<Position> positions=pl.getPositions();
+		int marge=20;
+		for(Position p : positions){
+			if(x>p.getX()-marge && x<p.getX()+marge && y>p.getY()-marge && y<p.getY()+marge){
+				setX((int)p.getX());
+				setY((int)p.getY());
+				p.setPiece(this);
 				return true;
 			}
 		}
 		return false;
 	}
+
 }

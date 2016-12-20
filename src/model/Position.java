@@ -11,6 +11,14 @@ public abstract class Position {
 		p=null;
 	}
 	
+	public void setPiece(Piece p){
+		this.p=p;
+	}
+	
+	public Piece getPiece(){
+		return p;
+	}
+	
 	public int getX(){
 		return x;
 	}
