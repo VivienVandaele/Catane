@@ -35,9 +35,8 @@ public class Controller {
 	public boolean poserPiece(int x, int y){
 		Ville v=new Ville(x, y);
 		if(v.piecePosable(p)){
-			if(p.nombreVillage()<4){
+			if(p.nombreVillage()<4)
 				f.setState(new PieceState(f));
-			}
 			else
 				f.setState(new NormalState(f));
 			p.notifyObserver(v);

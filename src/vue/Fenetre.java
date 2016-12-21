@@ -44,7 +44,6 @@ public class Fenetre extends JFrame implements Observer{
         JLabel lab=new JLabel("test");
 		PrintStream printStream = new PrintStream(new CustomOutputStream(lab, this));
 		System.setOut(printStream);
-		System.out.println("\byeah");
 	}
 	
 	public void setState(State s){
@@ -59,7 +58,7 @@ public class Fenetre extends JFrame implements Observer{
 
 	public void update(Object o){
 		if(o instanceof Ville)
-			System.out.println("yes");
+			System.out.println("\bville");
 		repaint();
 	}
 	
