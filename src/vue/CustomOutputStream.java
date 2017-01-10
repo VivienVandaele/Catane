@@ -49,7 +49,7 @@ public class CustomOutputStream extends OutputStream {
 	    	            	while(x>PartiePanel.WIDTH/3){
 		                		x--;
 	    	            		try {
-		    						Thread.sleep(10);
+		    						Thread.sleep(15);
 		    					} catch (InterruptedException e) {
 		    						e.printStackTrace();
 		    					}

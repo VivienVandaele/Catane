@@ -25,9 +25,9 @@ public class Fenetre extends JFrame implements Observer{
 		setExtendedState(this.MAXIMIZED_BOTH);
 		setUndecorated(true);
 		state=new NormalState(this);
+		afficherPartie();
 		setBackground(Color.decode("#f4eaaf"));
 		setVisible(true);
-		afficherAccueil();
 	}
 	
 	public void afficherAccueil(){
@@ -39,11 +39,12 @@ public class Fenetre extends JFrame implements Observer{
 		c=new Controller(this);
 		setContentPane(new PartiePanel(this));
 		revalidate();
-		c.lancerPartie();
-		
+		//c.lancerPartie();
+		/*
         JLabel lab=new JLabel("test");
 		PrintStream printStream = new PrintStream(new CustomOutputStream(lab, this));
 		System.setOut(printStream);
+		*/
 	}
 	
 	public void setState(State s){
