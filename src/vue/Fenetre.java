@@ -31,7 +31,7 @@ public class Fenetre extends JFrame implements Observer{
 		setContentPane(new AccueilPanel(this));
 		revalidate();
 	}
-	
+	 
 	public void afficherPartie(){
 		c=new Controller(this);
 		setContentPane(new PartiePanel(this));
