@@ -7,13 +7,16 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
+import java.io.PrintStream;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Arete;
 import model.Noeud;
 import model.Plateau;
 import model.Position;
+import vue.CustomOutputStream;
 import vue.Fenetre;
 import vue.PartiePanel;
 
@@ -44,6 +47,7 @@ public class PieceState extends State{
                 }        		
         	}
         };
+
         pan.repaint();
         pan.revalidate();
 
@@ -80,7 +84,6 @@ public class PieceState extends State{
 	public void mousePressed(MouseEvent e) {
 		if(f.getController().poserPiece(e.getX(), e.getY())){
 			f.getContentPane().remove(pan);
-			f.setState(new NormalState(f));
 		}
 	}
 }

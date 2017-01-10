@@ -158,6 +158,15 @@ public class Plateau extends Observable{
 		}
 	}
 	
+	public int nombreVillage(){
+		int i=0;
+		for(Position p : positions){
+			if(p.getPiece()!=null && p.getPiece() instanceof Ville)
+				i++;
+		}
+		return i;
+	}
+	
 	public Case[][] getCases(){
 		return cases;
 	}
