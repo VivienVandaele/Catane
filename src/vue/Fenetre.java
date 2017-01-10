@@ -1,14 +1,17 @@
 package vue;
 import java.awt.Color;
+import java.io.IOException;
+import java.io.PrintStream;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import controller.Controller;
 import model.Ville;
 import observer.Observable;
 import observer.Observer;
 import state.NormalState;
-import state.PieceState;
 import state.State;
 
 
@@ -22,9 +25,9 @@ public class Fenetre extends JFrame implements Observer{
 		setExtendedState(this.MAXIMIZED_BOTH);
 		setUndecorated(true);
 		state=new NormalState(this);
+		afficherPartie();
 		setBackground(Color.decode("#f4eaaf"));
 		setVisible(true);
-		afficherAccueil();
 	}
 	
 	public void afficherAccueil(){
@@ -36,7 +39,12 @@ public class Fenetre extends JFrame implements Observer{
 		c=new Controller(this);
 		setContentPane(new PartiePanel(this));
 		revalidate();
-		setState(new PieceState(this));
+		//c.lancerPartie();
+		/*
+        JLabel lab=new JLabel("test");
+		PrintStream printStream = new PrintStream(new CustomOutputStream(lab, this));
+		System.setOut(printStream);
+		*/
 	}
 	
 	public void setState(State s){
@@ -49,6 +57,12 @@ public class Fenetre extends JFrame implements Observer{
 		return c;
 	}
 
+	public void update(Object o){
+		if(o instanceof Ville)
+			System.out.println("\bville");
+		repaint();
+	}
+	
 	public void update(Observable o){
 		System.out.println("update");
 		repaint();
