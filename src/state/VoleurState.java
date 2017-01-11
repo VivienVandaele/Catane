@@ -10,7 +10,5 @@ public class VoleurState extends State{
 	}
 	
 	public void mousePressed(MouseEvent e) {
-		//f.getController().poserPiece(e.getX(), e.getY());
-		//f.setState(new NormalState(f));
 	}
 }

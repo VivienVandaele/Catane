@@ -38,17 +38,11 @@ public class PartiePanel extends JPanel{
 			}
     	}
 		for(int k=0;k<3;k++){
-			for(int i=0;i<4+(2-k);i++){
+			for(int i=0;i<6-k;i++){
 		        g2d.drawImage(p.getImageOfCase(k+4, i).getImage(), margeGauche+widthCase*i+k*widthCase/2-widthCase, 3*widthCase+widthCase*3/4*k+margeTop-2, widthCase, widthCase, this);
 		        g2d.drawImage(p.getCases()[k+4][i].getJeton().getImage(), margeGauche+widthCase*i+k*widthCase/2-widthCase+widthCase/2-widthJeton/2, 3*widthCase+widthCase*3/4*k+margeTop-2+widthCase/2-widthJeton/2, widthJeton, widthJeton, this);
 			}
 		}
-
-    	ArrayList<Position> positions=p.getPositions();
-    	for(Position p : positions){
-    		if(p.getPiece()!=null)
-    			g2d.drawImage(p.getPiece().getImage().getImage(), p.getX()-25, p.getY()-10, 50, 20, this);
-    	}
 	}
 	
 

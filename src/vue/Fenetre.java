@@ -29,41 +29,18 @@ public class Fenetre extends JFrame implements Observer{
 		setBackground(Color.decode("#f4eaaf"));
 		setVisible(true);
 	}
-	
-	public void afficherAccueil(){
-		setContentPane(new AccueilPanel(this));
-		revalidate();
-	}
 	 
 	public void afficherPartie(){
 		c=new Controller(this);
 		setContentPane(new PartiePanel(this));
 		revalidate();
-		//c.lancerPartie();
-		/*
-        JLabel lab=new JLabel("test");
-		PrintStream printStream = new PrintStream(new CustomOutputStream(lab, this));
-		System.setOut(printStream);
-		*/
-	}
-	
-	public void setState(State s){
-		removeMouseListener(state);
-		state=s;
-		addMouseListener(s);
 	}
 	
 	public Controller getController(){
 		return c;
 	}
-
-	public void update(Object o){
-		if(o instanceof Ville)
-			System.out.println("\bville");
-		repaint();
-	}
 	
-	public void update(Observable o){
+	public void update(Observable o, Object arg){
 		System.out.println("update");
 		repaint();
 	}

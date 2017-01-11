@@ -9,7 +9,6 @@ public abstract class State implements MouseListener{
 	Fenetre f;
 	public State(Fenetre f){
 		this.f=f;
-		f.setState(this);
 	}
 	
 	public void mouseClicked(MouseEvent arg0) {

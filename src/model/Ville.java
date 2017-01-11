@@ -19,17 +19,7 @@ public class Ville extends Piece{
 	}
 	
 	public boolean piecePosable(Plateau pl) {
-		ArrayList<Position> positions=pl.getPositions();
-		int marge=20;
-		for(Position p : positions){
-			if(x>p.getX()-marge && x<p.getX()+marge && y>p.getY()-marge && y<p.getY()+marge){
-				setX((int)p.getX());
-				setY((int)p.getY());
-				p.setPiece(this);
-				return true;
-			}
-		}
-		return false;
+		return true;
 	}
 
 }

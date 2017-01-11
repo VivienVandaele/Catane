@@ -6,9 +6,9 @@ public class Case {
 	private int numero;
 	private ImageIcon jeton;
 	
-	public Case(Ressource ressource, int numero){
+	public Case(Ressource ressource){
 		this.ressource=ressource;
-		this.numero=numero;
+		this.numero=0;
 		jeton=new ImageIcon("images/jetons/jeton"+numero+".png");
 	}
 	

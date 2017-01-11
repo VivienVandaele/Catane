@@ -7,17 +7,11 @@ public abstract class Observable{
 	
 	public void addObserver(Observer obs){
 		observers.add(obs);
-		notifyObserver();
 	}
 
-	public void notifyObserver(){
-		for(Observer obs : observers)
-			obs.update(this);
-	}
-	
 	public void notifyObserver(Object o){
 		for(Observer obs : observers)
-			obs.update(o);
+			obs.update(this, o);
 	}
 
 	public void removeObserver(Observer o) {
