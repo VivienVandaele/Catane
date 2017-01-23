@@ -13,7 +13,7 @@ public class Case {
 	}
 	
 	public ImageIcon getImage(){
-		return ressource.getImage();
+		return ressource.getImageCase();
 	}
 	
 	public ImageIcon getJeton(){
