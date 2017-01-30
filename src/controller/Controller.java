@@ -1,6 +1,7 @@
 package controller;
 
 
+import model.Case;
 import model.IntelligenceArtificielle;
 import model.Joueur;
 import model.Piece;
@@ -25,9 +26,19 @@ public class Controller {
 		p.addObserver(f);
 		joueurs = new Joueur[4];
 		joueurs[0] = new Joueur(0, "Joueur");
-		for(int i=1;i<4;i++)
+		joueurs[0].addObserver(f);
+		for(int i=1;i<4;i++){
 			joueurs[i] = new IntelligenceArtificielle(i, "IA"+i);
+			joueurs[i].addObserver(f);
+		}
 		idJoueur=0;
+	}
+	
+	public void jouerTour(){
+		prochainJoueur();
+		if(joueurs[idJoueur] instanceof IntelligenceArtificielle){
+			((IntelligenceArtificielle)joueurs[idJoueur]).lancerDes(f.getPartiePanel());
+		}
 	}
 	
 	public void debutPartie(){
@@ -35,13 +46,37 @@ public class Controller {
 		f.setState(new PieceState(f));
 	}
 	
-	public boolean acheterVille(){
+	public boolean acheterPiece(Piece p){
+		piece = p;
+		joueurs[idJoueur].retirerRessourcesPiece(p);
+		f.setState(new PieceState(f));
 		return true;
+	}
+	
+	public void distribuerRessources(int d){
+		for(Piece piece : p.getPiecesPoser()){
+			if(piece instanceof Village){
+				for(Case c : ((Village) piece).getCases()){
+					if(c.getNumero()==d){
+						piece.getJoueur().ajouterCarte(c.getRessource());
+					}
+				}
+			}
+		}
 	}
 	
 	public boolean poserPiece(int x, int y){
 		assert(piece!=null);
 		if(piece.piecePosable(p, joueurs[idJoueur], x, y)){
+			f.setState(new NormalState(f));
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean poserPieceDebutPartie(int x, int y){
+		assert(piece!=null);
+		if(piece.piecePosableDebutPartie(p, joueurs[idJoueur], x, y)){
 			if(p.getNombreVillage()<8 || (p.getNombreVillage()==8 && piece instanceof Village)){
 				if(piece instanceof Route){
 					prochainJoueurDebutPartie();
@@ -51,7 +86,7 @@ public class Controller {
 					piece = new Route();
 				}
 				if(joueurs[idJoueur] instanceof IntelligenceArtificielle)
-					((IntelligenceArtificielle) joueurs[idJoueur]).poserPiece(this, piece, p);
+					((IntelligenceArtificielle) joueurs[idJoueur]).poserPieceDebutPartie(this, piece, p);
 				else
 					f.setState(new PieceState(f));	
 			}
@@ -81,6 +116,10 @@ public class Controller {
 		return p;
 	}
 	
+	public int getIdJoueur(){
+		return idJoueur;
+	}
+	
 	public Joueur[] getJoueurs(){
 		return joueurs;
 	}
@@ -91,5 +130,9 @@ public class Controller {
 	
 	public Piece getPiece(){
 		return piece;
+	}
+	
+	public boolean getDebutPartie(){
+		return p.getPiecesPoser().size()<16;
 	}
 }

@@ -183,7 +183,7 @@ public class Plateau extends Observable{
     		n2[i].ajouterVillageAdj(a, n2Fin[i]);
 		}
 	}
-	
+
 	public void ajouterPiece(Piece p){
 		piecesPoser.add(p);
 		notifyObserver(p);

@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -27,7 +28,12 @@ public class PieceState extends State{
         	public void paintComponent(Graphics g){
             	Graphics2D g2d = (Graphics2D)g;
                 g2d.setPaint(Color.white);
-                for(Piece p : f.getController().getPiece().getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueur())){
+                ArrayList<Piece> pieces ;
+                if(f.getController().getDebutPartie())
+                	pieces = f.getController().getPiece().getPositionDisponibleDebutPartie(f.getController().getPlateau(), f.getController().getJoueur());
+                else
+            		pieces = f.getController().getPiece().getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueur());
+                for(Piece p : pieces){
         			g2d.setStroke(new BasicStroke(4.0f));
         	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, transparence));
         			g2d.draw(new Ellipse2D.Double(p.getX()-circleSize/2, p.getY()-circleSize/2, circleSize, circleSize));
@@ -67,8 +73,14 @@ public class PieceState extends State{
 	}
 
 	public void mousePressed(MouseEvent e) {
-		if(f.getController().poserPiece(e.getX(), e.getY())){
-			f.remove(pan);
+		if(f.getController().getDebutPartie()){
+			if(f.getController().poserPieceDebutPartie(e.getX(), e.getY())){
+				f.remove(pan);
+			}
+		}
+		else{
+			if(f.getController().poserPiece(e.getX(), e.getY()))
+				f.remove(pan);
 		}
 	}
 }

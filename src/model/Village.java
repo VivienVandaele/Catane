@@ -14,6 +14,11 @@ public class Village extends Piece{
 		super();
 	}
 	
+	public Village(boolean ville){
+		super();
+		this.ville=ville;
+	}
+	
 	public Village(int x, int y) {
 		super(x, y);
 		ville = false;
@@ -27,30 +32,67 @@ public class Village extends Piece{
 		adj=new HashMap<Route, Village>();
 		cases = new ArrayList<Case>();
 	}
-
+	
 	public boolean piecePosable(Plateau p, Joueur j, int x, int y) {
 		int marge=20;
 		for(Piece piece : getPositionDisponible(p, j)){
 			if(ville){
-				
+				if(piece.getPoser() && piece instanceof Village && x>piece.getX()-marge && x<piece.getX()+marge && y>piece.getY()-marge && y<piece.getY()+marge){
+					piece.setPoser(true, j);
+					p.ajouterPiece(piece);
+					return true;
+				}
 			}
 			else{
 				if(!piece.getPoser() && piece instanceof Village && x>piece.getX()-marge && x<piece.getX()+marge && y>piece.getY()-marge && y<piece.getY()+marge){
 					piece.setPoser(true, j);
 					p.ajouterPiece(piece);
-					if(p.getNombreVillage()>4){
-						for(Case c : ((Village)piece).getCases()){
-							j.ajouterCarte(c.getRessource());
-						}
-					}
 					return true;
 				}
 			}
 		}
 		return false;
 	}
+
+	public boolean piecePosableDebutPartie(Plateau p, Joueur j, int x, int y) {
+		int marge=20;
+		for(Piece piece : getPositionDisponibleDebutPartie(p, j)){
+			if(!piece.getPoser() && piece instanceof Village && x>piece.getX()-marge && x<piece.getX()+marge && y>piece.getY()-marge && y<piece.getY()+marge){
+				piece.setPoser(true, j);
+				p.ajouterPiece(piece);
+				if(p.getNombreVillage()>4){
+					for(Case c : ((Village)piece).getCases()){
+						j.ajouterCarte(c.getRessource());
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public ArrayList<Piece> getPositionDisponible(Plateau pl, Joueur j) {
+		ArrayList<Piece> p=new ArrayList<Piece>();
+		boolean voisin;
+		for(Piece piece : pl.getPieces()){
+			voisin = false;
+				if(piece instanceof Village){
+					if(ville && !((Village) piece).getVille() && piece.getPoser() && piece.getJoueur()==j)
+						p.add(piece);
+					else if(!ville && !piece.getPoser()){
+						for(Village v : (((Village) piece).getVillagesAdj())){
+							if(v.getPoser())
+								voisin = true;
+						}
+						if(!voisin && ((Village) piece).routeAdj(j))
+							p.add(piece);
+					}
+				}
+		}
+		return p;
+	}
+	
+	public ArrayList<Piece> getPositionDisponibleDebutPartie(Plateau pl, Joueur j) {
 		ArrayList<Piece> p=new ArrayList<Piece>();
 		boolean voisin;
 		for(Piece piece : pl.getPieces()){
@@ -71,9 +113,9 @@ public class Village extends Piece{
 		return p;
 	}
 	
-	public boolean routeAdj(){
+	public boolean routeAdj(Joueur j){
 		for(Route route : adj.keySet()){
-			if(route.getPoser())
+			if(route.getPoser() && route.getJoueur()==j)
 				return true;
 		}
 		return false;
@@ -88,7 +130,8 @@ public class Village extends Piece{
 	}
 	
 	public void ajouterCase(Case c){
-		cases.add(c);
+		if(!c.getRessource().getType().equals("desert"))
+			cases.add(c);
 	}
 	
 	public void ajouterVillageAdj(Route a, Village n){
@@ -111,5 +154,4 @@ public class Village extends Piece{
 	public void setImage() {
 		image=new ImageIcon("images/pieces/village"+j.getId()+".png");
 	}
-
 }

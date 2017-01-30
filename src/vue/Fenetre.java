@@ -4,6 +4,9 @@ import java.awt.Color;
 import javax.swing.JFrame;
 
 import controller.Controller;
+import model.Carte;
+import model.Joueur;
+import model.Ressource;
 import observer.Observable;
 import observer.Observer;
 import state.NormalState;
@@ -13,6 +16,7 @@ import state.State;
 public class Fenetre extends JFrame implements Observer{
 	private State state;
 	private Controller c;
+	private PartiePanel pan;
 	
 	public Fenetre() {
 		setTitle("Les colons de Catane");
@@ -20,14 +24,20 @@ public class Fenetre extends JFrame implements Observer{
 		setExtendedState(this.MAXIMIZED_BOTH);
 		setUndecorated(true);
 		setState(new NormalState(this));
-		afficherPartie();
+		afficherAccueil();
 		setBackground(Color.decode("#f4eaaf"));
 		setVisible(true);
+	}
+	
+	public void afficherAccueil(){
+		setContentPane(new AccueilPanel(this));
+		revalidate();
 	}
 	 
 	public void afficherPartie(){
 		c=new Controller(this);
-		setContentPane(new PartiePanel(this));
+		pan = new PartiePanel(this);
+		setContentPane(pan);
 		revalidate();
 		c.debutPartie();
 	}
@@ -43,8 +53,16 @@ public class Fenetre extends JFrame implements Observer{
 		return c;
 	}
 	
+	public PartiePanel getPartiePanel(){
+		return pan;
+	}
+	
 	public void update(Observable o, Object arg){
-		System.out.println("update");
 		repaint();
+		if(arg instanceof Carte && ((Joueur) o).getId()==0)
+			pan.carteAnimation(arg, true);
+		if(arg instanceof Ressource && ((Joueur) o).getId()==0)
+			pan.carteAnimation(new Carte((Ressource) arg), false);
+			
 	}
 }

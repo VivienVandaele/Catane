@@ -16,4 +16,8 @@ public class Carte {
 	public ImageIcon getImage(){
 		return ressource.getImageCarte();
 	}
+	
+	public Ressource getRessource(){
+		return ressource;
+	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import controller.Controller;
+import vue.PartiePanel;
 
 public class IntelligenceArtificielle extends Joueur{
 
@@ -11,24 +12,39 @@ public class IntelligenceArtificielle extends Joueur{
 		super(id, pseudo);
 	}
 	
-	public void poserPiece(Controller c, Piece p, Plateau pl){
+	public void lancerDes(PartiePanel pan){
+	    Thread t = new Thread() {
+	    	public void run(){
+				try {
+					pan.cliquerBouton().join();
+					sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				pan.finTour();
+	    	}
+	    };
+	    t.start();
+	}
+	
+	public void poserPieceDebutPartie(Controller c, Piece p, Plateau pl){
 		if(p instanceof Village)
-			poserVillage(c, pl);
+			poserVillageDebutPartie(c, pl);
 		else
-			poserRoute(c, pl);
+			poserRouteDebutPartie(c, pl);
 	}
 	
-	public void poserVillage(Controller c, Plateau p){
+	public void poserVillageDebutPartie(Controller c, Plateau p){
 		Village village = new Village();
-		ArrayList<Piece> villages = village.getPositionDisponible(p, c.getJoueur());
+		ArrayList<Piece> villages = village.getPositionDisponibleDebutPartie(p, c.getJoueur());
 		village = (Village) villages.get(ThreadLocalRandom.current().nextInt(0, villages.size()));
-		c.poserPiece(village.getX(), village.getY());
+		c.poserPieceDebutPartie(village.getX(), village.getY());
 	}
 	
-	public void poserRoute(Controller c, Plateau p){
+	public void poserRouteDebutPartie(Controller c, Plateau p){
 		Route route = new Route();
-		for(Piece piece : route.getPositionDisponible(p, c.getJoueur())){
-			c.poserPiece(piece.getX(), piece.getY());
+		for(Piece piece : route.getPositionDisponibleDebutPartie(p, c.getJoueur())){
+			c.poserPieceDebutPartie(piece.getX(), piece.getY());
 			break;
 		}
 	}
