@@ -40,12 +40,13 @@ public class PartiePanel extends JPanel implements MouseListener{
     public static final int CARTE_BLE_X = margeGauche+11*widthCase/2+2*(widthCarte+40);
     public static final int CARTE_MOUTON_X = margeGauche+6*widthCase+20;
     public static final int CARTE_PIERRE_X = margeGauche+6*widthCase+widthCarte+80;
-	private int widthJeton=60;
+    private static Carte[] cartes;
+    private int widthJeton=60;
     private Plateau p;
-    private Carte[] cartes;
     private ImageIcon carteRessources;
 	private JLabel labRessources = new JLabel();
 	private JLabel labBoutonDes = new JLabel();
+	private JLabel labBoutonEchange = new JLabel();
 	private JLabel labRoute = new JLabel();
 	private JLabel labVillage = new JLabel();
 	private JLabel labVille = new JLabel();
@@ -70,6 +71,11 @@ public class PartiePanel extends JPanel implements MouseListener{
     	add(labBoutonDes);
     	labBoutonDes.setBounds(WIDTH-80, HEIGHT-80, 80, 80);
     	labBoutonDes.addMouseListener(this);
+    	
+    	labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echange.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+    	add(labBoutonEchange);
+    	labBoutonEchange.setBounds(0, HEIGHT-80, 80, 80);
+    	labBoutonEchange.addMouseListener(this);
         
         carteRessources = new ImageIcon(new ImageIcon("images/cartes/ressources.png").getImage().getScaledInstance(250, 350, Image.SCALE_DEFAULT));
         labRessources.setIcon(carteRessources);
@@ -290,6 +296,10 @@ public class PartiePanel extends JPanel implements MouseListener{
 	        labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etatBouton[1]).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
 	        f.repaint();
 		}
+		else if(e.getSource() == labBoutonEchange){
+			labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echangeEntered.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+	        f.repaint();
+		}
 	}
 
 	public void mouseExited(MouseEvent e) {
@@ -304,6 +314,10 @@ public class PartiePanel extends JPanel implements MouseListener{
 	        labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etatBouton[0]).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
 	        f.repaint();
 		}
+		else if(e.getSource() == labBoutonEchange){
+			labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echange.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+	        f.repaint();
+		}
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -314,6 +328,10 @@ public class PartiePanel extends JPanel implements MouseListener{
             else{
             	f.getController().jouerTour();
             }
+		}
+		else if(e.getSource() == labBoutonEchange){
+			labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echangePressed.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+	        f.repaint();
 		}
 	}
 
@@ -340,6 +358,11 @@ public class PartiePanel extends JPanel implements MouseListener{
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
 	    	f.repaint();
+		}
+		else if(e.getSource() == labBoutonEchange){
+			labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echange.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+			EchangeFenetre echangeFenetre = new EchangeFenetre();
+	        f.repaint();
 		}
 	}
 	
@@ -421,5 +444,9 @@ public class PartiePanel extends JPanel implements MouseListener{
 		labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etatBouton[0]).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
         f.repaint();
         f.getController().jouerTour();
+	}
+	
+	public static Carte[] getCartes(){
+		return cartes;
 	}
 }
