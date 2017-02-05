@@ -43,7 +43,10 @@ public class Controller {
 	}
 	
 	public void proposerEchange(EchangeFenetre e){
-		e.setImageEchange(3, true);
+		for(int i=0;i<4;i++){
+			if(i!=idJoueur)
+				e.setImageEchange(joueurs[i].getId(), joueurs[i].accepterEchange());
+		}
 	}
 	
 	public void debutPartie(){

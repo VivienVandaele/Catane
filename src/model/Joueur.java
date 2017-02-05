@@ -17,8 +17,8 @@ public class Joueur extends Observable {
 		this.cartes = new ArrayList<Carte>();
 	}
 	
-	public void jouerTour(){
-
+	public boolean accepterEchange(){
+		return false;
 	}
 	
 	public void ajouterCarte(Ressource ressource){

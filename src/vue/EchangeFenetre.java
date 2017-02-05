@@ -31,6 +31,7 @@ public class EchangeFenetre extends JDialog {
 	private JButton proposerButton;
 	private Controller c;
 	private Joueur j;
+	private JSpinner[] spinners = new JSpinner[10];
 
 	public EchangeFenetre(Joueur j, Controller c) {
 		setBounds(100, 100, 1000, 700);
@@ -57,7 +58,6 @@ public class EchangeFenetre extends JDialog {
 			}
 		}
 		
-		JSpinner[] spinners = new JSpinner[10];
 		for(int i=0;i<10;i+=2){
 			SpinnerNumberModel model = new SpinnerNumberModel(0, 0.0, j.getNombreDeCarteType(cartes[i/2].getType()), 1.0);
 			spinners[i] = new JSpinner(model);

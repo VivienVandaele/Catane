@@ -12,6 +12,10 @@ public class IntelligenceArtificielle extends Joueur{
 		super(id, pseudo);
 	}
 	
+	public boolean accepterEchange(){
+		return true;
+	}
+	
 	public void lancerDes(PartiePanel pan){
 	    Thread t = new Thread() {
 	    	public void run(){
