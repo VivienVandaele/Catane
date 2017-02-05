@@ -24,7 +24,7 @@ public class Fenetre extends JFrame implements Observer{
 		setExtendedState(this.MAXIMIZED_BOTH);
 		setUndecorated(true);
 		setState(new NormalState(this));
-		afficherAccueil();
+		afficherPartie();
 		setBackground(Color.decode("#f4eaaf"));
 		setVisible(true);
 	}

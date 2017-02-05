@@ -10,6 +10,7 @@ import model.Route;
 import model.Village;
 import state.NormalState;
 import state.PieceState;
+import vue.EchangeFenetre;
 import vue.Fenetre;
 
 public class Controller {
@@ -39,6 +40,10 @@ public class Controller {
 		if(joueurs[idJoueur] instanceof IntelligenceArtificielle){
 			((IntelligenceArtificielle)joueurs[idJoueur]).lancerDes(f.getPartiePanel());
 		}
+	}
+	
+	public void proposerEchange(EchangeFenetre e){
+		e.setImageEchange(3, true);
 	}
 	
 	public void debutPartie(){

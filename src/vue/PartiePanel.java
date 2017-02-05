@@ -1,13 +1,11 @@
 package vue;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
@@ -170,7 +168,7 @@ public class PartiePanel extends JPanel implements MouseListener{
             	add(labCarte);
             	int xCoord=WIDTH;
             	int yCoord=HEIGHT;
-    		    double rate=8;
+    		    double rate=2;
     		    
     		    int xFinal;
     		    int yFinal = CARTE_TOP_Y;
@@ -214,7 +212,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	        		    if(yCoord<yFinal)
 	        		    	yCoord=yFinal;
 	                	labCarte.setBounds(xCoord, yCoord, widthCarte, heightCarte);
-	                	rate+=0.07;
+	                	rate+=0.05;
 	                	try {
 							sleep(1);
 						} catch (InterruptedException e) {
@@ -361,7 +359,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 		}
 		else if(e.getSource() == labBoutonEchange){
 			labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echange.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
-			EchangeFenetre echangeFenetre = new EchangeFenetre();
+			EchangeFenetre echangeFenetre = new EchangeFenetre(f.getController().getJoueurs()[0], f.getController());
 	        f.repaint();
 		}
 	}
