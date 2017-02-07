@@ -49,6 +49,9 @@ public class PartiePanel extends JPanel implements MouseListener{
 	private JLabel labVillage = new JLabel();
 	private JLabel labVille = new JLabel();
 	private String[] etatBouton = new String[3];
+	private boolean echangeEnable;
+	private boolean achatEnable;
+	private boolean desEnable;
     private Fenetre f;
     
     public PartiePanel(Fenetre f) {
@@ -67,8 +70,8 @@ public class PartiePanel extends JPanel implements MouseListener{
         etatBouton[2]="images/bouton/desPressed.png";
         labBoutonDes.setIcon(new ImageIcon(new ImageIcon("images/bouton/des.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
     	add(labBoutonDes);
-    	labBoutonDes.setBounds(WIDTH-80, HEIGHT-80, 80, 80);
     	labBoutonDes.addMouseListener(this);
+    	labBoutonDes.setBounds(WIDTH-80, HEIGHT-80, 80, 80);
     	
     	labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echange.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
     	add(labBoutonEchange);
@@ -319,9 +322,9 @@ public class PartiePanel extends JPanel implements MouseListener{
 	}
 
 	public void mousePressed(MouseEvent e) {
-		if(e.getSource() == labBoutonDes){
+		if(e.getSource() == labBoutonDes && desEnable){
 			if(etatBouton[0].equals("images/bouton/des.png")){
-				roulementDes();
+					roulementDes();
 			}
             else{
             	f.getController().jouerTour();
@@ -334,24 +337,24 @@ public class PartiePanel extends JPanel implements MouseListener{
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		if(e.getSource() == labBoutonDes){
+		if(e.getSource() == labBoutonDes && (desEnable || !etatBouton[0].equals("images/bouton/des.png"))){
 			changerBouton();
 			labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etatBouton[0]).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
 	        f.repaint();
 		}
-		else if(f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteRoute() && e.getSource() == labRoute){
+		else if(achatEnable && f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteRoute() && e.getSource() == labRoute && !etatBouton[0].equals("images/bouton/des.png")){
 			f.getController().acheterPiece(new Route());
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
 	    	f.repaint();
 		}
-		else if(f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteVillage() && e.getSource() == labVillage){
+		else if(achatEnable && f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteVillage() && e.getSource() == labVillage && !etatBouton[0].equals("images/bouton/des.png")){
 			f.getController().acheterPiece(new Village());
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
 	    	f.repaint();
 		}
-		else if(f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteVille() && e.getSource() == labVille){
+		else if(achatEnable && f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteVille() && e.getSource() == labVille && !etatBouton[0].equals("images/bouton/des.png")){
 			f.getController().acheterPiece(new Village(true));
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
@@ -359,8 +362,10 @@ public class PartiePanel extends JPanel implements MouseListener{
 		}
 		else if(e.getSource() == labBoutonEchange){
 			labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echange.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
-			EchangeFenetre echangeFenetre = new EchangeFenetre(f.getController().getJoueurs()[0], f.getController());
-	        f.repaint();
+			if(echangeEnable && !etatBouton[0].equals("images/bouton/des.png")){
+				new EchangeFenetre(f.getController().getJoueurs()[0], f.getController());
+		        f.repaint();
+			}
 		}
 	}
 	
@@ -423,6 +428,18 @@ public class PartiePanel extends JPanel implements MouseListener{
     	f.repaint();
     	f.getController().distribuerRessources((d1+d2));
 	}
+    
+    public void activerBoutons(){
+    	achatEnable = true;
+    	echangeEnable = true;
+    	desEnable = true;
+    }
+    
+    public void desactiverBoutons(){
+    	achatEnable = false;
+    	echangeEnable = false;
+    	desEnable = false;
+    }
 	
 	public Thread cliquerBouton(){
 		return roulementDes();

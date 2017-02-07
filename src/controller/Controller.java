@@ -1,6 +1,11 @@
 package controller;
 
 
+import java.util.ArrayList;
+
+import javax.swing.plaf.SliderUI;
+
+import model.Carte;
 import model.Case;
 import model.IntelligenceArtificielle;
 import model.Joueur;
@@ -42,11 +47,37 @@ public class Controller {
 		}
 	}
 	
-	public void proposerEchange(EchangeFenetre e){
+	public void proposerEchange(EchangeFenetre e, ArrayList<Carte> exporter, ArrayList<Carte> importer){
 		for(int i=0;i<4;i++){
 			if(i!=idJoueur)
-				e.setImageEchange(joueurs[i].getId(), joueurs[i].accepterEchange());
+				e.setImageEchange(joueurs[i].getId(), joueurs[i].accepterEchange(exporter, importer));
 		}
+	}
+	
+	public void echanger(Joueur j, ArrayList<Carte> exporter, ArrayList<Carte> importer){
+		Thread t = new Thread(){
+	    	public void run(){
+	    		for(Carte c : exporter){
+	    			joueurs[idJoueur].retirerCarte(c.getRessource());
+	    			j.ajouterCarte(c.getRessource());
+	    			try {
+						sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+	    		}
+	    		for(Carte c : importer){
+	    			joueurs[idJoueur].ajouterCarte(c.getRessource());
+	    			j.retirerCarte(c.getRessource());
+	    			try {
+						sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+	    		}
+	    	}
+          };
+          t.start();
 	}
 	
 	public void debutPartie(){
@@ -55,6 +86,7 @@ public class Controller {
 	}
 	
 	public boolean acheterPiece(Piece p){
+		f.getPartiePanel().desactiverBoutons();
 		piece = p;
 		joueurs[idJoueur].retirerRessourcesPiece(p);
 		f.setState(new PieceState(f));
@@ -77,6 +109,7 @@ public class Controller {
 		assert(piece!=null);
 		if(piece.piecePosable(p, joueurs[idJoueur], x, y)){
 			f.setState(new NormalState(f));
+			f.getPartiePanel().activerBoutons();
 			return true;
 		}
 		return false;
@@ -99,6 +132,7 @@ public class Controller {
 					f.setState(new PieceState(f));	
 			}
 			else{
+				f.getPartiePanel().activerBoutons();
 				f.setState(new NormalState(f));
 			}
 			return true;
@@ -118,6 +152,10 @@ public class Controller {
 	public void prochainJoueur(){
 		idJoueur++;
 		idJoueur%=4;
+		if(idJoueur == 0)
+			f.getPartiePanel().activerBoutons();
+		else
+			f.getPartiePanel().desactiverBoutons();
 	}
 	
 	public Plateau getPlateau(){

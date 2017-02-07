@@ -12,8 +12,14 @@ public class IntelligenceArtificielle extends Joueur{
 		super(id, pseudo);
 	}
 	
-	public boolean accepterEchange(){
-		return true;
+	public boolean accepterEchange(ArrayList<Carte> exporter, ArrayList<Carte> importer){
+		boolean flag = true;
+		for(Carte c : importer){
+			if(getNombreDeCarteType(c.getType())<getNombreDeCarteType(importer, c.getType())){
+				flag = false;
+			}
+		}
+		return flag;
 	}
 	
 	public void lancerDes(PartiePanel pan){
