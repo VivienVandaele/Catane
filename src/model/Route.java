@@ -1,8 +1,11 @@
 package model;
 
+import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+
+import vue.PartiePanel;
 
 public class Route extends Piece{
 	private String orientation;
@@ -83,9 +86,6 @@ public class Route extends Piece{
 	}
 
 	public void setImage() {
-		image=new ImageIcon("images/pieces/route"+j.getId()+".png");
+		image=new ImageIcon(new ImageIcon("images/pieces/route"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/15, PartiePanel.widthCarte/2, Image.SCALE_DEFAULT));
 	}
-
-
-
 }

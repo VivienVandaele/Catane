@@ -1,5 +1,9 @@
 package model;
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
+
+import vue.PartiePanel;
 
 public class Case {
 	private Ressource ressource;
@@ -26,7 +30,7 @@ public class Case {
 	
 	public void setNumero(int numero){
 		this.numero=numero;
-		jeton=new ImageIcon("images/jetons/jeton"+numero+".png");
+		jeton=new ImageIcon(new ImageIcon("images/jetons/jeton"+numero+".png").getImage().getScaledInstance(PartiePanel.widthCarte/3, PartiePanel.widthCarte/3, Image.SCALE_DEFAULT));
 	}
 	
 	public Ressource getRessource(){

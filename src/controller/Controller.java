@@ -3,8 +3,6 @@ package controller;
 
 import java.util.ArrayList;
 
-import javax.swing.plaf.SliderUI;
-
 import model.Carte;
 import model.Case;
 import model.IntelligenceArtificielle;

@@ -39,7 +39,6 @@ public class PartiePanel extends JPanel implements MouseListener{
     public static final int CARTE_MOUTON_X = margeGauche+6*widthCase+20;
     public static final int CARTE_PIERRE_X = margeGauche+6*widthCase+widthCarte+80;
     private static Carte[] cartes;
-    private int widthJeton=60;
     private Plateau p;
     private ImageIcon carteRessources;
 	private JLabel labRessources = new JLabel();
@@ -68,12 +67,12 @@ public class PartiePanel extends JPanel implements MouseListener{
         etatBouton[0]="images/bouton/des.png";
         etatBouton[1]="images/bouton/desEntered.png";
         etatBouton[2]="images/bouton/desPressed.png";
-        labBoutonDes.setIcon(new ImageIcon(new ImageIcon("images/bouton/des.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+		setIconBoutonDes(etatBouton[0]);
     	add(labBoutonDes);
     	labBoutonDes.addMouseListener(this);
     	labBoutonDes.setBounds(WIDTH-80, HEIGHT-80, 80, 80);
     	
-    	labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echange.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+    	setIconBoutonEchange("echange");
     	add(labBoutonEchange);
     	labBoutonEchange.setBounds(0, HEIGHT-80, 80, 80);
     	labBoutonEchange.addMouseListener(this);
@@ -86,7 +85,6 @@ public class PartiePanel extends JPanel implements MouseListener{
 		labRoute.addMouseListener(this);
 		labVillage.addMouseListener(this);
 		labVille.addMouseListener(this);
-
     }
 	
 	public void paintComponent(Graphics g) {
@@ -94,23 +92,25 @@ public class PartiePanel extends JPanel implements MouseListener{
     	Graphics2D g2d = (Graphics2D)g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
+		g2d.drawImage(new ImageIcon("images/gameBackground.png").getImage(), 0, 0, null);
+        
         for(int k=0;k<4;k++){
 			for(int i=0;i<4+k;i++){
 		        g2d.drawImage(p.getImageOfCase(k, i).getImage(), margeGauche+widthCase*i-k*widthCase/2, widthCase*3/4*k+margeTop, widthCase, widthCase, this);
-		        g2d.drawImage(p.getCases()[k][i].getJeton().getImage(), margeGauche+widthCase*i-k*widthCase/2+widthCase/2-widthJeton/2, widthCase*3/4*k+margeTop+widthCase/2-widthJeton/2, widthJeton, widthJeton, this);
+		        g2d.drawImage(p.getCases()[k][i].getJeton().getImage(), margeGauche+widthCase*i-k*widthCase/2+widthCase/2-p.getCases()[k][i].getJeton().getIconWidth()/2, widthCase*3/4*k+margeTop+widthCase/2-p.getCases()[k][i].getJeton().getIconHeight()/2, this);
 			}
     	}
 		for(int k=0;k<3;k++){
 			for(int i=0;i<6-k;i++){
 		        g2d.drawImage(p.getImageOfCase(k+4, i).getImage(), margeGauche+widthCase*i+k*widthCase/2-widthCase, 3*widthCase+widthCase*3/4*k+margeTop-2, widthCase, widthCase, this);
-		        g2d.drawImage(p.getCases()[k+4][i].getJeton().getImage(), margeGauche+widthCase*i+k*widthCase/2-widthCase+widthCase/2-widthJeton/2, 3*widthCase+widthCase*3/4*k+margeTop-2+widthCase/2-widthJeton/2, widthJeton, widthJeton, this);
+		        g2d.drawImage(p.getCases()[k+4][i].getJeton().getImage(), margeGauche+widthCase*i+k*widthCase/2-widthCase+widthCase/2-p.getCases()[k+4][i].getJeton().getIconWidth()/2, 3*widthCase+widthCase*3/4*k+margeTop-2+widthCase/2-p.getCases()[k+4][i].getJeton().getIconHeight()/2, this);
 			}
 		}
 		
     	ArrayList<Piece> pieces=p.getPiecesPoser();
     	for(Piece p : pieces){
     		if(p instanceof Village)
-    			g2d.drawImage(p.getImage().getImage(), p.getX()-25, p.getY()-10, 50, 20, this);
+    			g2d.drawImage(p.getImage().getImage(), p.getX()-p.getImage().getIconWidth()/2, p.getY()-p.getImage().getIconHeight()/2, this);
     		else{
     			if(((Route) p).getOrientation().equals("est")){
 	    	    	AffineTransform rotation = AffineTransform.getTranslateInstance(p.getX()-p.getImage().getIconWidth()/2, p.getY()-p.getImage().getIconHeight()/2);
@@ -156,8 +156,6 @@ public class PartiePanel extends JPanel implements MouseListener{
     	g2d.setColor(Color.yellow);
     	g2d.drawString(f.getController().getJoueurs()[3].getPseudo(), 10+margeGauche+8*widthCase, 40);
     	g2d.drawString(""+j[3].getPoints()+j[3].getNombreCartes()+j[3].getNombreCartesDev()+j[3].getPlusGrandeRoute(), 10+margeGauche+8*widthCase, 80);
-
-	
 	}
 	
 	
@@ -294,11 +292,11 @@ public class PartiePanel extends JPanel implements MouseListener{
 			afficherPiecesAchetable();
 		}
 		else if(e.getSource() == labBoutonDes){
-	        labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etatBouton[1]).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+			setIconBoutonDes(etatBouton[1]);
 	        f.repaint();
 		}
 		else if(e.getSource() == labBoutonEchange){
-			labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echangeEntered.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+			setIconBoutonEchange("echangeEntered");
 	        f.repaint();
 		}
 	}
@@ -312,11 +310,11 @@ public class PartiePanel extends JPanel implements MouseListener{
 			}
 		}
 		else if(e.getSource() == labBoutonDes){
-	        labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etatBouton[0]).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+			setIconBoutonDes(etatBouton[0]);
 	        f.repaint();
 		}
 		else if(e.getSource() == labBoutonEchange){
-			labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echange.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+			setIconBoutonEchange("echange");
 	        f.repaint();
 		}
 	}
@@ -331,7 +329,7 @@ public class PartiePanel extends JPanel implements MouseListener{
             }
 		}
 		else if(e.getSource() == labBoutonEchange){
-			labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echangePressed.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+			setIconBoutonEchange("echangePressed");
 	        f.repaint();
 		}
 	}
@@ -339,7 +337,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	public void mouseReleased(MouseEvent e) {
 		if(e.getSource() == labBoutonDes && (desEnable || !etatBouton[0].equals("images/bouton/des.png"))){
 			changerBouton();
-			labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etatBouton[0]).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+			setIconBoutonDes(etatBouton[0]);
 	        f.repaint();
 		}
 		else if(achatEnable && f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteRoute() && e.getSource() == labRoute && !etatBouton[0].equals("images/bouton/des.png")){
@@ -361,7 +359,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	    	f.repaint();
 		}
 		else if(e.getSource() == labBoutonEchange){
-			labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/echange.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+			setIconBoutonEchange("echange");
 			if(echangeEnable && !etatBouton[0].equals("images/bouton/des.png")){
 				new EchangeFenetre(f.getController().getJoueurs()[0], f.getController());
 		        f.repaint();
@@ -381,12 +379,12 @@ public class PartiePanel extends JPanel implements MouseListener{
 			etatBouton[1]="images/bouton/1.png";
 			etatBouton[2]="images/bouton/1.png";
 		}
-		labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etatBouton[0]).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+		setIconBoutonDes(etatBouton[0]);
         f.repaint();
 	}
 	
 	public Thread roulementDes(){
-	    labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etatBouton[2]).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+		setIconBoutonDes(etatBouton[2]);
         f.repaint();
 	    Thread t = new Thread() {
 	    	public void run(){
@@ -395,6 +393,14 @@ public class PartiePanel extends JPanel implements MouseListener{
           };
           t.start();
           return t;
+	}
+	
+	public void setIconBoutonEchange(String state){
+		labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/"+state+".png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+	}
+	
+	public void setIconBoutonDes(String etat){
+	    labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etat).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
 	}
 	
     public synchronized void roulementDesAnimation() {
@@ -456,7 +462,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 			for(int i=0;i<3;i++)
 				etatBouton[i]="images/bouton/"+(f.getController().getIdJoueur()+1)+".png";
 		}
-		labBoutonDes.setIcon(new ImageIcon(new ImageIcon(etatBouton[0]).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+		setIconBoutonDes(etatBouton[0]);
         f.repaint();
         f.getController().jouerTour();
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import controller.Controller;
+import state.PieceState;
 import vue.PartiePanel;
 
 public class IntelligenceArtificielle extends Joueur{
@@ -35,7 +36,7 @@ public class IntelligenceArtificielle extends Joueur{
 	    	}
 	    };
 	    t.start();
-	}
+	}	
 	
 	public void poserPieceDebutPartie(Controller c, Piece p, Plateau pl){
 		if(p instanceof Village)

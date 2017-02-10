@@ -10,6 +10,7 @@ import model.Ressource;
 import observer.Observable;
 import observer.Observer;
 import state.NormalState;
+import state.PieceState;
 import state.State;
 
 
@@ -25,7 +26,6 @@ public class Fenetre extends JFrame implements Observer{
 		setUndecorated(true);
 		setState(new NormalState(this));
 		afficherPartie();
-		setBackground(Color.decode("#f4eaaf"));
 		setVisible(true);
 	}
 	

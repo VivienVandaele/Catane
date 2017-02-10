@@ -19,6 +19,7 @@ public class PieceState extends State{
     private float transparence=1.0f;
     private int circleSize=44;
 	private JPanel pan;
+	private Thread t;
 	private Fenetre f;
     
 	public PieceState(Fenetre f){
@@ -49,10 +50,10 @@ public class PieceState extends State{
 		pan.setOpaque(false);
 		f.getContentPane().add(pan);
 
-	    Thread t = new Thread() {
-	            public void run() {
+	    t = new Thread() {
+	    	public void run() {
 	            	boolean flag=true;
-	            	while(transparence>0){
+	            	while(!this.isInterrupted()){
 		            	if(flag)
 		            		transparence-=0.03f;
 		            	else
@@ -64,23 +65,30 @@ public class PieceState extends State{
 		            		if(transparence >=0.90) Thread.sleep(40);
 							Thread.sleep(30);
 						} catch (InterruptedException e) {
-							e.printStackTrace();
+				            Thread.currentThread().interrupt();
 						}
 	            	}
 	            }
 	          };
 	          t.start();
 	}
+	
+	public Thread getThread(){
+		return t;
+	}
 
 	public void mousePressed(MouseEvent e) {
+
 		if(f.getController().getDebutPartie()){
 			if(f.getController().poserPieceDebutPartie(e.getX(), e.getY())){
 				f.remove(pan);
+				t.interrupt();
 			}
 		}
 		else{
-			if(f.getController().poserPiece(e.getX(), e.getY()))
+			if(f.getController().poserPiece(e.getX(), e.getY())){
 				f.remove(pan);
+			}
 		}
 	}
 }
