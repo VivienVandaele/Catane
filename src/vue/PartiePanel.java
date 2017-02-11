@@ -54,6 +54,7 @@ public class PartiePanel extends JPanel implements MouseListener{
     private Fenetre f;
     
     public PartiePanel(Fenetre f) {
+    	
     	this.f=f;
     	p=f.getController().getPlateau();
         setLayout(null);
@@ -278,7 +279,6 @@ public class PartiePanel extends JPanel implements MouseListener{
 		labVille.setOpaque(true);
 		labVille.setBounds(20, 180, 210, 65);
     	labRessources.add(labVille);
-    	f.repaint();
 	}
 	
 

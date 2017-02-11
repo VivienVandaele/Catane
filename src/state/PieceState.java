@@ -72,16 +72,11 @@ public class PieceState extends State{
 	          };
 	          t.start();
 	}
-	
-	public Thread getThread(){
-		return t;
-	}
 
 	public void mousePressed(MouseEvent e) {
-
 		if(f.getController().getDebutPartie()){
 			if(f.getController().poserPieceDebutPartie(e.getX(), e.getY())){
-				f.remove(pan);
+				f.getContentPane().remove(pan);
 				t.interrupt();
 			}
 		}
