@@ -3,36 +3,24 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class Voleur {
-	private class Emplacement {
-		private int x;
-		private int y;
-		private Case c;
-		
-		public Emplacement(int x, int y, Case c){
-			this.x = x;
-			this.y = y;
-			this.c = c;
-		}
-		
-		public int getX(){
-			return x;
-		}
-		
-		public int getY(){
-			return y;
-		}
-		
-		public Case getCase(){
-			return c;
-		}
-	}
-	
+import observer.Observable;
+
+public class Voleur extends Observable{
 	public static ArrayList<Emplacement> emplacements;
 	public Emplacement position;
 	
 	public Voleur(){
 		emplacements = new ArrayList<Emplacement>();
+	}
+	
+	public boolean poserVoleur(int x, int y){
+		int marge=20;
+		for(Emplacement e : emplacements)
+			if(e!=position && e.getX()-marge<x && e.getX()+marge>x && e.getY()-marge<y && e.getY()+marge>y){
+				setPosition(e);
+				return true;	
+			}
+		return false;
 	}
 	
 	public void ajouterEmplacement(int x, int y, Case c){
@@ -41,6 +29,7 @@ public class Voleur {
 	
 	public void setPosition(Emplacement e){
 		position = e;
+		notifyObserver(e);
 	}
 	
 	public int getX(){
@@ -49,6 +38,10 @@ public class Voleur {
 
 	public int getY(){
 		return position.getY();
+	}
+	
+	public Emplacement getPosition(){
+		return position;
 	}
 	
 	public Case getCase(){

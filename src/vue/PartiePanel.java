@@ -41,6 +41,7 @@ public class PartiePanel extends JPanel implements MouseListener{
     private static Carte[] cartes;
     private Plateau p;
     private ImageIcon carteRessources;
+    private ImageIcon voleurImage;
 	private JLabel labRessources = new JLabel();
 	private JLabel labBoutonDes = new JLabel();
 	private JLabel labBoutonEchange = new JLabel();
@@ -58,6 +59,7 @@ public class PartiePanel extends JPanel implements MouseListener{
     	this.f=f;
     	p=f.getController().getPlateau();
         setLayout(null);
+        voleurImage = new ImageIcon(new ImageIcon("images/pieces/voleur.png").getImage().getScaledInstance(30, 70, Image.SCALE_DEFAULT));
         cartes = new Carte[5];
         cartes[0] = new Carte(Ressource.argile);
         cartes[1] = new Carte(Ressource.bois);
@@ -94,17 +96,16 @@ public class PartiePanel extends JPanel implements MouseListener{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		g2d.drawImage(new ImageIcon("images/gameBackground.png").getImage(), 0, 0, null);
-        
         for(int k=0;k<4;k++){
 			for(int i=0;i<4+k;i++){
 		        g2d.drawImage(p.getImageOfCase(k, i).getImage(), margeGauche+widthCase*i-k*widthCase/2, widthCase*3/4*k+margeTop, widthCase, widthCase, this);
-		        g2d.drawImage(p.getCases()[k][i].getJeton().getImage(), margeGauche+widthCase*i-k*widthCase/2+widthCase/2-p.getCases()[k][i].getJeton().getIconWidth()/2, widthCase*3/4*k+margeTop+widthCase/2-p.getCases()[k][i].getJeton().getIconHeight()/2, this);
+		        g2d.drawImage(p.getCases()[k][i].getJeton().getImage(), p.getCases()[k][i].getJetonX(), p.getCases()[k][i].getJetonY(), this);
 			}
     	}
 		for(int k=0;k<3;k++){
 			for(int i=0;i<6-k;i++){
 		        g2d.drawImage(p.getImageOfCase(k+4, i).getImage(), margeGauche+widthCase*i+k*widthCase/2-widthCase, 3*widthCase+widthCase*3/4*k+margeTop-2, widthCase, widthCase, this);
-		        g2d.drawImage(p.getCases()[k+4][i].getJeton().getImage(), margeGauche+widthCase*i+k*widthCase/2-widthCase+widthCase/2-p.getCases()[k+4][i].getJeton().getIconWidth()/2, 3*widthCase+widthCase*3/4*k+margeTop-2+widthCase/2-p.getCases()[k+4][i].getJeton().getIconHeight()/2, this);
+		        g2d.drawImage(p.getCases()[k+4][i].getJeton().getImage(), p.getCases()[k+4][i].getJetonX(), p.getCases()[k+4][i].getJetonY(), this);
 			}
 		}
 		
@@ -128,6 +129,7 @@ public class PartiePanel extends JPanel implements MouseListener{
     			}
     		}
     	}
+        g2d.drawImage(voleurImage.getImage(), p.getVoleur().getX()-voleurImage.getIconWidth()/2, p.getVoleur().getY()-voleurImage.getIconHeight()/2, this);
     	
     	//Afficher les ressources
     	g2d.setFont(new Font("Arial", Font.PLAIN, 40));

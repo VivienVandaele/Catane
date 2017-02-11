@@ -13,6 +13,15 @@ public class IntelligenceArtificielle extends Joueur{
 		super(id, pseudo);
 	}
 	
+	public void deplacerVoleur(Voleur v){
+		for(Emplacement e : Voleur.emplacements){
+			if(e.getX() != v.getPosition().getX()){
+				v.setPosition(e);
+				break;
+			}
+		}
+	}
+	
 	public boolean accepterEchange(ArrayList<Carte> exporter, ArrayList<Carte> importer){
 		boolean flag = true;
 		for(Carte c : importer){
