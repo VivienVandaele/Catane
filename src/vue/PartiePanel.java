@@ -25,7 +25,7 @@ import model.Plateau;
 import model.Ressource;
 import model.Route;
 import model.Village;
-
+ 
 public class PartiePanel extends JPanel implements MouseListener{
     public static final int WIDTH=(int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     public static final int HEIGHT=(int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
