@@ -13,6 +13,7 @@ import model.Route;
 import model.Village;
 import state.NormalState;
 import state.PieceState;
+import state.VoleurState;
 import vue.EchangeFenetre;
 import vue.Fenetre;
 
@@ -83,6 +84,18 @@ public class Controller {
 		f.setState(new PieceState(f));
 	}
 	
+	public void activerVoleur(){
+		f.setState(new VoleurState(f));
+	}
+	
+	public boolean deplacerVoleur(int x, int y){
+		if(p.getVoleur().poserVoleur(x, y)){
+			f.setState(new NormalState(f));
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean acheterPiece(Piece p){
 		f.getPartiePanel().desactiverBoutons();
 		piece = p;
@@ -92,11 +105,21 @@ public class Controller {
 	}
 	
 	public void distribuerRessources(int d){
-		for(Piece piece : p.getPiecesPoser()){
-			if(piece instanceof Village){
-				for(Case c : ((Village) piece).getCases()){
-					if(c.getNumero()==d){
-						piece.getJoueur().ajouterCarte(c.getRessource());
+		if(d==7){
+			if(joueurs[idJoueur] instanceof IntelligenceArtificielle){
+				((IntelligenceArtificielle) joueurs[idJoueur]).deplacerVoleur(p.getVoleur());
+			}
+			else{
+				activerVoleur();	
+			}
+		}
+		else{
+			for(Piece piece : p.getPiecesPoser()){
+				if(piece instanceof Village){
+					for(Case c : ((Village) piece).getCases()){
+						if(c.getNumero()==d){
+							piece.getJoueur().ajouterCarte(c.getRessource());
+						}
 					}
 				}
 			}

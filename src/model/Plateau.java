@@ -9,10 +9,13 @@ import vue.PartiePanel;
 
 public class Plateau extends Observable{
 	private Case[][] cases;
-	public ArrayList<Piece> pieces;
-	public ArrayList<Piece> piecesPoser;
+	private ArrayList<Piece> pieces;
+	private ArrayList<Piece> piecesPoser;
+	private Voleur voleur;
 	
 	public Plateau(){
+		voleur = new Voleur();
+		voleur.setOberservers(getOberservers());
 		cases = new Case[7][7];
 		genererCasesAleatoire();
 		setNumeros();
@@ -52,52 +55,96 @@ public class Plateau extends Observable{
 		int start=ThreadLocalRandom.current().nextInt(1, 4);
 		int valeur[]={5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11};
 		int indice=0;
+		int margeGauche = PartiePanel.margeGauche;
+		int widthCase = PartiePanel.widthCase;
+		int margeTop = PartiePanel.margeTop;
+		
 		for(int n=start;n>0;n--){
 			if(!cases[1][n].getRessource().getType().equals("desert")){
 				cases[1][n].setNumero(valeur[indice++]);
 			}
+			cases[1][n].setCoordonneesJeton(margeGauche+widthCase*n-widthCase/2+widthCase/2-cases[1][n].getJeton().getIconWidth()/2, widthCase*3/4+margeTop+widthCase/2-cases[1][n].getJeton().getIconHeight()/2);
+			voleur.ajouterEmplacement(cases[1][n].getJetonX()-cases[1][n].getJeton().getIconWidth()/2, cases[1][n].getJetonY()+cases[1][n].getJeton().getIconWidth()/2, cases[1][n]);
 		}
 		for(int n=2;n<6;n++){
 			if(!cases[n][1].getRessource().getType().equals("desert")){
 				cases[n][1].setNumero(valeur[indice++]);
 			}
+			if(n>2){
+				cases[n][1].setCoordonneesJeton(margeGauche+(n/3+n%3)*widthCase-n*widthCase/2+widthCase/2-cases[n][1].getJeton().getIconWidth()/2, widthCase*3/4*n+margeTop+widthCase/2-cases[n][1].getJeton().getIconHeight()/2);
+				voleur.ajouterEmplacement(cases[n][1].getJetonX()-cases[n][1].getJeton().getIconWidth()/2, cases[n][1].getJetonY()+cases[n][1].getJeton().getIconWidth()/2, cases[n][1]);
+			}
+			else{
+				cases[n][1].setCoordonneesJeton(margeGauche+widthCase-n*widthCase/2+widthCase/2-cases[n][1].getJeton().getIconWidth()/2, widthCase*3/4*n+margeTop+widthCase/2-cases[n][1].getJeton().getIconHeight()/2);
+				voleur.ajouterEmplacement(cases[n][1].getJetonX()-cases[n][1].getJeton().getIconWidth()/2, cases[n][1].getJetonY()+cases[n][1].getJeton().getIconWidth()/2, cases[n][1]);
+			}
+
 		}
 		if(!cases[5][2].getRessource().getType().equals("desert")){
 			cases[5][2].setNumero(valeur[indice++]);
 		}
+		cases[5][2].setCoordonneesJeton(margeGauche+5*widthCase/2-widthCase+widthCase/2-cases[5][2].getJeton().getIconWidth()/2, 3*widthCase+widthCase*3/4+margeTop-2+widthCase/2-cases[5][2].getJeton().getIconHeight()/2);
+		voleur.ajouterEmplacement(cases[5][2].getJetonX()-cases[5][2].getJeton().getIconWidth()/2, cases[5][2].getJetonY()+cases[5][2].getJeton().getIconWidth()/2, cases[5][2]);
+
 		for(int n=5;n>2;n--){
 			if(!cases[n][3+5-n].getRessource().getType().equals("desert")){
 				cases[n][3+5-n].setNumero(valeur[indice++]);
 			}
+			cases[n][3+5-n].setCoordonneesJeton( margeGauche+widthCase*(3+5-n)+(n-4)*widthCase/2-widthCase+widthCase/2-cases[n][3+5-n].getJeton().getIconWidth()/2, 3*widthCase+widthCase*3/4*(n-4)+margeTop-2+widthCase/2-cases[n][3+5-n].getJeton().getIconHeight()/2);
+			voleur.ajouterEmplacement(cases[n][3+5-n].getJetonX()-cases[n][3+5-n].getJeton().getIconWidth()/2, cases[n][3+5-n].getJetonY()+cases[n][3+5-n].getJeton().getIconWidth()/2, cases[n][3+5-n]);
 		}
 		if(!cases[2][4].getRessource().getType().equals("desert")){
 			cases[2][4].setNumero(valeur[indice++]);
 		}
+		cases[2][4].setCoordonneesJeton(margeGauche+widthCase*4-widthCase+widthCase/2-cases[2][4].getJeton().getIconWidth()/2, widthCase*3/4*2+margeTop+widthCase/2-cases[2][4].getJeton().getIconHeight()/2);
+		voleur.ajouterEmplacement(cases[2][4].getJetonX()-cases[2][4].getJeton().getIconWidth()/2, cases[2][4].getJetonY()+cases[2][4].getJeton().getIconWidth()/2, cases[2][4]);
 		if(start!=3 && !cases[1][3].getRessource().getType().equals("desert")){
 			cases[1][3].setNumero(valeur[indice++]);
 		}
+		cases[1][3].setCoordonneesJeton(margeGauche+widthCase*3-widthCase/2+widthCase/2-cases[1][3].getJeton().getIconWidth()/2, widthCase*3/4+margeTop+widthCase/2-cases[1][3].getJeton().getIconHeight()/2);
+		voleur.ajouterEmplacement(cases[1][3].getJetonX()-cases[1][3].getJeton().getIconWidth()/2, cases[1][3].getJetonY()+cases[1][3].getJeton().getIconWidth()/2, cases[1][3]);
 		if(start==1 && !cases[1][2].getRessource().getType().equals("desert")){
 			cases[1][2].setNumero(valeur[indice++]);
 		}
+		cases[1][2].setCoordonneesJeton(margeGauche+widthCase*2-cases[1][2].getJeton().getIconWidth()/2, widthCase*3/4+margeTop+widthCase/2-cases[1][2].getJeton().getIconHeight()/2);
+		voleur.ajouterEmplacement(cases[1][2].getJetonX()-cases[1][2].getJeton().getIconWidth()/2, cases[1][2].getJetonY()+cases[1][2].getJeton().getIconWidth()/2, cases[1][2]);
 		for(int n=2;n<4;n++){
 			if(!cases[2][n].getRessource().getType().equals("desert")){
 				cases[2][n].setNumero(valeur[indice++]);
 			}
+			cases[2][n].setCoordonneesJeton(margeGauche+widthCase*n-2*widthCase/2+widthCase/2-cases[2][n].getJeton().getIconWidth()/2, widthCase*3/4*2+margeTop+widthCase/2-cases[2][n].getJeton().getIconHeight()/2);
+			voleur.ajouterEmplacement(cases[2][n].getJetonX()-cases[2][n].getJeton().getIconWidth()/2, cases[2][n].getJetonY()+cases[2][n].getJeton().getIconWidth()/2, cases[2][n]);
 		}
 		if(!cases[3][2].getRessource().getType().equals("desert")){
 			cases[3][2].setNumero(valeur[indice++]);
 		}
+		cases[3][2].setCoordonneesJeton(margeGauche+widthCase*2-3*widthCase/2+widthCase/2-cases[3][2].getJeton().getIconWidth()/2, widthCase*3/4*3+margeTop+widthCase/2-cases[3][2].getJeton().getIconHeight()/2);
+		voleur.ajouterEmplacement(cases[3][2].getJetonX()-cases[3][2].getJeton().getIconWidth()/2, cases[3][2].getJetonY()+cases[3][2].getJeton().getIconWidth()/2, cases[3][2]);
 		for(int n=2;n<4;n++){
 			if(!cases[4][n].getRessource().getType().equals("desert")){
 				cases[4][n].setNumero(valeur[indice++]);
 			}
+			cases[4][n].setCoordonneesJeton(margeGauche+widthCase*n-widthCase+widthCase/2-cases[4][n].getJeton().getIconWidth()/2, 3*widthCase+margeTop-2+widthCase/2-cases[4][n].getJeton().getIconHeight()/2);
+			voleur.ajouterEmplacement(cases[4][n].getJetonX()-cases[4][n].getJeton().getIconWidth()/2, cases[4][n].getJetonY()+cases[4][n].getJeton().getIconWidth()/2, cases[4][n]);
 		}
 		if(!cases[3][4].getRessource().getType().equals("desert")){
 			cases[3][4].setNumero(valeur[indice++]);
 		}
+		cases[3][4].setCoordonneesJeton(margeGauche+widthCase*4-widthCase-cases[3][4].getJeton().getIconWidth()/2, widthCase*3/4*3+margeTop+widthCase/2-cases[3][4].getJeton().getIconHeight()/2);
+		voleur.ajouterEmplacement(cases[3][4].getJetonX()-cases[3][4].getJeton().getIconWidth()/2, cases[3][4].getJetonY()+cases[3][4].getJeton().getIconWidth()/2, cases[3][4]);
+
 		if(!cases[3][3].getRessource().getType().equals("desert")){
 			cases[3][3].setNumero(valeur[indice++]);
 		}
+		cases[3][3].setCoordonneesJeton(margeGauche+widthCase*4-2*widthCase-cases[3][3].getJeton().getIconWidth()/2, widthCase*3/4*3+margeTop+widthCase/2-cases[3][3].getJeton().getIconHeight()/2);
+		voleur.ajouterEmplacement(cases[3][3].getJetonX()-cases[3][3].getJeton().getIconWidth()/2, cases[3][3].getJetonY()+cases[3][3].getJeton().getIconWidth()/2, cases[3][3]);
+		
+		//Initialisation de la position du voleur
+		for(Emplacement p : Voleur.emplacements){
+			if(p.getCase().getRessource().getType().equals("desert"))
+				voleur.setPosition(p);
+		}
+	
 	}
 	
 	public void setPositionPieces(){
@@ -203,6 +250,10 @@ public class Plateau extends Observable{
 			if(p instanceof Village && p.getPoser())
 				i++;
 		return i;
+	}
+	
+	public Voleur getVoleur(){
+		return voleur;
 	}
 	
 	public Case[][] getCases(){

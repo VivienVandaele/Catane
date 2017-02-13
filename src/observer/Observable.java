@@ -17,4 +17,12 @@ public abstract class Observable{
 	public void removeObserver(Observer o) {
 		observers.remove(o);
 	}
+	
+	public ArrayList<Observer> getOberservers(){
+		return observers;
+	}
+	
+	public void setOberservers(ArrayList<Observer> o){
+		observers = o;
+	}
 }
