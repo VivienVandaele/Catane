@@ -17,8 +17,8 @@ public class Joueur extends Observable {
 		this.cartes = new ArrayList<Carte>();
 	}
 	
-	public void jouerTour(){
-
+	public boolean accepterEchange(ArrayList<Carte> exporter, ArrayList<Carte> importer){
+		return false;
 	}
 	
 	public void ajouterCarte(Ressource ressource){
@@ -59,6 +59,15 @@ public class Joueur extends Observable {
 	}
 	
 	public int getNombreDeCarteType(String type){
+		int i=0;
+		for(Carte c : cartes){
+			if(c.getType().equals(type))
+				i++;
+		}
+		return i;
+	}
+	
+	public int getNombreDeCarteType(ArrayList<Carte> cartes, String type){
 		int i=0;
 		for(Carte c : cartes){
 			if(c.getType().equals(type))

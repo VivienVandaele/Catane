@@ -1,9 +1,12 @@
 package model;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
+
+import vue.PartiePanel;
 
 public class Village extends Piece{
 	private HashMap<Route, Village> adj;
@@ -152,6 +155,6 @@ public class Village extends Piece{
 	}
 
 	public void setImage() {
-		image=new ImageIcon("images/pieces/village"+j.getId()+".png");
+		image=new ImageIcon(new ImageIcon("images/pieces/village"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/3, PartiePanel.widthCarte/8, Image.SCALE_DEFAULT));
 	}
 }

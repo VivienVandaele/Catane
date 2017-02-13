@@ -68,6 +68,4 @@ public abstract class Piece {
 	public abstract ArrayList<Piece> getPositionDisponibleDebutPartie(Plateau pl, Joueur j);
 	
 	public abstract boolean piecePosable(Plateau p, Joueur j, int x, int y);
-	
-	//public abstract ArrayList<Piece> getPositionDisponible(Plateau pl, Joueur j);
 }

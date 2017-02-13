@@ -4,12 +4,32 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import controller.Controller;
+import state.PieceState;
 import vue.PartiePanel;
 
 public class IntelligenceArtificielle extends Joueur{
 
 	public IntelligenceArtificielle(int id, String pseudo) {
 		super(id, pseudo);
+	}
+	
+	public void deplacerVoleur(Voleur v){
+		for(Emplacement e : Voleur.emplacements){
+			if(e.getX() != v.getPosition().getX()){
+				v.setPosition(e);
+				break;
+			}
+		}
+	}
+	
+	public boolean accepterEchange(ArrayList<Carte> exporter, ArrayList<Carte> importer){
+		boolean flag = true;
+		for(Carte c : importer){
+			if(getNombreDeCarteType(c.getType())<getNombreDeCarteType(importer, c.getType())){
+				flag = false;
+			}
+		}
+		return flag;
 	}
 	
 	public void lancerDes(PartiePanel pan){
@@ -25,13 +45,23 @@ public class IntelligenceArtificielle extends Joueur{
 	    	}
 	    };
 	    t.start();
-	}
+	}	
 	
 	public void poserPieceDebutPartie(Controller c, Piece p, Plateau pl){
-		if(p instanceof Village)
-			poserVillageDebutPartie(c, pl);
-		else
-			poserRouteDebutPartie(c, pl);
+		Thread t = new Thread(){
+			public void run(){
+				try {
+					Thread.sleep(2500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(p instanceof Village)
+					poserVillageDebutPartie(c, pl);
+				else
+					poserRouteDebutPartie(c, pl);
+			}
+		};
+		t.start();
 	}
 	
 	public void poserVillageDebutPartie(Controller c, Plateau p){

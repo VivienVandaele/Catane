@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import controller.Controller;
 import model.Carte;
 import model.Joueur;
+import model.Ressource;
 
 public class EchangeFenetre extends JDialog {
 
@@ -31,6 +32,7 @@ public class EchangeFenetre extends JDialog {
 	private JButton proposerButton;
 	private Controller c;
 	private Joueur j;
+	private JSpinner[] spinners = new JSpinner[10];
 
 	public EchangeFenetre(Joueur j, Controller c) {
 		setBounds(100, 100, 1000, 700);
@@ -57,9 +59,8 @@ public class EchangeFenetre extends JDialog {
 			}
 		}
 		
-		JSpinner[] spinners = new JSpinner[10];
 		for(int i=0;i<10;i+=2){
-			SpinnerNumberModel model = new SpinnerNumberModel(0, 0.0, j.getNombreDeCarteType(cartes[i/2].getType()), 1.0);
+			SpinnerNumberModel model = new SpinnerNumberModel(0, 0, j.getNombreDeCarteType(cartes[i/2].getType()), 1);
 			spinners[i] = new JSpinner(model);
 			spinners[i].setBounds(75+i*100, 300, 40, 30);
 			spinners[i].addChangeListener(new ChangeListener() {
@@ -69,7 +70,7 @@ public class EchangeFenetre extends JDialog {
 			});
 			contentPanel.add(spinners[i]);
 			
-			model = new SpinnerNumberModel(0, 0.0, 100, 1.0);
+			model = new SpinnerNumberModel(0, 0, 100, 1);
 			spinners[i+1] = new JSpinner(model);
 			spinners[i+1].setBounds(75+i*100, 350, 40, 30);
 			spinners[i+1].addChangeListener(new ChangeListener() {
@@ -102,7 +103,15 @@ public class EchangeFenetre extends JDialog {
 		proposerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				proposerButton.setEnabled(false);
-				c.proposerEchange(ef);
+				ArrayList<Carte> exporter = new ArrayList<Carte>();
+				ArrayList<Carte> importer = new ArrayList<Carte>();
+				for(int i=0;i<5;i++){
+					for(int j=0;j<Integer.valueOf(spinners[i*2].getValue().toString());j++)
+						exporter.add(new Carte(cartes[i].getRessource()));
+					for(int j=0;j<(int)spinners[i*2+1].getValue();j++)
+						importer.add(new Carte(cartes[i].getRessource()));
+				}
+				c.proposerEchange(ef, exporter, importer);
 			}
 		});
 		contentPanel.add(proposerButton);
@@ -121,7 +130,7 @@ public class EchangeFenetre extends JDialog {
 	}
 	
 	public void reset(){
-		proposerButton.setEnabled(true);;
+		proposerButton.setEnabled(true);
 		for(int i=0;i<4;i++){
 			if(labImageEchange[i]!=null){
 				labImageEchange[(c.getIdJoueur()+i)%4].setIcon(new ImageIcon(new ImageIcon("images/echange/defaut.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
@@ -134,10 +143,11 @@ public class EchangeFenetre extends JDialog {
 		contentPanel.repaint();
 	}
 	
-	public void setImageEchange(int id, boolean accepter){
-		if(j.getId()!=0 && id>j.getId())
+	public void setImageEchange(int idJoueur, boolean accepter){
+		int id = idJoueur;
+		if(j.getId()!=0 && idJoueur>j.getId())
 			id--;
-		else if((j.getId()!=0 && id<j.getId()))
+		else if((j.getId()!=0 && idJoueur<j.getId()))
 			id++;
 		contentPanel.remove(labImageEchange[id]);
 		labImageEchange[id] = new JLabel();
@@ -146,6 +156,21 @@ public class EchangeFenetre extends JDialog {
 			labImageEchange[id].setIcon(new ImageIcon(new ImageIcon("images/echange/valide.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
 			accepterButton[id] = new JButton("Accepter");
 			accepterButton[id].setBounds(id*250-125, 600, 100, 30);
+			accepterButton[id].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					ArrayList<Carte> exporter = new ArrayList<Carte>();
+					ArrayList<Carte> importer = new ArrayList<Carte>();
+					Carte[] cartes = PartiePanel.getCartes();
+					for(int i=0;i<5;i++){
+						for(int j=0;j<Integer.valueOf(spinners[i*2].getValue().toString());j++)
+							exporter.add(new Carte(cartes[i].getRessource()));
+						for(int j=0;j<(int)spinners[i*2+1].getValue();j++)
+							importer.add(new Carte(cartes[i].getRessource()));
+					}
+					c.echanger(c.getJoueurs()[idJoueur], exporter, importer);
+					dispose();
+				}
+			});
 			contentPanel.add(accepterButton[id]);
 		}
 		else
