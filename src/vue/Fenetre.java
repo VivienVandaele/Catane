@@ -1,16 +1,14 @@
 package vue;
-import java.awt.Color;
-
 import javax.swing.JFrame;
 
 import controller.Controller;
 import model.Carte;
 import model.Joueur;
+import model.Piece;
 import model.Ressource;
 import observer.Observable;
 import observer.Observer;
 import state.NormalState;
-import state.PieceState;
 import state.State;
 
 
@@ -63,6 +61,8 @@ public class Fenetre extends JFrame implements Observer{
 			pan.carteAnimation(arg, true);
 		if(arg instanceof Ressource && ((Joueur) o).getId()==0)
 			pan.carteAnimation(new Carte((Ressource) arg), false);
+		if(arg instanceof Piece)
+			pan.lancerPieceAnimation(((Piece) arg));
 			
 	}
 }

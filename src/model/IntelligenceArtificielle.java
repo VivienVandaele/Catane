@@ -48,10 +48,20 @@ public class IntelligenceArtificielle extends Joueur{
 	}	
 	
 	public void poserPieceDebutPartie(Controller c, Piece p, Plateau pl){
-		if(p instanceof Village)
-			poserVillageDebutPartie(c, pl);
-		else
-			poserRouteDebutPartie(c, pl);
+		Thread t = new Thread(){
+			public void run(){
+				try {
+					Thread.sleep(2500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(p instanceof Village)
+					poserVillageDebutPartie(c, pl);
+				else
+					poserRouteDebutPartie(c, pl);
+			}
+		};
+		t.start();
 	}
 	
 	public void poserVillageDebutPartie(Controller c, Plateau p){
