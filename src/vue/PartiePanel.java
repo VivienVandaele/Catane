@@ -172,23 +172,23 @@ public class PartiePanel extends JPanel implements MouseListener{
 	
 
     	if(rotation!=null){
-    		if(pieceAnimation2.getJoueur().getId()==0)
+    		Piece p = pieceAnimation2;
+    		if(p.getJoueur().getId()==0)
     			g2d.setPaint(Color.red);
-    		else if(pieceAnimation2.getJoueur().getId()==1)
+    		else if(p.getJoueur().getId()==1)
     			g2d.setPaint(Color.blue);
-    		else if(pieceAnimation2.getJoueur().getId()==2)
+    		else if(p.getJoueur().getId()==2)
     			g2d.setPaint(Color.green);
-    		else if(pieceAnimation2.getJoueur().getId()==3)
+    		else if(p.getJoueur().getId()==3)
     			g2d.setPaint(Color.yellow);
 
     		g2d.setStroke(new BasicStroke(4.0f));
 	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, transparence));
-			g2d.draw(new Ellipse2D.Double(pieceAnimation2.getX()-(circleSize-transparence*5)/2, pieceAnimation2.getY()-(circleSize-transparence*5)/2, circleSize-transparence*5, circleSize-transparence*5));
-			
+			g2d.draw(new Ellipse2D.Double(p.getX()-(circleSize-transparence*5)/2, p.getY()-(circleSize-transparence*5)/2, circleSize-transparence*5, circleSize-transparence*5));
 		
     		g2d.setStroke(new BasicStroke(2.0f));
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-    		g2d.draw(new Ellipse2D.Double(pieceAnimation2.getX()-7, pieceAnimation2.getY()-7, 14, 14));
+    		g2d.draw(new Ellipse2D.Double(p.getX()-7, p.getY()-7, 14, 14));
     		
     		g2d.drawImage(pieceAnimation.getImage(), rotation, null);
     	}

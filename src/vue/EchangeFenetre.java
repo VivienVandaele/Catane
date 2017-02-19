@@ -25,7 +25,6 @@ import model.Joueur;
 import model.Ressource;
 
 public class EchangeFenetre extends JDialog {
-
 	private final JPanel contentPanel = new JPanel();
 	private JLabel[] labImageEchange = new JLabel[4];
 	private JButton[] accepterButton = new JButton[4];
