@@ -2,6 +2,7 @@ package controller;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import model.Carte;
 import model.Case;
@@ -16,6 +17,7 @@ import state.PieceState;
 import state.VoleurState;
 import vue.EchangeFenetre;
 import vue.Fenetre;
+import vue.VolerRessourceFenetre;
 
 public class Controller {
 	private Plateau p;
@@ -85,12 +87,27 @@ public class Controller {
 	}
 	
 	public void activerVoleur(){
+		f.getPartiePanel().setBloquerFin(true);
+		f.getPartiePanel().desactiverBoutons();
 		f.setState(new VoleurState(f));
 	}
 	
 	public boolean deplacerVoleur(int x, int y){
 		if(p.getVoleur().poserVoleur(x, y)){
 			f.setState(new NormalState(f));
+			HashSet<Joueur> joueursVoisins = new HashSet<Joueur>();
+			for(Piece piece : p.getPiecesPoser()){
+				if(piece instanceof Village){
+					for(Case c : ((Village) piece).getCases()){
+						if(p.getVoleur().getCase() == c && piece.getJoueur()!=joueurs[idJoueur] && piece.getJoueur().getNombreCartes()>0)
+							joueursVoisins.add(piece.getJoueur());
+					}
+				}
+			}
+			if(joueursVoisins.size()>0)
+				new VolerRessourceFenetre(joueurs[idJoueur], joueursVoisins);
+			f.getPartiePanel().activerBoutons();
+			f.getPartiePanel().setBloquerFin(false);
 			return true;
 		}
 		return false;

@@ -60,6 +60,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	private boolean echangeEnable;
 	private boolean achatEnable;
 	private boolean desEnable;
+	private boolean bloquerFin = false;
     private Fenetre f;
     
     public PartiePanel(Fenetre f) {
@@ -445,12 +446,8 @@ public class PartiePanel extends JPanel implements MouseListener{
 
 	public void mousePressed(MouseEvent e) {
 		if(e.getSource() == labBoutonDes && desEnable){
-			if(etatBouton[0].equals("images/bouton/des.png")){
-					roulementDes();
-			}
-            else{
-            	f.getController().jouerTour();
-            }
+			setIconBoutonDes(etatBouton[2]);
+			f.repaint();
 		}
 		else if(e.getSource() == labBoutonEchange){
 			setIconBoutonEchange("echangePressed");
@@ -460,7 +457,14 @@ public class PartiePanel extends JPanel implements MouseListener{
 
 	public void mouseReleased(MouseEvent e) {
 		if(e.getSource() == labBoutonDes && (desEnable || !etatBouton[0].equals("images/bouton/des.png"))){
-			changerBouton();
+			if(etatBouton[0].equals("images/bouton/des.png")){
+				roulementDes();
+				changerBouton();
+			}
+			else if(!bloquerFin){
+				f.getController().jouerTour();
+				changerBouton();
+            }
 			setIconBoutonDes(etatBouton[0]);
 	        f.repaint();
 		}
@@ -508,6 +512,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	}
 	
 	public Thread roulementDes(){
+		bloquerFin=true;
 		setIconBoutonDes(etatBouton[2]);
         f.repaint();
 	    Thread t = new Thread() {
@@ -556,6 +561,7 @@ public class PartiePanel extends JPanel implements MouseListener{
     	remove(des);
     	remove(des2);
     	f.repaint();
+    	bloquerFin = false;
     	f.getController().distribuerRessources((d1+d2));
 	}
     
@@ -589,6 +595,10 @@ public class PartiePanel extends JPanel implements MouseListener{
 		setIconBoutonDes(etatBouton[0]);
         f.repaint();
         f.getController().jouerTour();
+	}
+	
+	public void setBloquerFin(boolean b){
+		bloquerFin = b;
 	}
 	
 	public static Carte[] getCartes(){

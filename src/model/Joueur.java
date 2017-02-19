@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import observer.Observable;
 
@@ -35,6 +36,12 @@ public class Joueur extends Observable {
 				break;
 			}
 		}
+	}
+	
+	public Carte retirerCarteAleatoire(){
+		Carte carte = cartes.remove(ThreadLocalRandom.current().nextInt(0, cartes.size()));
+		notifyObserver(carte.getRessource());
+		return carte;
 	}
 	
 	public void retirerRessourcesPiece(Piece p){
