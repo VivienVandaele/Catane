@@ -48,6 +48,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	private JLabel labRessources = new JLabel();
 	private JLabel labBoutonDes = new JLabel();
 	private JLabel labBoutonEchange = new JLabel();
+	private JLabel labBoutonEchangeBanque = new JLabel();
 	private JLabel labRoute = new JLabel();
 	private JLabel labVillage = new JLabel();
 	private JLabel labVille = new JLabel();
@@ -88,6 +89,11 @@ public class PartiePanel extends JPanel implements MouseListener{
     	add(labBoutonEchange);
     	labBoutonEchange.setBounds(0, HEIGHT-80, 80, 80);
     	labBoutonEchange.addMouseListener(this);
+    	
+    	setIconBoutonEchangeBanque("echangeBanque");
+    	add(labBoutonEchangeBanque);
+    	labBoutonEchangeBanque.setBounds(100, HEIGHT-80, 80, 80);
+    	labBoutonEchangeBanque.addMouseListener(this);
         
         carteRessources = new ImageIcon(new ImageIcon("images/cartes/ressources.png").getImage().getScaledInstance(250, 350, Image.SCALE_DEFAULT));
         labRessources.setIcon(carteRessources);
@@ -118,7 +124,13 @@ public class PartiePanel extends JPanel implements MouseListener{
 			}
 		}
 		
-    	ArrayList<Piece> pieces=p.getPiecesPoser();
+		ArrayList<Piece> pieces = p.getPieces();
+		for(Piece p : pieces){
+			if(p instanceof Village && ((Village) p).getPort()!=null)
+    			g2d.drawImage(((Village) p).getPort().getImage().getImage(), ((Village) p).getPort().getEmplacement().getX()-((Village) p).getPort().getImage().getIconWidth()/2, ((Village) p).getPort().getEmplacement().getY()-((Village) p).getPort().getImage().getIconHeight()/2, this);
+		}
+		
+    	pieces=p.getPiecesPoser();
     	for(Piece p : pieces){
     		if(pieceAnimation2==null || p.getX() != pieceAnimation2.getX() || p.getY() != pieceAnimation2.getY()){
 	    		if(p instanceof Village)
@@ -424,6 +436,10 @@ public class PartiePanel extends JPanel implements MouseListener{
 			setIconBoutonEchange("echangeEntered");
 	        f.repaint();
 		}
+		else if(e.getSource() == labBoutonEchangeBanque){
+			setIconBoutonEchangeBanque("echangeBanqueEntered");
+	        f.repaint();
+		}
 	}
 
 	public void mouseExited(MouseEvent e) {
@@ -442,6 +458,10 @@ public class PartiePanel extends JPanel implements MouseListener{
 			setIconBoutonEchange("echange");
 	        f.repaint();
 		}
+		else if(e.getSource() == labBoutonEchangeBanque){
+			setIconBoutonEchangeBanque("echangeBanque");
+	        f.repaint();
+		}
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -451,6 +471,10 @@ public class PartiePanel extends JPanel implements MouseListener{
 		}
 		else if(e.getSource() == labBoutonEchange){
 			setIconBoutonEchange("echangePressed");
+	        f.repaint();
+		}
+		else if(e.getSource() == labBoutonEchangeBanque){
+			setIconBoutonEchangeBanque("echangeBanquePressed");
 	        f.repaint();
 		}
 	}
@@ -493,6 +517,13 @@ public class PartiePanel extends JPanel implements MouseListener{
 		        f.repaint();
 			}
 		}
+		else if(e.getSource() == labBoutonEchangeBanque){
+			setIconBoutonEchangeBanque("echangeBanque");
+			if(echangeEnable && !etatBouton[0].equals("images/bouton/des.png")){
+				new EchangeFenetreBanque(f.getController().getJoueurs()[0], f.getController());
+		        f.repaint();
+			}
+		}
 	}
 	
 	public void changerBouton(){
@@ -526,6 +557,10 @@ public class PartiePanel extends JPanel implements MouseListener{
 	
 	public void setIconBoutonEchange(String state){
 		labBoutonEchange.setIcon(new ImageIcon(new ImageIcon("images/bouton/"+state+".png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+	}
+	
+	public void setIconBoutonEchangeBanque(String state){
+		labBoutonEchangeBanque.setIcon(new ImageIcon(new ImageIcon("images/bouton/"+state+".png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
 	}
 	
 	public void setIconBoutonDes(String etat){

@@ -144,10 +144,21 @@ public class Plateau extends Observable{
 			if(p.getCase().getRessource().getType().equals("desert"))
 				voleur.setPosition(p);
 		}
-	
 	}
 	
 	public void setPositionPieces(){
+		ArrayList<Port> ports = new ArrayList<Port>();
+		ports.add(new Port("Pierre"));
+		ports.add(new Port("Argile"));
+		ports.add(new Port("Bois"));
+		ports.add(new Port("Mouton"));
+		ports.add(new Port("Ble"));
+		for(int i=0;i<4;i++)
+			ports.add(new Port("Trois"));
+		Port[] p = new Port[9];
+		for(int i=0;i<9;i++)
+			p[i] = ports.remove(ThreadLocalRandom.current().nextInt(0, ports.size()));
+		
 		int width=PartiePanel.widthCase;
 		int margeGauche=PartiePanel.margeGauche;
 		int margeTop=PartiePanel.margeTop;
@@ -156,12 +167,28 @@ public class Plateau extends Observable{
 		Village[] nFin=new Village[6];
 		Village[] n2Fin=new Village[6];
 		Route a;
+		
 		for(int i=0;i<3;i++){
     		n[i]=new Village(margeGauche+(1+i)*width, margeTop+3*width/4);
     		n[i].ajouterCase(cases[1][1+i]);
+    		if(i<2){
+    			if(i==0) p[i].setEmplacement(new Emplacement(n[i].getX()-3*width/8, n[i].getY()));
+    			if(i==1) p[i].setEmplacement(new Emplacement(n[i].getX()+3*width/8, n[i].getY()));
+    			n[i].setPort(p[i]);
+    		}
     		pieces.add(n[i]);
     		nFin[i]=new Village(margeGauche+(1+i)*width, margeTop+19*width/4);
     		nFin[i].ajouterCase(cases[5][1+i]);
+    		if(i<2){
+    			if(i==0){
+    				p[4].setEmplacement(new Emplacement(nFin[i].getX()-3*width/8, nFin[i].getY()));
+    				nFin[0].setPort(p[4]);
+    			}
+    			if(i==1){
+    				p[5].setEmplacement(new Emplacement(nFin[i].getX()+3*width/8, nFin[i].getY()));
+    				nFin[1].setPort(p[5]);
+    			}
+    		}
     		pieces.add(nFin[i]);
     	}
 		for(int j=0;j<5;j++){
@@ -199,6 +226,16 @@ public class Plateau extends Observable{
 		        		pieces.add(a);
 		    			nFin[i-1].ajouterVillageAdj(a, n2Fin[i]);
 		    		}
+		    		if(j==0){
+		    			if(i==0){
+		    				n2[i].setPort(p[0]);
+		    				n2Fin[i].setPort(p[4]);
+		    			}
+		    			if(i==2){
+		    				n2[i].setPort(p[1]);
+		    				n2Fin[i].setPort(p[5]);
+		    			}
+		    		}
 				}
 				else{
 		    		n[i]=new Village(margeGauche+width/2*(1+2*i-j/2), margeTop+width/4*(6+3*(j/2)));
@@ -222,12 +259,41 @@ public class Plateau extends Observable{
 		    		pieces.add(a);
 		    		n2Fin[i].ajouterVillageAdj(a, nFin[i]);
 				}
+	    		if((j==2 || j==3) && i==0){
+	    			if(j==2){
+	    				p[2].setEmplacement(new Emplacement(n2[i].getX()-1*width/4, n2[i].getY()+width/4));
+	    				n2[i].setPort(p[2]);
+	    				p[3].setEmplacement(new Emplacement(n2Fin[i].getX()-1*width/4, n2Fin[i].getY()-width/4));
+	    				n2Fin[i].setPort(p[3]);
+	    			}
+	    			else{
+	    				n[i].setPort(p[2]);
+	    				n2Fin[i].setPort(p[3]);
+	    			}
+	    		}
+	    		if((j==1 || j==2) && i==3+j/2){
+	    			if(i==3){
+	    				p[6].setEmplacement(new Emplacement(nFin[i].getX()+3*width/8, nFin[i].getY()));
+	    				nFin[i].setPort(p[6]);
+	    				p[7].setEmplacement(new Emplacement(n[i].getX()+3*width/8, n[i].getY()));
+	    				n[i].setPort(p[7]);
+	    			}
+	    			else{
+	    				n2Fin[i].setPort(p[6]);
+	    				n2[i].setPort(p[7]);
+	    			}
+	    		}
 			}
 		}
 		for(int i=0;i<6;i++){
     		a=new Route(margeGauche+width/2*(-1+2*i), margeTop+11*width/4, "nord");
 			pieces.add(a);
     		n2[i].ajouterVillageAdj(a, n2Fin[i]);
+    		if(i==5){
+    			p[8].setEmplacement(new Emplacement(n2[i].getX()+width/4, n2[i].getY()+width/4));
+				n2[i].setPort(p[8]);
+				n2Fin[i].setPort(p[8]);
+    		}
 		}
 	}
 

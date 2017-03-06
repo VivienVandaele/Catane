@@ -10,16 +10,22 @@ public class Joueur extends Observable {
 	private String pseudo;
 	private int points;
 	private ArrayList<Carte> cartes;
+	private ArrayList<CarteDeveloppement> cartesDeveloppement;
 	
 	public Joueur(int id, String pseudo){
 		this.id=id;
 		this.pseudo=pseudo;
 		this.points=0;
 		this.cartes = new ArrayList<Carte>();
+		this.cartesDeveloppement = new ArrayList<CarteDeveloppement>();
 	}
 	
 	public boolean accepterEchange(ArrayList<Carte> exporter, ArrayList<Carte> importer){
 		return false;
+	}
+	
+	public void ajouterCartesDev(CarteDeveloppement c){
+		cartesDeveloppement.add(c);
 	}
 	
 	public void ajouterCarte(Ressource ressource){

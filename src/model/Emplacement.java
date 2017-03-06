@@ -5,6 +5,11 @@ public class Emplacement {
 	private int y;
 	private Case c;
 	
+	public Emplacement(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	
 	public Emplacement(int x, int y, Case c){
 		this.x = x;
 		this.y = y;

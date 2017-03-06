@@ -12,6 +12,7 @@ public class Village extends Piece{
 	private HashMap<Route, Village> adj;
 	private ArrayList<Case> cases;
 	private boolean ville;
+	private Port p;
 	
 	public Village(){
 		super();
@@ -152,6 +153,14 @@ public class Village extends Piece{
 	
 	public boolean getVille(){
 		return ville;
+	}
+	
+	public void setPort(Port p){
+		this.p = p;
+	}
+	
+	public Port getPort(){
+		return this.p;
 	}
 
 	public void setImage() {

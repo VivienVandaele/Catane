@@ -1,0 +1,9 @@
+Projet Catane
+
+1) Lancer le serveur:
+	- Lancer Serveur_Console_Chat pour une utilisation console.
+	- Lancer Serveur_Fenetre_Chat
+	
+2) Lancer le client:
+	- Lancer Client_Console_Chat pour une utilisation console.
+	- Lancer Client_Fenetre_Chat

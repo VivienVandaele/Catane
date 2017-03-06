@@ -18,6 +18,7 @@ import state.VoleurState;
 import vue.EchangeFenetre;
 import vue.Fenetre;
 import vue.VolerRessourceFenetre;
+import vue.VoleurFenetre;
 
 public class Controller {
 	private Plateau p;
@@ -123,6 +124,8 @@ public class Controller {
 	
 	public void distribuerRessources(int d){
 		if(d==7){
+			if(joueurs[0].getNombreCartes()>7)
+				new VoleurFenetre(joueurs[0], joueurs[0].getNombreCartes()/2);
 			if(joueurs[idJoueur] instanceof IntelligenceArtificielle){
 				((IntelligenceArtificielle) joueurs[idJoueur]).deplacerVoleur(p.getVoleur());
 			}
