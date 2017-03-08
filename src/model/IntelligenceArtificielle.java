@@ -32,16 +32,43 @@ public class IntelligenceArtificielle extends Joueur{
 		return flag;
 	}
 	
+	public void jouerTour(Controller c, Plateau p, PartiePanel pan){
+		lancerDes(pan);
+		
+		Village village = new Village();
+		ArrayList<Piece> villages = village.getPositionDisponible(p, this);
+		if(villages.size()>0){
+			if(possedeRessourceSuffisanteVillage()){
+				c.acheterPiece(villages.get(0));
+				c.poserPiece(villages.get(0).getX(), villages.get(0).getY());
+			}
+		}
+		else if(possedeRessourceSuffisanteRoute()){
+			Route route = new Route();
+			ArrayList<Piece> routes = route.getPositionDisponible(p, this);
+			if(routes.size()>0){
+				c.acheterPiece(routes.get(0));
+				c.poserPiece(routes.get(0).getX(), routes.get(0).getY());
+			}
+		}
+	}
+	
+	public void poserRoute(Plateau p){
+		if(possedeRessourceSuffisanteVillage()){
+			
+		}
+	}
+	
 	public void lancerDes(PartiePanel pan){
 	    Thread t = new Thread() {
 	    	public void run(){
 				try {
 					pan.cliquerBouton().join();
 					sleep(1000);
+					pan.finTour();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				pan.finTour();
 	    	}
 	    };
 	    t.start();

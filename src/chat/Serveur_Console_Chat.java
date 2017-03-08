@@ -19,7 +19,7 @@ public class Serveur_Console_Chat {
 	private SimpleDateFormat sdf;
 	private static int port = 1099;
 	private boolean keepGoing;
-	String host = "10.6.1.73";
+	String host = "192.168.1.83";
 	
 	public Serveur_Console_Chat(int port) {
 		this(port, null);

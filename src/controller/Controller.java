@@ -3,13 +3,16 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.ThreadLocalRandom;
 
 import model.Carte;
+import model.CarteDeveloppement;
 import model.Case;
 import model.IntelligenceArtificielle;
 import model.Joueur;
 import model.Piece;
 import model.Plateau;
+import model.Ressource;
 import model.Route;
 import model.Village;
 import state.NormalState;
@@ -17,6 +20,7 @@ import state.PieceState;
 import state.VoleurState;
 import vue.EchangeFenetre;
 import vue.Fenetre;
+import vue.ProposerEchangeFenetre;
 import vue.VolerRessourceFenetre;
 import vue.VoleurFenetre;
 
@@ -26,6 +30,9 @@ public class Controller {
 	private Piece piece;
 	private Joueur[] joueurs;
 	private int idJoueur;
+	private boolean carteDevRoutes = false;
+	private int idJoueurHumain;
+	private int nombreJoueurHumain;
 	
 	public Controller(Fenetre f){
 		this.f=f;
@@ -40,12 +47,14 @@ public class Controller {
 			joueurs[i].addObserver(f);
 		}
 		idJoueur=0;
+		idJoueurHumain=0;
+		nombreJoueurHumain=1;
 	}
 	
 	public void jouerTour(){
 		prochainJoueur();
 		if(joueurs[idJoueur] instanceof IntelligenceArtificielle){
-			((IntelligenceArtificielle)joueurs[idJoueur]).lancerDes(f.getPartiePanel());
+			((IntelligenceArtificielle)joueurs[idJoueur]).jouerTour(this, p, f.getPartiePanel());
 		}
 	}
 	
@@ -84,6 +93,19 @@ public class Controller {
 	
 	public void debutPartie(){
 		piece=new Village(0, 0);
+		for(int i=0;i<4;i++){
+			joueurs[0].ajouterCarte(Ressource.pierre);
+			joueurs[0].ajouterCarte(Ressource.ble);
+			joueurs[0].ajouterCarte(Ressource.mouton);
+			acheterCarteDev();
+		}
+		/*
+		ArrayList<Carte> exporter = new ArrayList<Carte>();
+		exporter.add(new Carte(Ressource.argile));
+		ArrayList<Carte> importer = new ArrayList<Carte>();
+		importer.add(new Carte(Ressource.pierre));
+		new ProposerEchangeFenetre(joueurs[1], joueurs[0], exporter, importer, this);
+		*/
 		f.setState(new PieceState(f));
 	}
 	
@@ -115,11 +137,36 @@ public class Controller {
 	}
 	
 	public boolean acheterPiece(Piece p){
-		f.getPartiePanel().desactiverBoutons();
+		if(idJoueur == 0)
+			f.getPartiePanel().desactiverBoutons();
 		piece = p;
 		joueurs[idJoueur].retirerRessourcesPiece(p);
-		f.setState(new PieceState(f));
+		if(idJoueur == 0)
+			f.setState(new PieceState(f));
 		return true;
+	}
+	
+	public boolean carteDevRoute(boolean b){
+		if(idJoueur == 0)
+			f.getPartiePanel().desactiverBoutons();
+		piece = new Route();
+		if(idJoueur == 0)
+			f.setState(new PieceState(f));
+		carteDevRoutes = b;
+		return true;
+	}
+	
+	public void acheterCarteDev(){
+		joueurs[idJoueur].retirerCarte(Ressource.pierre);
+		joueurs[idJoueur].retirerCarte(Ressource.mouton);
+		joueurs[idJoueur].retirerCarte(Ressource.ble);
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("chevalier");
+		list.add("invention");
+		list.add("monopole");
+		list.add("point");
+		list.add("route");
+		joueurs[idJoueur].ajouterCartesDev(new CarteDeveloppement(list.remove(ThreadLocalRandom.current().nextInt(0, list.size()))));
 	}
 	
 	public void distribuerRessources(int d){
@@ -151,6 +198,8 @@ public class Controller {
 		if(piece.piecePosable(p, joueurs[idJoueur], x, y)){
 			f.setState(new NormalState(f));
 			f.getPartiePanel().activerBoutons();
+			if(carteDevRoutes)
+				carteDevRoute(false);
 			return true;
 		}
 		return false;
@@ -193,7 +242,9 @@ public class Controller {
 	public void prochainJoueur(){
 		idJoueur++;
 		idJoueur%=4;
-		if(idJoueur == 0)
+		if(idJoueur<nombreJoueurHumain)
+			idJoueurHumain = idJoueur;
+		if(idJoueur == idJoueurHumain)
 			f.getPartiePanel().activerBoutons();
 		else
 			f.getPartiePanel().desactiverBoutons();

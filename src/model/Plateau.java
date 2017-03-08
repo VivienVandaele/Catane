@@ -268,7 +268,7 @@ public class Plateau extends Observable{
 	    			}
 	    			else{
 	    				n[i].setPort(p[2]);
-	    				n2Fin[i].setPort(p[3]);
+	    				nFin[i].setPort(p[3]);
 	    			}
 	    		}
 	    		if((j==1 || j==2) && i==3+j/2){

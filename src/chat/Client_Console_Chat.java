@@ -16,7 +16,7 @@ public class Client_Console_Chat  {
 	private String server;
 	private String username;
 	private static int port = 1099;
-	static String host = "10.6.1.73";
+	static String host = "192.168.1.83";
 
 	Client_Console_Chat(String server, int port, String username) {
 		this(server, port, username, null);

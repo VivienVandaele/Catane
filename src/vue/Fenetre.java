@@ -3,6 +3,7 @@ import javax.swing.JFrame;
 
 import controller.Controller;
 import model.Carte;
+import model.CarteDeveloppement;
 import model.Joueur;
 import model.Piece;
 import model.Ressource;
@@ -63,6 +64,8 @@ public class Fenetre extends JFrame implements Observer{
 			pan.carteAnimation(new Carte((Ressource) arg), false);
 		if(arg instanceof Piece)
 			pan.lancerPieceAnimation(((Piece) arg));
+		if(arg instanceof CarteDeveloppement)
+			pan.setCarteDev();
 			
 	}
 }

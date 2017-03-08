@@ -42,6 +42,7 @@ public class Village extends Piece{
 		for(Piece piece : getPositionDisponible(p, j)){
 			if(ville){
 				if(piece.getPoser() && piece instanceof Village && x>piece.getX()-marge && x<piece.getX()+marge && y>piece.getY()-marge && y<piece.getY()+marge){
+					((Village) piece).setVille();
 					piece.setPoser(true, j);
 					p.ajouterPiece(piece);
 					return true;
@@ -155,6 +156,10 @@ public class Village extends Piece{
 		return ville;
 	}
 	
+	public void setVille(){
+		ville = true;
+	}
+	
 	public void setPort(Port p){
 		this.p = p;
 	}
@@ -164,6 +169,9 @@ public class Village extends Piece{
 	}
 
 	public void setImage() {
-		image=new ImageIcon(new ImageIcon("images/pieces/village"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/3, PartiePanel.widthCarte/8, Image.SCALE_DEFAULT));
+		if(!ville)
+			image=new ImageIcon(new ImageIcon("images/pieces/village"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/3, PartiePanel.widthCarte/8, Image.SCALE_DEFAULT));
+		else
+			image=new ImageIcon(new ImageIcon("images/pieces/ville"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/3, PartiePanel.widthCarte/8, Image.SCALE_DEFAULT));
 	}
 }

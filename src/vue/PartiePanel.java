@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Carte;
+import model.CarteDeveloppement;
 import model.Joueur;
 import model.Piece;
 import model.Plateau;
@@ -34,6 +35,8 @@ public class PartiePanel extends JPanel implements MouseListener{
     public static final int margeTop=10;
     public static final int widthCarte = (int)((double)170/1920*WIDTH);
     public static final int heightCarte = (int)((double)250/1920*WIDTH);
+    public static final int widthCarteDev = (int)((double)150/1920*WIDTH);
+    public static final int heightCarteDev = (int)((double)230/1920*WIDTH);
     public static final int CARTE_TOP_Y = 100;
     public static final int CARTE_BAS_Y = 100+heightCarte+50;
     public static final int CARTE_ARGILE_X = margeGauche+11*widthCase/2;
@@ -41,6 +44,8 @@ public class PartiePanel extends JPanel implements MouseListener{
     public static final int CARTE_BLE_X = margeGauche+11*widthCase/2+2*(widthCarte+40);
     public static final int CARTE_MOUTON_X = margeGauche+6*widthCase+20;
     public static final int CARTE_PIERRE_X = margeGauche+6*widthCase+widthCarte+80;
+    public static final int CARTE_DEV_X = margeGauche+9*widthCase/2+20;
+    public static final int CARTE_DEV_Y = 100+5*heightCarte/2;
     private static Carte[] cartes;
     private Plateau p;
     private ImageIcon carteRessources;
@@ -52,6 +57,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	private JLabel labRoute = new JLabel();
 	private JLabel labVillage = new JLabel();
 	private JLabel labVille = new JLabel();
+	private JLabel labCarteDev = new JLabel();
 	private String[] etatBouton = new String[3];
 	private AffineTransform rotation;
 	private float transparence=1.0f;
@@ -62,6 +68,8 @@ public class PartiePanel extends JPanel implements MouseListener{
 	private boolean achatEnable;
 	private boolean desEnable;
 	private boolean bloquerFin = false;
+	private CarteDeveloppement[] carteDev;
+	private JLabel[] allLabCarteDev;
     private Fenetre f;
     
     public PartiePanel(Fenetre f) {
@@ -76,6 +84,15 @@ public class PartiePanel extends JPanel implements MouseListener{
         cartes[2] = new Carte(Ressource.ble);
         cartes[3] = new Carte(Ressource.mouton);
         cartes[4] = new Carte(Ressource.pierre);
+        carteDev = new CarteDeveloppement[5];
+        carteDev[0] = new CarteDeveloppement("chevalier");
+        carteDev[1] = new CarteDeveloppement("invention");
+        carteDev[2] = new CarteDeveloppement("monopole");
+        carteDev[3] = new CarteDeveloppement("point");
+        carteDev[4] = new CarteDeveloppement("route");
+        allLabCarteDev = new JLabel[5];
+        for(int i=0;i<5;i++)
+        	allLabCarteDev[i] = new JLabel();
         
         etatBouton[0]="images/bouton/des.png";
         etatBouton[1]="images/bouton/desEntered.png";
@@ -103,6 +120,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 		labRoute.addMouseListener(this);
 		labVillage.addMouseListener(this);
 		labVille.addMouseListener(this);
+		labCarteDev.addMouseListener(this);
     }
 	
 	public void paintComponent(Graphics g) {
@@ -154,6 +172,19 @@ public class PartiePanel extends JPanel implements MouseListener{
     	}
         g2d.drawImage(voleurImage.getImage(), p.getVoleur().getX()-voleurImage.getIconWidth()/2, p.getVoleur().getY()-voleurImage.getIconHeight()/2, this);
     	
+        //Afficher le nombre de cartes de dev
+        int marge = 0;
+        for(int i=0;i<5;i++){
+        	if(f.getController().getJoueurs()[0].getNombreCartesDev(i)>0){
+                if(f.getController().getJoueurs()[0].getNombreCartesDev(i)>1){
+                	g2d.setFont(new Font("Arial", Font.PLAIN, 40));
+                	FontMetrics fontMetrics = g2d.getFontMetrics();
+            		g2d.drawString(f.getController().getJoueurs()[0].getNombreCartesDev(i)+"", CARTE_DEV_X+marge+widthCarteDev/2-fontMetrics.getLeading(), heightCarteDev+CARTE_DEV_Y+fontMetrics.getAscent());
+            	}
+            	marge+= 10 + widthCarteDev;
+        	}
+        }
+        
     	//Afficher les ressources
     	g2d.setFont(new Font("Arial", Font.PLAIN, 40));
     	FontMetrics fontMetrics = g2d.getFontMetrics();
@@ -205,6 +236,21 @@ public class PartiePanel extends JPanel implements MouseListener{
     		
     		g2d.drawImage(pieceAnimation.getImage(), rotation, null);
     	}
+	}
+	
+	public void setCarteDev(){
+        int marge = 0;
+        for(int i=0;i<5;i++){
+        	remove(allLabCarteDev[i]);
+        	allLabCarteDev[i] = new JLabel();
+        	if(f.getController().getJoueurs()[0].getNombreCartesDev(i)>0){
+                allLabCarteDev[i].setIcon(new ImageIcon(carteDev[i].getImage().getImage().getScaledInstance(widthCarteDev, heightCarteDev, Image.SCALE_DEFAULT)));
+                allLabCarteDev[i].setBounds(CARTE_DEV_X+marge, CARTE_DEV_Y, widthCarteDev, heightCarteDev);
+                add(allLabCarteDev[i]);
+                allLabCarteDev[i].addMouseListener(this);
+            	marge+= 10 + widthCarteDev;
+        	}
+        }
 	}
 	
 	
@@ -416,6 +462,18 @@ public class PartiePanel extends JPanel implements MouseListener{
 		labVille.setOpaque(true);
 		labVille.setBounds(20, 180, 210, 65);
     	labRessources.add(labVille);
+    	
+    	
+    	CarteDeveloppement c = new CarteDeveloppement("chevalier");
+		if(f.getController().getJoueurs()[0].possedeRessourceSuffisanteCarteDev()){
+			labCarteDev.setBackground(new Color(0, 1, 0, (float)0.2));
+		}
+		else{
+			labCarteDev.setBackground(new Color(1, 0, 0, (float)0.2));
+		}
+		labCarteDev.setOpaque(true);
+		labCarteDev.setBounds(20, 245, 210, 65);
+    	labRessources.add(labCarteDev);
 	}
 	
 
@@ -440,6 +498,9 @@ public class PartiePanel extends JPanel implements MouseListener{
 			setIconBoutonEchangeBanque("echangeBanqueEntered");
 	        f.repaint();
 		}
+		for(int i=0;i<5;i++)
+			if(e.getSource() == allLabCarteDev[i])
+                allLabCarteDev[i].setBounds(allLabCarteDev[i].getX(), CARTE_DEV_Y-50, widthCarteDev, heightCarteDev);
 	}
 
 	public void mouseExited(MouseEvent e) {
@@ -462,6 +523,9 @@ public class PartiePanel extends JPanel implements MouseListener{
 			setIconBoutonEchangeBanque("echangeBanque");
 	        f.repaint();
 		}
+		for(int i=0;i<5;i++)
+			if(e.getSource() == allLabCarteDev[i])
+                allLabCarteDev[i].setBounds(allLabCarteDev[i].getX(), CARTE_DEV_Y, widthCarteDev, heightCarteDev);
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -510,6 +574,12 @@ public class PartiePanel extends JPanel implements MouseListener{
 	    	labRessources.removeAll();
 	    	f.repaint();
 		}
+		else if(achatEnable && f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteCarteDev() && e.getSource() == labCarteDev && !etatBouton[0].equals("images/bouton/des.png")){
+			f.getController().acheterCarteDev();
+	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
+	    	labRessources.removeAll();
+	    	f.repaint();
+		}
 		else if(e.getSource() == labBoutonEchange){
 			setIconBoutonEchange("echange");
 			if(echangeEnable && !etatBouton[0].equals("images/bouton/des.png")){
@@ -522,6 +592,14 @@ public class PartiePanel extends JPanel implements MouseListener{
 			if(echangeEnable && !etatBouton[0].equals("images/bouton/des.png")){
 				new EchangeFenetreBanque(f.getController().getJoueurs()[0], f.getController());
 		        f.repaint();
+			}
+		}
+		else if(achatEnable && f.getController().getIdJoueur()==0 && !etatBouton[0].equals("images/bouton/des.png")){
+			for(int i=0;i<5;i++){
+				if(e.getSource() == allLabCarteDev[i]){
+					f.getController().getJoueurs()[0].retirerCartesDev(f.getController(), i);
+					break;
+				}
 			}
 		}
 	}
