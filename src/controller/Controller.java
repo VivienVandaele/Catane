@@ -31,8 +31,8 @@ public class Controller {
 	private Joueur[] joueurs;
 	private int idJoueur;
 	private boolean carteDevRoutes = false;
-	private int idJoueurHumain;
-	private int nombreJoueurHumain;
+	public static int idJoueurHumain;
+	public static int nombreJoueurHumain;
 	
 	public Controller(Fenetre f){
 		this.f=f;
@@ -49,6 +49,21 @@ public class Controller {
 		idJoueur=0;
 		idJoueurHumain=0;
 		nombreJoueurHumain=1;
+	}
+	
+	public Controller(Fenetre f, boolean b){
+		this.f=f;
+		piece=null;
+		p=new Plateau();
+		p.addObserver(f);
+		joueurs = new Joueur[4];
+		for(int i=0;i<4;i++){
+			joueurs[i] = new Joueur(i, "Joueur"+i);
+			joueurs[i].addObserver(f);
+		}
+		idJoueur=0;
+		idJoueurHumain=0;
+		nombreJoueurHumain=4;
 	}
 	
 	public void jouerTour(){
@@ -137,20 +152,20 @@ public class Controller {
 	}
 	
 	public boolean acheterPiece(Piece p){
-		if(idJoueur == 0)
+		if(idJoueur == idJoueurHumain)
 			f.getPartiePanel().desactiverBoutons();
 		piece = p;
 		joueurs[idJoueur].retirerRessourcesPiece(p);
-		if(idJoueur == 0)
+		if(idJoueur == idJoueurHumain)
 			f.setState(new PieceState(f));
 		return true;
 	}
 	
 	public boolean carteDevRoute(boolean b){
-		if(idJoueur == 0)
+		if(idJoueur == idJoueurHumain)
 			f.getPartiePanel().desactiverBoutons();
 		piece = new Route();
-		if(idJoueur == 0)
+		if(idJoueur == idJoueurHumain)
 			f.setState(new PieceState(f));
 		carteDevRoutes = b;
 		return true;
@@ -237,6 +252,8 @@ public class Controller {
 			idJoueur--;
 		if(p.getNombreVillage()==4)
 			idJoueur=3;
+		if(idJoueur<nombreJoueurHumain)
+			idJoueurHumain = idJoueur;
 	}
 	
 	public void prochainJoueur(){
@@ -248,6 +265,7 @@ public class Controller {
 			f.getPartiePanel().activerBoutons();
 		else
 			f.getPartiePanel().desactiverBoutons();
+		f.getPartiePanel().setCarteDev();
 	}
 	
 	public Plateau getPlateau(){

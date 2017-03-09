@@ -24,7 +24,7 @@ public class Fenetre extends JFrame implements Observer{
 		setExtendedState(this.MAXIMIZED_BOTH);
 		setUndecorated(true);
 		setState(new NormalState(this));
-		afficherPartie();
+		afficherAccueil();
 		setVisible(true);
 	}
 	
@@ -33,6 +33,14 @@ public class Fenetre extends JFrame implements Observer{
 		revalidate();
 	}
 	 
+	public void afficherPartieHotSeat(){
+		c=new Controller(this, true);
+		pan = new PartiePanel(this);
+		setContentPane(pan);
+		revalidate();
+		c.debutPartie();
+	}
+	
 	public void afficherPartie(){
 		c=new Controller(this);
 		pan = new PartiePanel(this);

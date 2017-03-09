@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.Controller;
 import model.Carte;
 import model.CarteDeveloppement;
 import model.Joueur;
@@ -175,11 +176,11 @@ public class PartiePanel extends JPanel implements MouseListener{
         //Afficher le nombre de cartes de dev
         int marge = 0;
         for(int i=0;i<5;i++){
-        	if(f.getController().getJoueurs()[0].getNombreCartesDev(i)>0){
-                if(f.getController().getJoueurs()[0].getNombreCartesDev(i)>1){
+        	if(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreCartesDev(i)>0){
+                if(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreCartesDev(i)>1){
                 	g2d.setFont(new Font("Arial", Font.PLAIN, 40));
                 	FontMetrics fontMetrics = g2d.getFontMetrics();
-            		g2d.drawString(f.getController().getJoueurs()[0].getNombreCartesDev(i)+"", CARTE_DEV_X+marge+widthCarteDev/2-fontMetrics.getLeading(), heightCarteDev+CARTE_DEV_Y+fontMetrics.getAscent());
+            		g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreCartesDev(i)+"", CARTE_DEV_X+marge+widthCarteDev/2-fontMetrics.getLeading(), heightCarteDev+CARTE_DEV_Y+fontMetrics.getAscent());
             	}
             	marge+= 10 + widthCarteDev;
         	}
@@ -189,15 +190,15 @@ public class PartiePanel extends JPanel implements MouseListener{
     	g2d.setFont(new Font("Arial", Font.PLAIN, 40));
     	FontMetrics fontMetrics = g2d.getFontMetrics();
     	g2d.drawImage(cartes[0].getImage().getImage(), CARTE_ARGILE_X, CARTE_TOP_Y, widthCarte, heightCarte, this);
-    	g2d.drawString(f.getController().getJoueurs()[0].getNombreDeCarteType(cartes[0].getType())+"", margeGauche+5*widthCase+widthCarte-fontMetrics.getLeading(), 100+heightCarte+fontMetrics.getAscent());
+    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[0].getType())+"", margeGauche+5*widthCase+widthCarte-fontMetrics.getLeading(), 100+heightCarte+fontMetrics.getAscent());
     	g2d.drawImage(cartes[1].getImage().getImage(), CARTE_BOIS_X, CARTE_TOP_Y, widthCarte, heightCarte, this);
-    	g2d.drawString(f.getController().getJoueurs()[0].getNombreDeCarteType(cartes[1].getType())+"", margeGauche+5*widthCase+2*widthCarte+40-fontMetrics.getLeading(), 100+heightCarte+fontMetrics.getAscent());
+    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[1].getType())+"", margeGauche+5*widthCase+2*widthCarte+40-fontMetrics.getLeading(), 100+heightCarte+fontMetrics.getAscent());
     	g2d.drawImage(cartes[2].getImage().getImage(), CARTE_BLE_X, CARTE_TOP_Y, widthCarte, heightCarte, this);
-    	g2d.drawString(f.getController().getJoueurs()[0].getNombreDeCarteType(cartes[2].getType())+"", margeGauche+5*widthCase+3*widthCarte+80-fontMetrics.getLeading(), 100+heightCarte+fontMetrics.getAscent());
+    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[2].getType())+"", margeGauche+5*widthCase+3*widthCarte+80-fontMetrics.getLeading(), 100+heightCarte+fontMetrics.getAscent());
     	g2d.drawImage(cartes[3].getImage().getImage(), CARTE_MOUTON_X, CARTE_BAS_Y, widthCarte, heightCarte, this);
-    	g2d.drawString(f.getController().getJoueurs()[0].getNombreDeCarteType(cartes[3].getType())+"", margeGauche+6*widthCase+20+widthCarte/2-fontMetrics.getAscent()/4, 100+heightCarte*2+50+fontMetrics.getAscent());
+    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[3].getType())+"", margeGauche+6*widthCase+20+widthCarte/2-fontMetrics.getAscent()/4, 100+heightCarte*2+50+fontMetrics.getAscent());
     	g2d.drawImage(cartes[4].getImage().getImage(), CARTE_PIERRE_X, CARTE_BAS_Y, widthCarte, heightCarte, this);
-    	g2d.drawString(f.getController().getJoueurs()[0].getNombreDeCarteType(cartes[4].getType())+"", margeGauche+6*widthCase+80+3*widthCarte/2-fontMetrics.getAscent()/4, 100+heightCarte*2+50+fontMetrics.getAscent());
+    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[4].getType())+"", margeGauche+6*widthCase+80+3*widthCarte/2-fontMetrics.getAscent()/4, 100+heightCarte*2+50+fontMetrics.getAscent());
     	
     	//Afficher les statistiques des joueurs
     	g2d.setColor(Color.red);
@@ -243,7 +244,7 @@ public class PartiePanel extends JPanel implements MouseListener{
         for(int i=0;i<5;i++){
         	remove(allLabCarteDev[i]);
         	allLabCarteDev[i] = new JLabel();
-        	if(f.getController().getJoueurs()[0].getNombreCartesDev(i)>0){
+        	if(f.getController().getIdJoueur() <= Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreCartesDev(i)>0){
                 allLabCarteDev[i].setIcon(new ImageIcon(carteDev[i].getImage().getImage().getScaledInstance(widthCarteDev, heightCarteDev, Image.SCALE_DEFAULT)));
                 allLabCarteDev[i].setBounds(CARTE_DEV_X+marge, CARTE_DEV_Y, widthCarteDev, heightCarteDev);
                 add(allLabCarteDev[i]);
@@ -251,6 +252,7 @@ public class PartiePanel extends JPanel implements MouseListener{
             	marge+= 10 + widthCarteDev;
         	}
         }
+        repaint();
 	}
 	
 	
@@ -433,7 +435,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	public void afficherPiecesAchetable(){
 		labRessources.removeAll();
 		Route r = new Route();
-		if(r.getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueurs()[0]).size()>0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteRoute()){
+		if(r.getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueurs()[Controller.idJoueurHumain]).size()>0 && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteRoute()){
 			labRoute.setBackground(new Color(0, 1, 0, (float)0.2));
 		}
 		else{
@@ -443,7 +445,7 @@ public class PartiePanel extends JPanel implements MouseListener{
     	labRoute.setBounds(20, 50, 210, 65);
     	labRessources.add(labRoute);
     	Village v = new Village();
-		if(v.getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueurs()[0]).size()>0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteVillage()){
+		if(v.getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueurs()[Controller.idJoueurHumain]).size()>0 && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteVillage()){
 			labVillage.setBackground(new Color(0, 1, 0, (float)0.2));
 		}
 		else{
@@ -453,7 +455,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 		labVillage.setBounds(20, 115, 210, 65);
     	labRessources.add(labVillage);
     	v = new Village(true);
-		if(v.getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueurs()[0]).size()>0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteVille()){
+		if(v.getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueurs()[Controller.idJoueurHumain]).size()>0 && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteVille()){
 			labVille.setBackground(new Color(0, 1, 0, (float)0.2));
 		}
 		else{
@@ -465,7 +467,7 @@ public class PartiePanel extends JPanel implements MouseListener{
     	
     	
     	CarteDeveloppement c = new CarteDeveloppement("chevalier");
-		if(f.getController().getJoueurs()[0].possedeRessourceSuffisanteCarteDev()){
+		if(f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteCarteDev()){
 			labCarteDev.setBackground(new Color(0, 1, 0, (float)0.2));
 		}
 		else{
@@ -556,25 +558,25 @@ public class PartiePanel extends JPanel implements MouseListener{
 			setIconBoutonDes(etatBouton[0]);
 	        f.repaint();
 		}
-		else if(achatEnable && f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteRoute() && e.getSource() == labRoute && !etatBouton[0].equals("images/bouton/des.png")){
+		else if(achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteRoute() && e.getSource() == labRoute && !etatBouton[0].equals("images/bouton/des.png")){
 			f.getController().acheterPiece(new Route());
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
 	    	f.repaint();
 		}
-		else if(achatEnable && f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteVillage() && e.getSource() == labVillage && !etatBouton[0].equals("images/bouton/des.png")){
+		else if(achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteVillage() && e.getSource() == labVillage && !etatBouton[0].equals("images/bouton/des.png")){
 			f.getController().acheterPiece(new Village());
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
 	    	f.repaint();
 		}
-		else if(achatEnable && f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteVille() && e.getSource() == labVille && !etatBouton[0].equals("images/bouton/des.png")){
+		else if(achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteVille() && e.getSource() == labVille && !etatBouton[0].equals("images/bouton/des.png")){
 			f.getController().acheterPiece(new Village(true));
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
 	    	f.repaint();
 		}
-		else if(achatEnable && f.getController().getIdJoueur()==0 && f.getController().getJoueurs()[0].possedeRessourceSuffisanteCarteDev() && e.getSource() == labCarteDev && !etatBouton[0].equals("images/bouton/des.png")){
+		else if(achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteCarteDev() && e.getSource() == labCarteDev && !etatBouton[0].equals("images/bouton/des.png")){
 			f.getController().acheterCarteDev();
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
@@ -583,21 +585,21 @@ public class PartiePanel extends JPanel implements MouseListener{
 		else if(e.getSource() == labBoutonEchange){
 			setIconBoutonEchange("echange");
 			if(echangeEnable && !etatBouton[0].equals("images/bouton/des.png")){
-				new EchangeFenetre(f.getController().getJoueurs()[0], f.getController());
+				new EchangeFenetre(f.getController().getJoueurs()[Controller.idJoueurHumain], f.getController());
 		        f.repaint();
 			}
 		}
 		else if(e.getSource() == labBoutonEchangeBanque){
 			setIconBoutonEchangeBanque("echangeBanque");
 			if(echangeEnable && !etatBouton[0].equals("images/bouton/des.png")){
-				new EchangeFenetreBanque(f.getController().getJoueurs()[0], f.getController());
+				new EchangeFenetreBanque(f.getController().getJoueurs()[Controller.idJoueurHumain], f.getController());
 		        f.repaint();
 			}
 		}
-		else if(achatEnable && f.getController().getIdJoueur()==0 && !etatBouton[0].equals("images/bouton/des.png")){
+		else if(achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && !etatBouton[0].equals("images/bouton/des.png")){
 			for(int i=0;i<5;i++){
 				if(e.getSource() == allLabCarteDev[i]){
-					f.getController().getJoueurs()[0].retirerCartesDev(f.getController(), i);
+					f.getController().getJoueurs()[Controller.idJoueurHumain].retirerCartesDev(f.getController(), i);
 					break;
 				}
 			}
@@ -610,11 +612,15 @@ public class PartiePanel extends JPanel implements MouseListener{
 			etatBouton[1]="images/bouton/finEntered.png";
 			etatBouton[2]="images/bouton/finPressed.png";
 		}
+		else if((f.getController().getIdJoueur() <= Controller.nombreJoueurHumain-1)){
+			etatBouton[0]="images/bouton/des.png";
+			etatBouton[1]="images/bouton/desEntered.png";
+			etatBouton[2]="images/bouton/desPressed.png";
+		}
 		else{
 			labBoutonDes.removeMouseListener(this);
-			etatBouton[0]="images/bouton/1.png";
-			etatBouton[1]="images/bouton/1.png";
-			etatBouton[2]="images/bouton/1.png";
+			for(int i=0;i<3;i++)
+				etatBouton[i]="images/bouton/"+(f.getController().getIdJoueur())+".png";
 		}
 		setIconBoutonDes(etatBouton[0]);
         f.repaint();
@@ -695,7 +701,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	}
 	
 	public void finTour(){
-		if(f.getController().getIdJoueur() == 3){
+		if((f.getController().getIdJoueur() == 3 && Controller.idJoueurHumain<4) || (f.getController().getIdJoueur() <= Controller.nombreJoueurHumain-2)){
 			labBoutonDes.addMouseListener(this);
 			etatBouton[0]="images/bouton/des.png";
 			etatBouton[1]="images/bouton/desEntered.png";

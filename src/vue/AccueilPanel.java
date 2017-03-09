@@ -21,6 +21,7 @@ public class AccueilPanel extends JPanel{
 	private ImageIcon titre;
 	private Thread t=null;
 	private float transparence=0.1f;
+	private JButton boutonHotseat;
 	
 	public AccueilPanel(Fenetre f){
 		this.f=f;
@@ -29,7 +30,7 @@ public class AccueilPanel extends JPanel{
 		imageBackground = new ImageIcon("images/background.jpg");
 		titre = new ImageIcon("images/titre.png");
 	    
-		JButton boutonHotseat=new JButton("<HTML><BODY><center><B>Hot Seat</B></center></BODY></HTML>");
+		boutonHotseat=new JButton("<HTML><BODY><center><B>Hot Seat</B></center></BODY></HTML>");
 		boutonHotseat.setPreferredSize(new Dimension(300, 75));
 		boutonHotseat.setBounds(WIDTH/2-200, HEIGHT/2-100, 400, 65);
 		boutonHotseat.setFont(new Font("Georgia", Font.PLAIN, 40));
@@ -75,78 +76,9 @@ public class AccueilPanel extends JPanel{
 		    }
 		});
 		
-		JButton boutonEnReseau=new JButton("<HTML><BODY><center><B>Jouer en réseau</B></center></BODY></HTML>");
-		boutonEnReseau.setPreferredSize(new Dimension(300, 75));
-		boutonEnReseau.setBounds(WIDTH/2-200, HEIGHT/2+100, 400, 65);
-		boutonEnReseau.setFont(new Font("Georgia", Font.PLAIN, 40));
-		boutonEnReseau.setBackground(Color.decode("#ffd11a"));
-		boutonEnReseau.setForeground(Color.white);
-		boutonEnReseau.setUI(new ButtonUI());
-		bl = new BoutonListener();
-		boutonEnReseau.addActionListener(bl);
-		add(boutonEnReseau);
-		boutonEnReseau.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		    	boutonEnReseau.setBackground(Color.orange);
-		    }
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		    	boutonEnReseau.setBackground(Color.decode("#ffd11a"));
-
-		    }
-		    public void mousePressed(java.awt.event.MouseEvent evt){
-		    	boutonEnReseau.setBackground(Color.decode("#ffa31a"));
-		    }
-		});
-		
-		JButton boutonConnexion=new JButton("<HTML><BODY><center><B>Connexion</B></center></BODY></HTML>");
-		boutonConnexion.setPreferredSize(new Dimension(300, 75));
-		boutonConnexion.setBounds(WIDTH/2-200, HEIGHT/2+200, 400, 65);
-		boutonConnexion.setFont(new Font("Georgia", Font.PLAIN, 40));
-		boutonConnexion.setBackground(Color.decode("#ffd11a"));
-		boutonConnexion.setForeground(Color.white);
-		boutonConnexion.setUI(new ButtonUI());
-		bl = new BoutonListener();
-		boutonConnexion.addActionListener(bl);
-		add(boutonConnexion);
-		boutonConnexion.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		    	boutonConnexion.setBackground(Color.orange);
-		    }
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		    	boutonConnexion.setBackground(Color.decode("#ffd11a"));
-
-		    }
-		    public void mousePressed(java.awt.event.MouseEvent evt){
-		    	boutonConnexion.setBackground(Color.decode("#ffa31a"));
-		    }
-		});
-		
-		JButton boutonInscription=new JButton("<HTML><BODY><center><B>Inscription</B></center></BODY></HTML>");
-		boutonInscription.setPreferredSize(new Dimension(300, 75));
-		boutonInscription.setBounds(WIDTH/2-200, HEIGHT/2+300, 400, 65);
-		boutonInscription.setFont(new Font("Georgia", Font.PLAIN, 40));
-		boutonInscription.setBackground(Color.decode("#ffd11a"));
-		boutonInscription.setForeground(Color.white);
-		boutonInscription.setUI(new ButtonUI());
-		bl = new BoutonListener();
-		boutonInscription.addActionListener(bl);
-		add(boutonInscription);
-		boutonInscription.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		    	boutonInscription.setBackground(Color.orange);
-		    }
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		    	boutonInscription.setBackground(Color.decode("#ffd11a"));
-
-		    }
-		    public void mousePressed(java.awt.event.MouseEvent evt){
-		    	boutonInscription.setBackground(Color.decode("#ffa31a"));
-		    }
-		});
-		
 		JButton boutonQuitter=new JButton("<HTML><BODY><center><B>Quitter</B></center></BODY></HTML>");
 		boutonQuitter.setPreferredSize(new Dimension(300, 75));
-		boutonQuitter.setBounds(WIDTH/2-200, HEIGHT/2+400, 400, 65);
+		boutonQuitter.setBounds(WIDTH/2-200, HEIGHT/2+200, 400, 65);
 		boutonQuitter.setFont(new Font("Georgia", Font.PLAIN, 40));
 		boutonQuitter.setBackground(Color.decode("#ffd11a"));
 		boutonQuitter.setForeground(Color.white);
@@ -199,7 +131,10 @@ public class AccueilPanel extends JPanel{
 	
 	class BoutonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			f.afficherPartie();
+			if(e.getSource() == boutonHotseat)
+				f.afficherPartieHotSeat();
+			else
+				f.afficherPartie();
 		}
 	}
 }
