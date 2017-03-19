@@ -66,14 +66,14 @@ public class Fenetre extends JFrame implements Observer{
 	
 	public void update(Observable o, Object arg){
 		repaint();
-		if(arg instanceof Carte && ((Joueur) o).getId()==0)
+		if(arg instanceof Carte && ((Joueur) o).getId()==c.idJoueurHumain)
 			pan.carteAnimation(arg, true);
-		if(arg instanceof Ressource && ((Joueur) o).getId()==0)
+		if(arg instanceof Ressource && ((Joueur) o).getId()==c.idJoueurHumain)
 			pan.carteAnimation(new Carte((Ressource) arg), false);
 		if(arg instanceof Piece)
 			pan.lancerPieceAnimation(((Piece) arg));
 		if(arg instanceof CarteDeveloppement)
 			pan.setCarteDev();
-			
+		pan.updateStats();
 	}
 }

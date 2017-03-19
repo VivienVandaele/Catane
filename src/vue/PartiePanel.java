@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import controller.Controller;
 import model.Carte;
@@ -38,15 +39,17 @@ public class PartiePanel extends JPanel implements MouseListener{
     public static final int heightCarte = (int)((double)250/1920*WIDTH);
     public static final int widthCarteDev = (int)((double)150/1920*WIDTH);
     public static final int heightCarteDev = (int)((double)230/1920*WIDTH);
-    public static final int CARTE_TOP_Y = 100;
-    public static final int CARTE_BAS_Y = 100+heightCarte+50;
+    public static final int CARTE_TOP_Y = 140;
+    public static final int CARTE_BAS_Y = 140+heightCarte+50;
     public static final int CARTE_ARGILE_X = margeGauche+11*widthCase/2;
     public static final int CARTE_BOIS_X = margeGauche+11*widthCase/2+widthCarte+40;
     public static final int CARTE_BLE_X = margeGauche+11*widthCase/2+2*(widthCarte+40);
     public static final int CARTE_MOUTON_X = margeGauche+6*widthCase+20;
     public static final int CARTE_PIERRE_X = margeGauche+6*widthCase+widthCarte+80;
     public static final int CARTE_DEV_X = margeGauche+9*widthCase/2+20;
-    public static final int CARTE_DEV_Y = 100+5*heightCarte/2;
+    public static final int CARTE_DEV_Y = 110+5*heightCarte/2;
+    public static final int WIDTH_SCORE = (int)((WIDTH-(10+margeGauche+4*widthCase))/4.0);
+    public static final int HEIGHT_SCORE = 4*widthCarte/5;
     private static Carte[] cartes;
     private Plateau p;
     private ImageIcon carteRessources;
@@ -59,6 +62,13 @@ public class PartiePanel extends JPanel implements MouseListener{
 	private JLabel labVillage = new JLabel();
 	private JLabel labVille = new JLabel();
 	private JLabel labCarteDev = new JLabel();
+	private JLabel[] scores;
+	private JLabel[] nomJoueurs;
+	private JLabel[] pointJoueurs;
+	private JLabel[] nbCarteJoueurs;
+	private JLabel[] nbCarteDevJoueurs;
+	private JLabel[] nbRouteJoueurs;
+	private JLabel[] nbChevalierJoueurs;
 	private String[] etatBouton = new String[3];
 	private AffineTransform rotation;
 	private float transparence=1.0f;
@@ -94,6 +104,75 @@ public class PartiePanel extends JPanel implements MouseListener{
         allLabCarteDev = new JLabel[5];
         for(int i=0;i<5;i++)
         	allLabCarteDev[i] = new JLabel();
+        
+        scores = new JLabel[4];
+        nomJoueurs = new JLabel[4];
+        pointJoueurs = new JLabel[4];
+        nbCarteJoueurs = new JLabel[4];
+        nbCarteDevJoueurs = new JLabel[4];
+        nbRouteJoueurs = new JLabel[4];
+        nbChevalierJoueurs = new JLabel[4];
+    	Joueur[] j = f.getController().getJoueurs();
+        for(int i=0;i<4;i++){
+        	scores[i] = new JLabel();
+	    	nomJoueurs[i] = new JLabel(j[i].getPseudo(), SwingConstants.CENTER);
+	    	nomJoueurs[i].setBounds(5, 0, WIDTH_SCORE, 45);
+	    	nomJoueurs[i].setFont(new Font("arial", Font.BOLD, 35));
+	    	nomJoueurs[i].setForeground(Color.white);
+	    	scores[i].add(nomJoueurs[i]);
+	    	pointJoueurs[i] = new JLabel(""+j[i].getPoints());
+	    	int margin = 0;
+	    	if(WIDTH >= 1920) margin = 4;
+	    	pointJoueurs[i].setBounds((int)(WIDTH_SCORE/17.0-2), (int)(HEIGHT_SCORE*63.0/100.0+margin), 50, 50);
+	    	pointJoueurs[i].setFont(new Font("arial", Font.BOLD, 35));
+	    	pointJoueurs[i].setForeground(Color.white);
+	    	scores[i].add(pointJoueurs[i]);
+	    	
+	    	nbCarteJoueurs[i] = new JLabel(""+j[i].getNombreCartes());
+	    	nbCarteJoueurs[i].setBounds((int)(3*WIDTH_SCORE/7.0), (int)(HEIGHT_SCORE*30.0/100.0+margin), 50, 50);
+	    	nbCarteJoueurs[i].setFont(new Font("arial", Font.BOLD, 35));
+	    	nbCarteJoueurs[i].setForeground(Color.white);
+	    	scores[i].add(nbCarteJoueurs[i]);
+	    	
+	    	nbRouteJoueurs[i] = new JLabel(""+j[i].getNombreCartes());
+	    	nbRouteJoueurs[i].setBounds((int)(4*WIDTH_SCORE/5.0), (int)(HEIGHT_SCORE*30.0/100.0+margin), 50, 50);
+	    	nbRouteJoueurs[i].setFont(new Font("arial", Font.BOLD, 35));
+	    	nbRouteJoueurs[i].setForeground(Color.white);
+	    	scores[i].add(nbRouteJoueurs[i]);
+	    	
+	    	nbCarteDevJoueurs[i] = new JLabel(""+j[i].getNombreCartes());
+	    	nbCarteDevJoueurs[i].setBounds((int)(3*WIDTH_SCORE/7.0), (int)(HEIGHT_SCORE*63.0/100.0+margin), 50, 50);
+	    	nbCarteDevJoueurs[i].setFont(new Font("arial", Font.BOLD, 35));
+	    	nbCarteDevJoueurs[i].setForeground(Color.white);
+	    	scores[i].add(nbCarteDevJoueurs[i]);
+	    	
+	    	nbChevalierJoueurs[i] = new JLabel(""+j[i].getNombreCartes());
+	    	nbChevalierJoueurs[i].setBounds((int)(4*WIDTH_SCORE/5.0), (int)(HEIGHT_SCORE*63.0/100.0+margin), 50, 50);
+	    	nbChevalierJoueurs[i].setFont(new Font("arial", Font.BOLD, 35));
+	    	nbChevalierJoueurs[i].setForeground(Color.white);
+	    	scores[i].add(nbChevalierJoueurs[i]);
+	    }
+        ImageIcon score = new ImageIcon(new ImageIcon("images/scores/Joueur.png").getImage().getScaledInstance(WIDTH_SCORE, HEIGHT_SCORE, Image.SCALE_DEFAULT));
+        scores[0].setIcon(score);
+        scores[0].setBounds(10+margeGauche+4*widthCase, 0, WIDTH_SCORE, HEIGHT_SCORE);
+        add(scores[0]);
+        
+
+        score = new ImageIcon(new ImageIcon("images/scores/IA1.png").getImage().getScaledInstance(WIDTH_SCORE, HEIGHT_SCORE, Image.SCALE_DEFAULT));
+        scores[1].setIcon(score);
+        scores[1].setBounds(10+margeGauche+4*widthCase+WIDTH_SCORE, 0, WIDTH_SCORE, HEIGHT_SCORE);
+        add(scores[1]);
+        
+        score = new ImageIcon(new ImageIcon("images/scores/IA2.png").getImage().getScaledInstance(WIDTH_SCORE, HEIGHT_SCORE, Image.SCALE_DEFAULT));
+        scores[2].setIcon(score);
+        scores[2].setBounds(10+margeGauche+4*widthCase+2*WIDTH_SCORE, 0, WIDTH_SCORE, HEIGHT_SCORE);
+        add(scores[2]);
+        
+        score = new ImageIcon(new ImageIcon("images/scores/IA3.png").getImage().getScaledInstance(WIDTH_SCORE, HEIGHT_SCORE, Image.SCALE_DEFAULT));
+        scores[3].setIcon(score);
+        scores[3].setBounds(10+margeGauche+4*widthCase+3*WIDTH_SCORE, 0, WIDTH_SCORE, HEIGHT_SCORE);
+        add(scores[3]);
+        
         
         etatBouton[0]="images/bouton/des.png";
         etatBouton[1]="images/bouton/desEntered.png";
@@ -190,31 +269,15 @@ public class PartiePanel extends JPanel implements MouseListener{
     	g2d.setFont(new Font("Arial", Font.PLAIN, 40));
     	FontMetrics fontMetrics = g2d.getFontMetrics();
     	g2d.drawImage(cartes[0].getImage().getImage(), CARTE_ARGILE_X, CARTE_TOP_Y, widthCarte, heightCarte, this);
-    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[0].getType())+"", margeGauche+5*widthCase+widthCarte-fontMetrics.getLeading(), 100+heightCarte+fontMetrics.getAscent());
+    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[0].getType())+"", margeGauche+5*widthCase+widthCarte-fontMetrics.getLeading(), 140+heightCarte+fontMetrics.getAscent());
     	g2d.drawImage(cartes[1].getImage().getImage(), CARTE_BOIS_X, CARTE_TOP_Y, widthCarte, heightCarte, this);
-    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[1].getType())+"", margeGauche+5*widthCase+2*widthCarte+40-fontMetrics.getLeading(), 100+heightCarte+fontMetrics.getAscent());
+    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[1].getType())+"", margeGauche+5*widthCase+2*widthCarte+40-fontMetrics.getLeading(), 140+heightCarte+fontMetrics.getAscent());
     	g2d.drawImage(cartes[2].getImage().getImage(), CARTE_BLE_X, CARTE_TOP_Y, widthCarte, heightCarte, this);
-    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[2].getType())+"", margeGauche+5*widthCase+3*widthCarte+80-fontMetrics.getLeading(), 100+heightCarte+fontMetrics.getAscent());
+    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[2].getType())+"", margeGauche+5*widthCase+3*widthCarte+80-fontMetrics.getLeading(), 140+heightCarte+fontMetrics.getAscent());
     	g2d.drawImage(cartes[3].getImage().getImage(), CARTE_MOUTON_X, CARTE_BAS_Y, widthCarte, heightCarte, this);
-    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[3].getType())+"", margeGauche+6*widthCase+20+widthCarte/2-fontMetrics.getAscent()/4, 100+heightCarte*2+50+fontMetrics.getAscent());
+    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[3].getType())+"", margeGauche+6*widthCase+20+widthCarte/2-fontMetrics.getAscent()/4, 140+heightCarte*2+50+fontMetrics.getAscent());
     	g2d.drawImage(cartes[4].getImage().getImage(), CARTE_PIERRE_X, CARTE_BAS_Y, widthCarte, heightCarte, this);
-    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[4].getType())+"", margeGauche+6*widthCase+80+3*widthCarte/2-fontMetrics.getAscent()/4, 100+heightCarte*2+50+fontMetrics.getAscent());
-    	
-    	//Afficher les statistiques des joueurs
-    	g2d.setColor(Color.red);
-    	Joueur[] j = f.getController().getJoueurs();
-    	g2d.drawString(j[0].getPseudo(), 0+margeGauche+5*widthCase, 40);
-    	g2d.drawString(""+j[0].getPoints()+j[0].getNombreCartes()+j[0].getNombreCartesDev()+j[0].getPlusGrandeRoute(), 0+margeGauche+5*widthCase, 80);
-    	g2d.setColor(Color.blue);
-    	g2d.drawString(f.getController().getJoueurs()[1].getPseudo(), 10+margeGauche+6*widthCase, 40);
-    	g2d.drawString(""+j[1].getPoints()+j[1].getNombreCartes()+j[1].getNombreCartesDev()+j[1].getPlusGrandeRoute(), 10+margeGauche+6*widthCase, 80);
-    	g2d.setColor(Color.green);
-    	g2d.drawString(f.getController().getJoueurs()[2].getPseudo(), 10+margeGauche+7*widthCase, 40);
-    	g2d.drawString(""+j[2].getPoints()+j[2].getNombreCartes()+j[2].getNombreCartesDev()+j[2].getPlusGrandeRoute(), 10+margeGauche+7*widthCase, 80);
-    	g2d.setColor(Color.yellow);
-    	g2d.drawString(f.getController().getJoueurs()[3].getPseudo(), 10+margeGauche+8*widthCase, 40);
-    	g2d.drawString(""+j[3].getPoints()+j[3].getNombreCartes()+j[3].getNombreCartesDev()+j[3].getPlusGrandeRoute(), 10+margeGauche+8*widthCase, 80);
-	
+    	g2d.drawString(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreDeCarteType(cartes[4].getType())+"", margeGauche+6*widthCase+80+3*widthCarte/2-fontMetrics.getAscent()/4, 140+heightCarte*2+50+fontMetrics.getAscent());
 
     	if(rotation!=null){
     		Piece p = pieceAnimation2;
@@ -239,12 +302,23 @@ public class PartiePanel extends JPanel implements MouseListener{
     	}
 	}
 	
+	public void updateStats(){
+		Joueur[] j = f.getController().getJoueurs();
+        for(int i=0;i<4;i++){
+	    	pointJoueurs[i].setText(""+j[i].getPoints());
+	    	nbCarteJoueurs[i].setText(""+j[i].getNombreCartes());
+	    	nbRouteJoueurs[i].setText(""+j[i].getNombreCartes());
+	    	nbCarteDevJoueurs[i].setText(""+j[i].getNombreCartesDev());
+	    	nbChevalierJoueurs[i].setText(""+j[i].getNombreCartes());
+	    }
+	}
+	
 	public void setCarteDev(){
         int marge = 0;
         for(int i=0;i<5;i++){
         	remove(allLabCarteDev[i]);
         	allLabCarteDev[i] = new JLabel();
-        	if(f.getController().getIdJoueur() <= Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreCartesDev(i)>0){
+        	if(f.getController().getJoueurs()[Controller.idJoueurHumain].getNombreCartesDev(i)>0){
                 allLabCarteDev[i].setIcon(new ImageIcon(carteDev[i].getImage().getImage().getScaledInstance(widthCarteDev, heightCarteDev, Image.SCALE_DEFAULT)));
                 allLabCarteDev[i].setBounds(CARTE_DEV_X+marge, CARTE_DEV_Y, widthCarteDev, heightCarteDev);
                 add(allLabCarteDev[i]);

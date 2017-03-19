@@ -75,8 +75,10 @@ public class Controller {
 	
 	public void proposerEchange(EchangeFenetre e, ArrayList<Carte> exporter, ArrayList<Carte> importer){
 		for(int i=0;i<4;i++){
-			if(i!=idJoueur)
+			if(i!=idJoueur && joueurs[i] instanceof IntelligenceArtificielle)
 				e.setImageEchange(joueurs[i].getId(), joueurs[i].accepterEchange(exporter, importer));
+			else
+				joueurs[i].accepterEchange(exporter, importer);
 		}
 	}
 	

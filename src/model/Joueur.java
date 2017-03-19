@@ -24,6 +24,7 @@ public class Joueur extends Observable {
 	}
 	
 	public boolean accepterEchange(ArrayList<Carte> exporter, ArrayList<Carte> importer){
+		
 		return false;
 	}
 	
@@ -152,7 +153,10 @@ public class Joueur extends Observable {
 	}
 	
 	public int getNombreCartesDev(){
-		return 0;
+		int sum = 0;
+		for(int i=0;i<5;i++)
+			sum+=nombreCartesDev[i];
+		return sum;
 	}
 	
 	public int getPlusGrandeRoute(){
