@@ -34,7 +34,7 @@ public class ProposerEchangeFenetre extends JDialog{
 	private JLabel[] labels = new JLabel[10];
 	private int[] values = new int[10];
 	
-	public ProposerEchangeFenetre(Joueur j1, Joueur j2, ArrayList<Carte> exporter, ArrayList<Carte> importer, Controller c) {
+	public ProposerEchangeFenetre(EchangeFenetre echange, Joueur j1, Joueur j2, ArrayList<Carte> exporter, ArrayList<Carte> importer, Controller c) {
 		setBounds(100, 100, 1000, 700);
 		setModal(true);
 		setLocationRelativeTo(null);
@@ -81,11 +81,19 @@ public class ProposerEchangeFenetre extends JDialog{
 			}
 		}
 		
+
+		JLabel labName = new JLabel();
+		labName.setBounds(450, 10, 400, 100);
+		labName.setText(j2.getPseudo());
+		labName.setFont(new Font("arial", Font.BOLD, 40));
+		labName.setForeground(j2.getColor());
+    	contentPanel.add(labName);
+		
 		Carte[] cartes = PartiePanel.getCartes();
 		for(int i=0;i<6;i++){
 			if(i<5){
 				JLabel labImage = new JLabel();
-				labImage.setBounds(10+i*200, 10, PartiePanel.widthCarte, PartiePanel.heightCarte);
+				labImage.setBounds(10+i*200, 110, PartiePanel.widthCarte, PartiePanel.heightCarte);
 		    	labImage.setIcon(new ImageIcon(cartes[i].getImage().getImage().getScaledInstance(PartiePanel.widthCarte, PartiePanel.heightCarte, Image.SCALE_DEFAULT)));
 		    	contentPanel.add(labImage);
 			}
@@ -97,12 +105,12 @@ public class ProposerEchangeFenetre extends JDialog{
 		
 		for(int i=0;i<10;i+=2){
 			labels[i] = new JLabel(""+values[i]);
-			labels[i].setBounds(75+i*102, 300, 40, 30);
+			labels[i].setBounds(75+i*102, 400, 40, 30);
 			labels[i].setFont(new Font("arial", Font.PLAIN, 40));
 			contentPanel.add(labels[i]);
 			
 			labels[i+1] = new JLabel(""+values[i+1]);
-			labels[i+1].setBounds(75+i*102, 350, 40, 30);
+			labels[i+1].setBounds(75+i*102, 450, 40, 30);
 			labels[i+1].setFont(new Font("arial", Font.PLAIN, 40));
 			contentPanel.add(labels[i+1]);
 		}
@@ -112,19 +120,20 @@ public class ProposerEchangeFenetre extends JDialog{
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	
 		accepterButton = new JButton("Accepter");
-		accepterButton.setBounds(650, 420, 100, 30);
+		accepterButton.setBounds(650, 520, 100, 30);
 		accepterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				c.echanger(j2, exporter, importer);
+				echange.setImageEchange(j2.getId(), true);
 				dispose();
 			}
 		});
 		contentPanel.add(accepterButton);
 		
 		JButton refuserButton = new JButton("Refuser");
-		refuserButton.setBounds(850, 420, 100, 30);
+		refuserButton.setBounds(850, 520, 100, 30);
 		refuserButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
+				echange.setImageEchange(j2.getId(), false);
 				dispose();
 			}
 		});

@@ -80,16 +80,20 @@ public class EchangeFenetre extends JDialog {
 			contentPanel.add(spinners[i+1]);
 		}
 		
-		for(int i=1;i<4;i++){
-			JLabel lab = new JLabel(c.getJoueurs()[(c.getIdJoueur()+i)%4].getPseudo());
-			lab.setFont(new Font("Arial", Font.BOLD, 30));
-			lab.setBounds(i*250-100, 410, 100, 40);
-			contentPanel.add(lab);
-			
-			labImageEchange[(c.getIdJoueur()+i)%4] = new JLabel();
-			labImageEchange[(c.getIdJoueur()+i)%4].setBounds(i*250-125, 470, 100, 100);
-			labImageEchange[(c.getIdJoueur()+i)%4].setIcon(new ImageIcon(new ImageIcon("images/echange/defaut.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
-	    	contentPanel.add(labImageEchange[(c.getIdJoueur()+i)%4]);
+		int k=0;
+		for(int i=0;i<4;i++){
+			if(j.getId()!=i){
+				k++;
+				JLabel lab = new JLabel(c.getJoueurs()[i].getPseudo());
+				lab.setFont(new Font("Arial", Font.BOLD, 30));
+				lab.setBounds(k*250-100, 410, 150, 40);
+				contentPanel.add(lab);
+				
+				labImageEchange[i] = new JLabel();
+				labImageEchange[i].setBounds(k*250-125, 470, 100, 100);
+				labImageEchange[i].setIcon(new ImageIcon(new ImageIcon("images/echange/defaut.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+		    	contentPanel.add(labImageEchange[i]);
+			}
 		}
 		
 		JPanel buttonPane = new JPanel();
@@ -132,7 +136,7 @@ public class EchangeFenetre extends JDialog {
 		proposerButton.setEnabled(true);
 		for(int i=0;i<4;i++){
 			if(labImageEchange[i]!=null){
-				labImageEchange[(c.getIdJoueur()+i)%4].setIcon(new ImageIcon(new ImageIcon("images/echange/defaut.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+				labImageEchange[i].setIcon(new ImageIcon(new ImageIcon("images/echange/defaut.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
 			}
 			if(accepterButton[i]!=null){
 				contentPanel.remove(accepterButton[i]);
@@ -144,17 +148,12 @@ public class EchangeFenetre extends JDialog {
 	
 	public void setImageEchange(int idJoueur, boolean accepter){
 		int id = idJoueur;
-		if(j.getId()!=0 && idJoueur>j.getId())
-			id--;
-		else if((j.getId()!=0 && idJoueur<j.getId()))
-			id++;
+		
 		contentPanel.remove(labImageEchange[id]);
-		labImageEchange[id] = new JLabel();
-		labImageEchange[id].setBounds(id*250-125, 470, 100, 100);
 		if(accepter){
 			labImageEchange[id].setIcon(new ImageIcon(new ImageIcon("images/echange/valide.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
 			accepterButton[id] = new JButton("Accepter");
-			accepterButton[id].setBounds(id*250-125, 600, 100, 30);
+			accepterButton[id].setBounds((int) labImageEchange[id].getBounds().getX(), 600, 100, 30);
 			accepterButton[id].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					ArrayList<Carte> exporter = new ArrayList<Carte>();

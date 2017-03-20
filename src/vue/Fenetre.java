@@ -1,4 +1,6 @@
 package vue;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 
 import controller.Controller;
@@ -7,6 +9,7 @@ import model.CarteDeveloppement;
 import model.Joueur;
 import model.Piece;
 import model.Ressource;
+import model.Route;
 import observer.Observable;
 import observer.Observer;
 import state.NormalState;
@@ -74,6 +77,9 @@ public class Fenetre extends JFrame implements Observer{
 			pan.lancerPieceAnimation(((Piece) arg));
 		if(arg instanceof CarteDeveloppement)
 			pan.setCarteDev();
+		if(arg instanceof Route){
+			c.setRoutePlusLongue();
+		}
 		pan.updateStats();
 	}
 }

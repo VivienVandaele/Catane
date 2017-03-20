@@ -47,7 +47,7 @@ public class PartiePanel extends JPanel implements MouseListener{
     public static final int CARTE_MOUTON_X = margeGauche+6*widthCase+20;
     public static final int CARTE_PIERRE_X = margeGauche+6*widthCase+widthCarte+80;
     public static final int CARTE_DEV_X = margeGauche+9*widthCase/2+20;
-    public static final int CARTE_DEV_Y = 110+5*heightCarte/2;
+    public static final int CARTE_DEV_Y = 120+5*heightCarte/2;
     public static final int WIDTH_SCORE = (int)((WIDTH-(10+margeGauche+4*widthCase))/4.0);
     public static final int HEIGHT_SCORE = 4*widthCarte/5;
     private static Carte[] cartes;
@@ -307,7 +307,7 @@ public class PartiePanel extends JPanel implements MouseListener{
         for(int i=0;i<4;i++){
 	    	pointJoueurs[i].setText(""+j[i].getPoints());
 	    	nbCarteJoueurs[i].setText(""+j[i].getNombreCartes());
-	    	nbRouteJoueurs[i].setText(""+j[i].getNombreCartes());
+	    	nbRouteJoueurs[i].setText(""+j[i].getRouteLongue());
 	    	nbCarteDevJoueurs[i].setText(""+j[i].getNombreCartesDev());
 	    	nbChevalierJoueurs[i].setText(""+j[i].getNombreCartes());
 	    }

@@ -81,6 +81,29 @@ public class Route extends Piece{
 		return p;
 	}
 	
+	public int getPlusLongueRoute(Plateau pl, ArrayList<Route> routes, int t){
+		t++;
+		int max=t, max2=0;
+		for(Piece piece : pl.getPieces()){
+			if(piece instanceof Route && piece.getPoser() && !routes.contains(piece) && piece.getJoueur()==getJoueur()){
+				for(Piece village : pl.getPieces()){
+					if(village instanceof Village && ((Village) village).getAdj().containsKey(piece)){
+						for(Route r : ((Village) village).getAdj().keySet()){
+							if(r == this){
+								routes.add((Route)piece);
+								max2 = ((Route)piece).getPlusLongueRoute(pl, routes, t);
+								routes.remove((Route)piece);
+								if(max<max2)
+									max = max2;
+							}
+						}
+					}
+				}
+			}
+		}
+		return max;
+	}
+	
 	public String getOrientation(){
 		return orientation;
 	}

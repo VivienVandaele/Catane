@@ -167,6 +167,13 @@ public class Village extends Piece{
 	public Port getPort(){
 		return this.p;
 	}
+	
+	public int getSumCases(){
+		int sum=0;
+		for(Case c : cases)
+			sum += c.getProbabiliteNumero();
+		return sum;
+	}
 
 	public void setImage() {
 		if(!ville)

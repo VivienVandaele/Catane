@@ -1,10 +1,14 @@
 package model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import controller.Controller;
 import observer.Observable;
+import vue.ChoisirRessourceFenetre;
+import vue.EchangeFenetre;
+import vue.ProposerEchangeFenetre;
 
 public class Joueur extends Observable {
 	private int id;
@@ -12,19 +16,21 @@ public class Joueur extends Observable {
 	private int points;
 	private ArrayList<Carte> cartes;
 	private Integer[] nombreCartesDev;
+	private int routeLongue;
 	
 	public Joueur(int id, String pseudo){
 		this.id=id;
 		this.pseudo=pseudo;
 		this.points=0;
+		this.routeLongue = 0;
 		this.cartes = new ArrayList<Carte>();
 		this.nombreCartesDev = new Integer[5];
 		for(int i=0;i<5;i++)
 			nombreCartesDev[i]=0;
 	}
 	
-	public boolean accepterEchange(ArrayList<Carte> exporter, ArrayList<Carte> importer){
-		
+	public boolean accepterEchange(Controller c, Joueur j1, EchangeFenetre e, ArrayList<Carte> exporter, ArrayList<Carte> importer){
+		new ProposerEchangeFenetre(e, j1, this, exporter, importer, c);
 		return false;
 	}
 	
@@ -44,9 +50,13 @@ public class Joueur extends Observable {
 			c = new CarteDeveloppement("chevalier");
 		}
 		else if(i==1){
+			new ChoisirRessourceFenetre(this, controller, false);
 			c = new CarteDeveloppement("invention");
 		}
-		else if(i==2) c = new CarteDeveloppement("monopole");
+		else if(i==2){
+			new ChoisirRessourceFenetre(this, controller, true);
+			c = new CarteDeveloppement("monopole");
+		}
 		else if(i==3){
 			ajouterPoint(1);
 			c = new CarteDeveloppement("point");
@@ -136,6 +146,16 @@ public class Joueur extends Observable {
 		return getNombreDeCarteType("ble")>=1 && getNombreDeCarteType("pierre")>=1 && getNombreDeCarteType("mouton")>=1;
 	}
 	
+	public Color getColor(){
+		if(id == 0)
+			return Color.red;
+		if(id == 1)
+			return Color.blue;
+		if(id == 2)
+			return Color.green;
+		return Color.yellow;
+	}
+	
 	public int getNombreCartesDev(int i){
 		return nombreCartesDev[i];
 	}
@@ -161,6 +181,14 @@ public class Joueur extends Observable {
 	
 	public int getPlusGrandeRoute(){
 		return 1;
+	}
+	
+	public void setRouteLongue(int n){
+		this.routeLongue = n;
+	}
+	
+	public int getRouteLongue(){
+		return routeLongue;
 	}
 	
 	public String getPseudo(){

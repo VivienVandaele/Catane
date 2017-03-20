@@ -76,9 +76,25 @@ public class Controller {
 	public void proposerEchange(EchangeFenetre e, ArrayList<Carte> exporter, ArrayList<Carte> importer){
 		for(int i=0;i<4;i++){
 			if(i!=idJoueur && joueurs[i] instanceof IntelligenceArtificielle)
-				e.setImageEchange(joueurs[i].getId(), joueurs[i].accepterEchange(exporter, importer));
-			else
-				joueurs[i].accepterEchange(exporter, importer);
+				e.setImageEchange(joueurs[i].getId(), joueurs[i].accepterEchange(this, joueurs[idJoueur], e, exporter, importer));
+			else if(i!=idJoueur)
+				joueurs[i].accepterEchange(this, joueurs[idJoueur], e, exporter, importer);
+		}
+	}
+	
+	public void setRoutePlusLongue(){
+		for(int i=0;i<4;i++){
+			ArrayList<Piece> pieces = p.getPieces();
+			int max=0, max2=0;
+			for(Piece piece : pieces){
+				if(piece instanceof Route && piece.getPoser() && piece.getJoueur().getId()==i){
+					ArrayList<Route> routes = new ArrayList<Route>();
+					routes.add((Route)piece);
+					max2 = ((Route)piece).getPlusLongueRoute(p, routes, 0);
+					if(max2 > max) max = max2;
+				}
+			}
+			joueurs[i].setRouteLongue(max);
 		}
 	}
 	

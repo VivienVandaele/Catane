@@ -1,10 +1,12 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import controller.Controller;
-import state.PieceState;
+import vue.EchangeFenetre;
 import vue.PartiePanel;
 
 public class IntelligenceArtificielle extends Joueur{
@@ -22,7 +24,7 @@ public class IntelligenceArtificielle extends Joueur{
 		}
 	}
 	
-	public boolean accepterEchange(ArrayList<Carte> exporter, ArrayList<Carte> importer){
+	public boolean accepterEchange(Controller controller, Joueur j1, EchangeFenetre e, ArrayList<Carte> exporter, ArrayList<Carte> importer){
 		boolean flag = true;
 		for(Carte c : importer){
 			if(getNombreDeCarteType(c.getType())<getNombreDeCarteType(importer, c.getType())){
@@ -94,7 +96,12 @@ public class IntelligenceArtificielle extends Joueur{
 	public void poserVillageDebutPartie(Controller c, Plateau p){
 		Village village = new Village();
 		ArrayList<Piece> villages = village.getPositionDisponibleDebutPartie(p, c.getJoueur());
-		village = (Village) villages.get(ThreadLocalRandom.current().nextInt(0, villages.size()));
+        Collections.sort(villages, new Comparator<Piece>() {
+		public int compare(Piece v1, Piece v2) {
+			return ((Village) v2).getSumCases()-((Village) v1).getSumCases();
+		}});
+		village = (Village) villages.get(0);
+
 		c.poserPieceDebutPartie(village.getX(), village.getY());
 	}
 	
