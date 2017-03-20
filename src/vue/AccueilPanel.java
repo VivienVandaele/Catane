@@ -132,9 +132,9 @@ public class AccueilPanel extends JPanel{
 	class BoutonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			if(e.getSource() == boutonHotseat)
-				f.afficherPartieHotSeat();
+				f.afficherCreationHotSeat();
 			else
-				f.afficherPartie();
+				f.afficherCreationIA();
 		}
 	}
 }

@@ -34,31 +34,37 @@ public class Controller {
 	public static int idJoueurHumain;
 	public static int nombreJoueurHumain;
 	
-	public Controller(Fenetre f){
+	public Controller(Fenetre f, String[] name, int nbIA){
 		this.f=f;
 		piece=null;
 		p=new Plateau();
 		p.addObserver(f);
+		
 		joueurs = new Joueur[4];
-		joueurs[0] = new Joueur(0, "Joueur");
-		joueurs[0].addObserver(f);
-		for(int i=1;i<4;i++){
-			joueurs[i] = new IntelligenceArtificielle(i, "IA"+i);
-			joueurs[i].addObserver(f);
+		nombreJoueurHumain=4-nbIA;
+		for(int i=0;i<4;i++){
+			if(i<nombreJoueurHumain){
+				joueurs[i] = new Joueur(i, name[i]);
+				joueurs[i].addObserver(f);
+			}
+			else{
+				joueurs[i] = new IntelligenceArtificielle(i, name[i]);
+				joueurs[i].addObserver(f);
+			}
 		}
+
 		idJoueur=0;
 		idJoueurHumain=0;
-		nombreJoueurHumain=1;
 	}
 	
-	public Controller(Fenetre f, boolean b){
+	public Controller(Fenetre f, boolean b, String[] name){
 		this.f=f;
 		piece=null;
 		p=new Plateau();
 		p.addObserver(f);
 		joueurs = new Joueur[4];
 		for(int i=0;i<4;i++){
-			joueurs[i] = new Joueur(i, "Joueur"+i);
+			joueurs[i] = new Joueur(i, name[i]);
 			joueurs[i].addObserver(f);
 		}
 		idJoueur=0;

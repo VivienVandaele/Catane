@@ -36,16 +36,28 @@ public class Fenetre extends JFrame implements Observer{
 		revalidate();
 	}
 	 
-	public void afficherPartieHotSeat(){
-		c=new Controller(this, true);
+	public void afficherPartieHotSeat(String[] name){
+		c=new Controller(this, true, name);
 		pan = new PartiePanel(this);
 		setContentPane(pan);
 		revalidate();
 		c.debutPartie();
 	}
 	
-	public void afficherPartie(){
-		c=new Controller(this);
+	public void afficherCreationHotSeat(){
+		setContentPane(new CreationHotSeatPanel(this));
+		revalidate();
+		repaint();
+	}
+	
+	public void afficherCreationIA(){
+		setContentPane(new CreationIAPanel(this));
+		revalidate();
+		repaint();
+	}
+	
+	public void afficherPartie(String[] name, int nbIa){
+		c=new Controller(this, name, nbIa);
 		pan = new PartiePanel(this);
 		setContentPane(pan);
 		revalidate();
