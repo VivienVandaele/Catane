@@ -84,6 +84,8 @@ public class PartiePanel extends JPanel implements MouseListener{
     private Fenetre f;
     
     public PartiePanel(Fenetre f) {
+    	f.setFocusable(true);
+    	f.requestFocusInWindow();
     	
     	this.f=f;
     	p=f.getController().getPlateau();

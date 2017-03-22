@@ -67,6 +67,9 @@ public class Controller {
 		p=new Plateau();
 		p.addObserver(f);
 		joueurs = new Joueur[4];
+		cartePointsVictoire = new CartePointsVictoire[2];
+		cartePointsVictoire[0] = new CartePointsVictoire(4);
+		cartePointsVictoire[1] = new CartePointsVictoire(2);
 		for(int i=0;i<4;i++){
 			joueurs[i] = new Joueur(i, name[i]);
 			joueurs[i].addObserver(f);
@@ -136,12 +139,6 @@ public class Controller {
 	
 	public void debutPartie(){
 		piece=new Village(0, 0);
-		for(int i=0;i<4;i++){
-			joueurs[0].ajouterCarte(Ressource.pierre);
-			joueurs[0].ajouterCarte(Ressource.ble);
-			joueurs[0].ajouterCarte(Ressource.mouton);
-			acheterCarteDev();
-		}
 		f.setState(new PieceState(f));
 	}
 	
