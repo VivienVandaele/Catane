@@ -14,6 +14,7 @@ public class Joueur extends Observable {
 	private int id;
 	private String pseudo;
 	private int points;
+	private int nbChevalier;
 	private ArrayList<Carte> cartes;
 	private Integer[] nombreCartesDev;
 	private int routeLongue;
@@ -21,6 +22,7 @@ public class Joueur extends Observable {
 	public Joueur(int id, String pseudo){
 		this.id=id;
 		this.pseudo=pseudo;
+		this.nbChevalier = 0;
 		this.points=0;
 		this.routeLongue = 0;
 		this.cartes = new ArrayList<Carte>();
@@ -47,6 +49,11 @@ public class Joueur extends Observable {
 		CarteDeveloppement c = null;
 		if(i==0){
 			controller.activerVoleur();
+			nbChevalier++;
+			CartePointsVictoire carteChevalier = controller.getCarteChevalier();
+			if((carteChevalier.getJoueur()==null || carteChevalier.getJoueur().getId() != getId()) && nbChevalier>carteChevalier.getNumber()){
+				carteChevalier.setJoueur(this, nbChevalier);
+			}
 			c = new CarteDeveloppement("chevalier");
 		}
 		else if(i==1){
@@ -78,8 +85,8 @@ public class Joueur extends Observable {
 	public void retirerCarte(Ressource ressource){
 		for(Carte c : cartes){
 			if(c.getRessource() == ressource){
-				notifyObserver(ressource);
 				cartes.remove(c);
+				notifyObserver(ressource);
 				break;
 			}
 		}
@@ -166,10 +173,15 @@ public class Joueur extends Observable {
 	
 	public void ajouterPoint(int p){
 		points+=p;
+		notifyObserver(p);
 	}
 	
 	public int getNombreCartes(){
 		return cartes.size();
+	}
+	
+	public int getNombreChevalier(){
+		return nbChevalier;
 	}
 	
 	public int getNombreCartesDev(){
@@ -177,10 +189,6 @@ public class Joueur extends Observable {
 		for(int i=0;i<5;i++)
 			sum+=nombreCartesDev[i];
 		return sum;
-	}
-	
-	public int getPlusGrandeRoute(){
-		return 1;
 	}
 	
 	public void setRouteLongue(int n){

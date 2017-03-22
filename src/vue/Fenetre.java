@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import controller.Controller;
 import model.Carte;
 import model.CarteDeveloppement;
+import model.CartePointsVictoire;
 import model.Joueur;
 import model.Piece;
 import model.Ressource;
@@ -91,6 +92,12 @@ public class Fenetre extends JFrame implements Observer{
 			pan.setCarteDev();
 		if(arg instanceof Route){
 			c.setRoutePlusLongue();
+			CartePointsVictoire routeLongue = c.getCarteRoute();
+			for(int i=0;i<4;i++){
+				if(c.getJoueurs()[i].getRouteLongue() > routeLongue.getNumber()){
+					routeLongue.setJoueur(c.getJoueurs()[i], c.getJoueurs()[i].getRouteLongue());
+				}
+			}
 		}
 		pan.updateStats();
 	}

@@ -30,13 +30,15 @@ public class VoleurState extends State{
             	Graphics2D g2d = (Graphics2D)g;
                 g2d.setPaint(Color.white);
                 for(Emplacement p : Voleur.emplacements){
-        			g2d.setStroke(new BasicStroke(4.0f));
-        	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, transparence));
-        			g2d.draw(new Ellipse2D.Double(p.getX()-circleSize/2, p.getY()-circleSize/2, circleSize, circleSize));
-        			
-        			g2d.setStroke(new BasicStroke(2.0f));
-        	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-        			g2d.draw(new Ellipse2D.Double(p.getX()-7, p.getY()-7, 14, 14));
+                	if(p != Voleur.position){
+	        			g2d.setStroke(new BasicStroke(4.0f));
+	        	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, transparence));
+	        			g2d.draw(new Ellipse2D.Double(p.getX()-circleSize/2, p.getY()-circleSize/2, circleSize, circleSize));
+	        			
+	        			g2d.setStroke(new BasicStroke(2.0f));
+	        	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+	        			g2d.draw(new Ellipse2D.Double(p.getX()-7, p.getY()-7, 14, 14));
+                	}
             	}        		
         	}
         };

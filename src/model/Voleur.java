@@ -7,7 +7,7 @@ import observer.Observable;
 
 public class Voleur extends Observable{
 	public static ArrayList<Emplacement> emplacements;
-	public Emplacement position;
+	public static Emplacement position;
 	
 	public Voleur(){
 		emplacements = new ArrayList<Emplacement>();

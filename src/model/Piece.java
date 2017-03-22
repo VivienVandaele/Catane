@@ -1,7 +1,7 @@
 package model;
 
-import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.swing.ImageIcon;
 
@@ -47,6 +47,11 @@ public abstract class Piece {
 		poser=p;
 		this.j=j;
 		setImage();
+	}
+	
+	public void setPoserSimulation(boolean flag, Joueur j){
+		poser = flag;
+		this.j = j;
 	}
 	
 	public Joueur getJoueur(){

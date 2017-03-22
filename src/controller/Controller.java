@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import model.Carte;
 import model.CarteDeveloppement;
+import model.CartePointsVictoire;
 import model.Case;
 import model.IntelligenceArtificielle;
 import model.Joueur;
@@ -20,7 +21,6 @@ import state.PieceState;
 import state.VoleurState;
 import vue.EchangeFenetre;
 import vue.Fenetre;
-import vue.ProposerEchangeFenetre;
 import vue.VolerRessourceFenetre;
 import vue.VoleurFenetre;
 
@@ -29,6 +29,7 @@ public class Controller {
 	private Fenetre f;
 	private Piece piece;
 	private Joueur[] joueurs;
+	private CartePointsVictoire[] cartePointsVictoire;
 	private int idJoueur;
 	private boolean carteDevRoutes = false;
 	public static int idJoueurHumain;
@@ -39,6 +40,9 @@ public class Controller {
 		piece=null;
 		p=new Plateau();
 		p.addObserver(f);
+		cartePointsVictoire = new CartePointsVictoire[2];
+		cartePointsVictoire[0] = new CartePointsVictoire(4);
+		cartePointsVictoire[1] = new CartePointsVictoire(2);
 		
 		joueurs = new Joueur[4];
 		nombreJoueurHumain=4-nbIA;
@@ -138,13 +142,6 @@ public class Controller {
 			joueurs[0].ajouterCarte(Ressource.mouton);
 			acheterCarteDev();
 		}
-		/*
-		ArrayList<Carte> exporter = new ArrayList<Carte>();
-		exporter.add(new Carte(Ressource.argile));
-		ArrayList<Carte> importer = new ArrayList<Carte>();
-		importer.add(new Carte(Ressource.pierre));
-		new ProposerEchangeFenetre(joueurs[1], joueurs[0], exporter, importer, this);
-		*/
 		f.setState(new PieceState(f));
 	}
 	
@@ -210,8 +207,16 @@ public class Controller {
 	
 	public void distribuerRessources(int d){
 		if(d==7){
-			if(joueurs[0].getNombreCartes()>7)
-				new VoleurFenetre(joueurs[0], joueurs[0].getNombreCartes()/2);
+			for(int i=0;i<4;i++){
+				if(joueurs[i].getNombreCartes()>7){
+					if(joueurs[i] instanceof IntelligenceArtificielle){
+						((IntelligenceArtificielle)joueurs[i]).supprimerCartesVoleur(joueurs[i].getNombreCartes()/2);
+					}
+					else{
+						new VoleurFenetre(joueurs[i], joueurs[i].getNombreCartes()/2);
+					}
+				}
+			}
 			if(joueurs[idJoueur] instanceof IntelligenceArtificielle){
 				((IntelligenceArtificielle) joueurs[idJoueur]).deplacerVoleur(p.getVoleur());
 			}
@@ -310,6 +315,14 @@ public class Controller {
 	
 	public Piece getPiece(){
 		return piece;
+	}
+	
+	public CartePointsVictoire getCarteRoute(){
+		return cartePointsVictoire[0];
+	}
+	
+	public CartePointsVictoire getCarteChevalier(){
+		return cartePointsVictoire[1];
 	}
 	
 	public boolean getDebutPartie(){

@@ -58,7 +58,7 @@ public class CreationIAPanel extends JPanel {
 		lab.setFont(new Font("Arial", Font.BOLD, 40));
 		add(lab);
 		
-		SpinnerNumberModel model = new SpinnerNumberModel(1, 1, 3, 1);
+		SpinnerNumberModel model = new SpinnerNumberModel(3, 1, 3, 1);
 		nombreIA = new JSpinner(model);
 		nombreIA.setBounds(WIDTH/2, HEIGHT/4+400, 100, 55);
 	    add(nombreIA);

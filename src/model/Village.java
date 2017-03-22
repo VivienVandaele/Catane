@@ -45,6 +45,7 @@ public class Village extends Piece{
 					((Village) piece).setVille();
 					piece.setPoser(true, j);
 					p.ajouterPiece(piece);
+					j.ajouterPoint(1);
 					return true;
 				}
 			}
@@ -52,6 +53,7 @@ public class Village extends Piece{
 				if(!piece.getPoser() && piece instanceof Village && x>piece.getX()-marge && x<piece.getX()+marge && y>piece.getY()-marge && y<piece.getY()+marge){
 					piece.setPoser(true, j);
 					p.ajouterPiece(piece);
+					j.ajouterPoint(1);
 					return true;
 				}
 			}
@@ -70,6 +72,7 @@ public class Village extends Piece{
 						j.ajouterCarte(c.getRessource());
 					}
 				}
+				j.ajouterPoint(1);
 				return true;
 			}
 		}

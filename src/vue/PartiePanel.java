@@ -146,7 +146,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	    	nbCarteDevJoueurs[i].setForeground(Color.white);
 	    	scores[i].add(nbCarteDevJoueurs[i]);
 	    	
-	    	nbChevalierJoueurs[i] = new JLabel(""+j[i].getNombreCartes());
+	    	nbChevalierJoueurs[i] = new JLabel(""+j[i].getNombreChevalier());
 	    	nbChevalierJoueurs[i].setBounds((int)(4*WIDTH_SCORE/5.0), (int)(HEIGHT_SCORE*63.0/100.0+margin), 50, 50);
 	    	nbChevalierJoueurs[i].setFont(new Font("arial", Font.BOLD, 35));
 	    	nbChevalierJoueurs[i].setForeground(Color.white);
@@ -309,7 +309,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	    	nbCarteJoueurs[i].setText(""+j[i].getNombreCartes());
 	    	nbRouteJoueurs[i].setText(""+j[i].getRouteLongue());
 	    	nbCarteDevJoueurs[i].setText(""+j[i].getNombreCartesDev());
-	    	nbChevalierJoueurs[i].setText(""+j[i].getNombreCartes());
+	    	nbChevalierJoueurs[i].setText(""+j[i].getNombreChevalier());
 	    }
 	}
 	
