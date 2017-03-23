@@ -181,8 +181,8 @@ public class Village extends Piece implements Serializable{
 
 	public void setImage() {
 		if(!ville)
-			image=new ImageIcon(new ImageIcon("images/pieces/village"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/3, PartiePanel.widthCarte/8, Image.SCALE_DEFAULT));
+			image=new ImageIcon(new ImageIcon("images/pieces/village"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/4, PartiePanel.widthCarte/4, Image.SCALE_DEFAULT));
 		else
-			image=new ImageIcon(new ImageIcon("images/pieces/ville"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/3, PartiePanel.widthCarte/8, Image.SCALE_DEFAULT));
+			image=new ImageIcon(new ImageIcon("images/pieces/ville"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/3, PartiePanel.widthCarte/3, Image.SCALE_DEFAULT));
 	}
 }

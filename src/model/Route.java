@@ -110,6 +110,6 @@ public class Route extends Piece implements Serializable{
 	}
 
 	public void setImage() {
-		image=new ImageIcon(new ImageIcon("images/pieces/route"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/15, PartiePanel.widthCarte/2, Image.SCALE_DEFAULT));
+		image=new ImageIcon(new ImageIcon("images/pieces/route"+j.getId()+".png").getImage().getScaledInstance(PartiePanel.widthCarte/7, PartiePanel.widthCarte/3, Image.SCALE_DEFAULT));
 	}
 }

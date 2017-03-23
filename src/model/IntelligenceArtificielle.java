@@ -30,6 +30,7 @@ public class IntelligenceArtificielle extends Joueur implements Serializable{
 	
 	public boolean accepterEchange(Controller controller, Joueur j1, EchangeFenetre e, ArrayList<Carte> exporter, ArrayList<Carte> importer){
 		boolean flag = true;
+		if(exporter.size() < importer.size()) return false;
 		for(Carte c : importer){
 			if(getNombreDeCarteType(c.getType())<getNombreDeCarteType(importer, c.getType())){
 				flag = false;
