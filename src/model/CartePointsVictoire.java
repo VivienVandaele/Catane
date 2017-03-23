@@ -1,6 +1,8 @@
 package model;
 
-public class CartePointsVictoire {
+import java.io.Serializable;
+
+public class CartePointsVictoire implements Serializable{
 	private Joueur j;
 	private int number;
 	

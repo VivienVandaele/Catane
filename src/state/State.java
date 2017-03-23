@@ -2,10 +2,11 @@ package state;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 
 import vue.Fenetre;
 
-public abstract class State implements MouseListener{
+public abstract class State implements MouseListener, Serializable{
 	Fenetre f;
 	public State(Fenetre f){
 		this.f=f;

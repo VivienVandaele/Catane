@@ -2,6 +2,7 @@ package vue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -21,7 +22,7 @@ import state.State;
 import vue.sauvegardePartie.DialogTest;
 
 
-public class Fenetre extends JFrame implements Observer, KeyListener{
+public class Fenetre extends JFrame implements Observer, KeyListener, Serializable {
 	private State state;
 	private Controller c;
 	private PartiePanel pan;
@@ -38,6 +39,7 @@ public class Fenetre extends JFrame implements Observer, KeyListener{
 	}
 	
 	public void afficherAccueil(){
+		c = null;
 		setContentPane(new AccueilPanel(this));
 		revalidate();
 	}
@@ -111,7 +113,7 @@ public class Fenetre extends JFrame implements Observer, KeyListener{
 	public void keyPressed(KeyEvent evt) {
         switch(evt.getKeyCode()) {
             case KeyEvent.VK_ESCAPE :
-                new DialogTest();
+                new DialogTest(this);
                 break;
         }
 	}
@@ -126,5 +128,18 @@ public class Fenetre extends JFrame implements Observer, KeyListener{
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setController(Controller c){
+		this.c = c;
+	}
+	
+	public void setStateSauv(State s){
+		this.state = s;
+	}
+	
+	public void setPan(PartiePanel p){
+		this.pan = p;
+		setContentPane(p);
 	}
 }

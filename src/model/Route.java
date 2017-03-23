@@ -1,13 +1,14 @@
 package model;
 
 import java.awt.Image;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
 import vue.PartiePanel;
 
-public class Route extends Piece{
+public class Route extends Piece implements Serializable{
 	private String orientation;
 	
 	public Route(){

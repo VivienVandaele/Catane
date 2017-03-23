@@ -1,12 +1,13 @@
 package model;
 
 import java.awt.Image;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
 import vue.PartiePanel;
 
-public class Port {
+public class Port implements Serializable{
 	private ImageIcon image;
 	private String type;
 	private Emplacement emplacement;

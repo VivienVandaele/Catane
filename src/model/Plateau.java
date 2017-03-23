@@ -1,4 +1,5 @@
 package model;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -7,7 +8,7 @@ import javax.swing.ImageIcon;
 import observer.Observable;
 import vue.PartiePanel;
 
-public class Plateau extends Observable{
+public class Plateau extends Observable implements Serializable{
 	private Case[][] cases;
 	private ArrayList<Piece> pieces;
 	private ArrayList<Piece> piecesPoser;

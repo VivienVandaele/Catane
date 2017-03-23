@@ -1,6 +1,8 @@
 package model;
 
-public class Emplacement {
+import java.io.Serializable;
+
+public class Emplacement implements Serializable{
 	private int x;
 	private int y;
 	private Case c;

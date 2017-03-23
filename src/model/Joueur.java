@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -10,7 +11,7 @@ import vue.ChoisirRessourceFenetre;
 import vue.EchangeFenetre;
 import vue.ProposerEchangeFenetre;
 
-public class Joueur extends Observable {
+public class Joueur extends Observable implements Serializable{
 	private int id;
 	private String pseudo;
 	private int points;

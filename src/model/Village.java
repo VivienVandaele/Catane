@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Image;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,7 +9,7 @@ import javax.swing.ImageIcon;
 
 import vue.PartiePanel;
 
-public class Village extends Piece{
+public class Village extends Piece implements Serializable{
 	private HashMap<Route, Village> adj;
 	private ArrayList<Case> cases;
 	private boolean ville;

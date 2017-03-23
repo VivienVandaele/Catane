@@ -1,11 +1,12 @@
 package model;
 import java.awt.Image;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
 import vue.PartiePanel;
 
-public class Case {
+public class Case implements Serializable{
 	private Ressource ressource;
 	private int numero;
 	private ImageIcon jeton;

@@ -799,4 +799,8 @@ public class PartiePanel extends JPanel implements MouseListener{
 	public static Carte[] getCartes(){
 		return cartes;
 	}
+
+	public void setFenetre(Fenetre f){
+		this.f = f;
+	}
 }

@@ -33,7 +33,9 @@ public class GagnantFenetre extends JDialog {
 		contentPanel.setLayout(null);
 		this.j = j;
 		
+		JLabel lab = new JLabel("Le gagnant est : ");
 		
+		lab.setForeground(j.getColor());
 		menuBoutton = new JButton("Menu");
 			
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

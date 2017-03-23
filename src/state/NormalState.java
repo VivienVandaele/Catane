@@ -1,9 +1,10 @@
 package state;
 
-import java.awt.event.MouseEvent;
+import java.io.Serializable;
+
 import vue.Fenetre;
 
-public class NormalState extends State{
+public class NormalState extends State implements Serializable{
 	
 	public NormalState(Fenetre f){
 		super(f);

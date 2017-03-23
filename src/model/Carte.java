@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
+
 import javax.swing.ImageIcon;
 
-public class Carte {
+public class Carte implements Serializable{
 	private Ressource ressource;
 	
 	public Carte(Ressource ressource){

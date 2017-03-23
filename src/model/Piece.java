@@ -1,11 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import javax.swing.ImageIcon;
 
-public abstract class Piece {
+public abstract class Piece implements Serializable{
 	protected int x;
 	protected int y;
 	protected boolean poser;

@@ -5,42 +5,34 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import model.Voleur;
+import vue.Fenetre;
 
 public class JDialogSave extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			JDialogSave dialog2 = new JDialogSave();
-			dialog2.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog2.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private Fenetre fenetre;
 
 	/**
 	 * Create the dialog.
 	 */
-	public JDialogSave() {
+	public JDialogSave(Fenetre f) {
+		this.fenetre = f;
 		setBounds(100, 100, 450, 300);
+		setLocationRelativeTo(null);
+		setModal(true);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -94,7 +86,10 @@ public class JDialogSave extends JDialog {
 		try
 		{
 		    ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream (f));
-		    oos.writeObject (sTest);
+		    oos.writeObject (fenetre.getController());
+		    oos.writeObject (fenetre.getPartiePanel());
+		    oos.writeObject (Voleur.emplacements);
+		    oos.writeObject (Voleur.position);
 		    oos.close();
 		}
 		catch (IOException exception)

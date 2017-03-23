@@ -1,11 +1,12 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import observer.Observable;
 
-public class Voleur extends Observable{
+public class Voleur extends Observable implements Serializable{
 	public static ArrayList<Emplacement> emplacements;
 	public static Emplacement position;
 	
@@ -30,6 +31,10 @@ public class Voleur extends Observable{
 	public void setPosition(Emplacement e){
 		position = e;
 		notifyObserver(e);
+	}
+	
+	public void setEmplacement(ArrayList<Emplacement> emplacements){
+		this.emplacements = emplacements;
 	}
 	
 	public int getX(){

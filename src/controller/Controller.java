@@ -1,6 +1,7 @@
 package controller;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,7 +25,7 @@ import vue.Fenetre;
 import vue.VolerRessourceFenetre;
 import vue.VoleurFenetre;
 
-public class Controller {
+public class Controller implements Serializable{
 	private Plateau p;
 	private Fenetre f;
 	private Piece piece;
@@ -312,6 +313,10 @@ public class Controller {
 	
 	public Piece getPiece(){
 		return piece;
+	}
+	
+	public void setFenetre(Fenetre f){
+		this.f = f;
 	}
 	
 	public CartePointsVictoire getCarteRoute(){

@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
+import java.io.Serializable;
 
 import javax.swing.JPanel;
 
@@ -15,7 +16,7 @@ import model.Voleur;
 import vue.Fenetre;
 import vue.PartiePanel;
 
-public class VoleurState extends State{
+public class VoleurState extends State implements Serializable{
     private float transparence=1.0f;
     private int circleSize=44;
 	private JPanel pan;

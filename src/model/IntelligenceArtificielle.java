@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,7 +12,7 @@ import controller.Controller;
 import vue.EchangeFenetre;
 import vue.PartiePanel;
 
-public class IntelligenceArtificielle extends Joueur{
+public class IntelligenceArtificielle extends Joueur implements Serializable{
 	private boolean villeFlag;
 	
 	public IntelligenceArtificielle(int id, String pseudo) {

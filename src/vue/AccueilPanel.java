@@ -22,6 +22,9 @@ public class AccueilPanel extends JPanel{
 	private Thread t=null;
 	private float transparence=0.1f;
 	private JButton boutonHotseat;
+	private JButton boutonCharger;
+	private JButton boutonQuitter;
+
 	
 	public AccueilPanel(Fenetre f){
 		this.f=f;
@@ -76,7 +79,8 @@ public class AccueilPanel extends JPanel{
 		    }
 		});
 		
-		JButton boutonQuitter=new JButton("<HTML><BODY><center><B>Quitter</B></center></BODY></HTML>");
+		
+		boutonQuitter=new JButton("<HTML><BODY><center><B>Quitter</B></center></BODY></HTML>");
 		boutonQuitter.setPreferredSize(new Dimension(300, 75));
 		boutonQuitter.setBounds(WIDTH/2-200, HEIGHT/2+200, 400, 65);
 		boutonQuitter.setFont(new Font("Georgia", Font.PLAIN, 40));
@@ -133,6 +137,9 @@ public class AccueilPanel extends JPanel{
 		public void actionPerformed(ActionEvent e){
 			if(e.getSource() == boutonHotseat)
 				f.afficherCreationHotSeat();
+			else if(e.getSource() == boutonQuitter){
+				f.dispose();
+			}
 			else
 				f.afficherCreationIA();
 		}
