@@ -626,6 +626,9 @@ public class PartiePanel extends JPanel implements MouseListener{
 	}
 
 	public void mouseReleased(MouseEvent e) {
+		Village v = new Village(true);
+		Village village = new Village();
+		Route r = new Route();
 		if(e.getSource() == labBoutonDes && (desEnable || !etatBouton[0].equals("images/bouton/des.png"))){
 			if(etatBouton[0].equals("images/bouton/des.png")){
 				roulementDes();
@@ -638,19 +641,19 @@ public class PartiePanel extends JPanel implements MouseListener{
 			setIconBoutonDes(etatBouton[0]);
 	        f.repaint();
 		}
-		else if(achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteRoute() && e.getSource() == labRoute && !etatBouton[0].equals("images/bouton/des.png")){
+		else if(r.getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueurs()[Controller.idJoueurHumain]).size()>0 && achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteRoute() && e.getSource() == labRoute && !etatBouton[0].equals("images/bouton/des.png")){
 			f.getController().acheterPiece(new Route());
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
 	    	f.repaint();
 		}
-		else if(achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteVillage() && e.getSource() == labVillage && !etatBouton[0].equals("images/bouton/des.png")){
+		else if(village.getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueurs()[Controller.idJoueurHumain]).size()>0 && achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteVillage() && e.getSource() == labVillage && !etatBouton[0].equals("images/bouton/des.png")){
 			f.getController().acheterPiece(new Village());
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
 	    	f.repaint();
 		}
-		else if(achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteVille() && e.getSource() == labVille && !etatBouton[0].equals("images/bouton/des.png")){
+		else if(v.getPositionDisponible(f.getController().getPlateau(), f.getController().getJoueurs()[Controller.idJoueurHumain]).size()>0 && achatEnable && f.getController().getIdJoueur()==Controller.idJoueurHumain && f.getController().getJoueurs()[Controller.idJoueurHumain].possedeRessourceSuffisanteVille() && e.getSource() == labVille && !etatBouton[0].equals("images/bouton/des.png")){
 			f.getController().acheterPiece(new Village(true));
 	    	labRessources.setBounds(WIDTH-500, HEIGHT-50, 250, 350);
 	    	labRessources.removeAll();
