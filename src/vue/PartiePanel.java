@@ -732,6 +732,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 	}
 	
     public synchronized void roulementDesAnimation() {
+    	desactiverBoutons();
     	JLabel des = new JLabel();
     	JLabel des2 = new JLabel();
     	int d1=0, d2=0;
@@ -757,6 +758,7 @@ public class PartiePanel extends JPanel implements MouseListener{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+    	activerBoutons();
     	remove(des);
     	remove(des2);
     	f.repaint();
