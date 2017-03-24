@@ -107,6 +107,7 @@ public class Fenetre extends JFrame implements Observer, KeyListener, Serializab
 			}
 		}
 		pan.updateStats();
+		c.chercherGagnant();
 	}
 
 	@Override

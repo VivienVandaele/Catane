@@ -22,6 +22,7 @@ import state.PieceState;
 import state.VoleurState;
 import vue.EchangeFenetre;
 import vue.Fenetre;
+import vue.GagnantFenetre;
 import vue.VolerRessourceFenetre;
 import vue.VoleurFenetre;
 
@@ -293,6 +294,14 @@ public class Controller implements Serializable{
 		else
 			f.getPartiePanel().desactiverBoutons();
 		f.getPartiePanel().setCarteDev();
+	}
+	
+	public void chercherGagnant(){
+		for(int i=0;i<4;i++){
+			if(joueurs[i].getPoints()>=10){
+				new GagnantFenetre(joueurs[i], f);
+			}
+		}
 	}
 	
 	public Plateau getPlateau(){

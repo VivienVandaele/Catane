@@ -1,6 +1,7 @@
 package vue;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +24,7 @@ public class GagnantFenetre extends JDialog {
 	private JButton menuBoutton;
 	private Joueur j;
 
-	public GagnantFenetre(Joueur j) {
+	public GagnantFenetre(Joueur j, Fenetre f) {
 		setBounds(100, 100, 1000, 700);
 		setModal(true);
 		setLocationRelativeTo(null);
@@ -33,11 +34,27 @@ public class GagnantFenetre extends JDialog {
 		contentPanel.setLayout(null);
 		this.j = j;
 		
-		JLabel lab = new JLabel("Le gagnant est : ");
-		
+		JLabel lab = new JLabel("Le gagnant est : "+j.getPseudo());
 		lab.setForeground(j.getColor());
+		lab.setFont(new Font("Arial", Font.BOLD, 50));
+		lab.setBounds(200, 0, 1000, 500);
+		contentPanel.add(lab);
+		
 		menuBoutton = new JButton("Menu");
+		menuBoutton.setFont(new Font("Arial", Font.BOLD, 50));
+		menuBoutton.setBounds(350, 400, 300, 100);
+		menuBoutton.addActionListener(new ActionListener() {
 			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				f.afficherAccueil();
+				dispose();
+			}
+		});
+		contentPanel.add(menuBoutton);
+		
+		
+		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setUndecorated(true);
 		setVisible(true);
