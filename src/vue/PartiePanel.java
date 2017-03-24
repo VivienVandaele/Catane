@@ -302,11 +302,15 @@ public class PartiePanel extends JPanel implements MouseListener{
     		
     		g2d.drawImage(pieceAnimation.getImage(), rotation, null);
     	}
+    	updateStats();
 	}
 	
 	public void updateStats(){
 		Joueur[] j = f.getController().getJoueurs();
         for(int i=0;i<4;i++){
+	    	nomJoueurs[i].setForeground(Color.white);
+	    	if(i==f.getController().getIdJoueur())
+	    		nomJoueurs[i].setForeground(Color.black);
 	    	pointJoueurs[i].setText(""+j[i].getPoints());
 	    	nbCarteJoueurs[i].setText(""+j[i].getNombreCartes());
 	    	nbRouteJoueurs[i].setText(""+j[i].getRouteLongue());
