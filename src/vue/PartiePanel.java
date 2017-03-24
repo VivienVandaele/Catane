@@ -210,7 +210,7 @@ public class PartiePanel extends JPanel implements MouseListener{
     	Graphics2D g2d = (Graphics2D)g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		g2d.drawImage(new ImageIcon("images/gameBackground.png").getImage(), 0, 0, null);
+		g2d.drawImage(new ImageIcon("images/gameBackground.jpg").getImage(), 0, 0, null);
         for(int k=0;k<4;k++){
 			for(int i=0;i<4+k;i++){
 		        g2d.drawImage(p.getImageOfCase(k, i).getImage(), margeGauche+widthCase*i-k*widthCase/2, widthCase*3/4*k+margeTop, widthCase, widthCase, this);

@@ -19,6 +19,7 @@ import controller.Controller;
 import model.Emplacement;
 import vue.Fenetre;
 import vue.PartiePanel;
+import vue.RegleFenetre;
 
 public class DialogTest extends JDialog {
 
@@ -56,7 +57,7 @@ public class DialogTest extends JDialog {
 		btnNewButton.setBounds(131, 48, 171, 23);
 		contentPanel.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Options");
+		JButton btnNewButton_1 = new JButton("Règles");
 		btnNewButton_1.setBounds(131, 82, 171, 23);
 		contentPanel.add(btnNewButton_1);
 		
@@ -82,6 +83,12 @@ public class DialogTest extends JDialog {
 		btnNewButton_2.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				new JDialogSave(f);
+			}
+		});
+		
+		btnNewButton_1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				new RegleFenetre();
 			}
 		});
 		
