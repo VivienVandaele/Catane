@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class CartePointsVictoire implements Serializable{
 	private Joueur j;
-	private int number;
+	private int max;
 	
 	public CartePointsVictoire(int n){
-		number = n;
+		max = n;
 	}
 	
 	public void setJoueur(Joueur j, int n){
@@ -16,11 +16,11 @@ public class CartePointsVictoire implements Serializable{
 		}
 		j.ajouterPoint(2);
 		this.j = j;
-		this.number = n;
+		this.max = n;
 	}
 	
-	public int getNumber(){
-		return number;
+	public int getMax(){
+		return max;
 	}
 	
 	public Joueur getJoueur(){

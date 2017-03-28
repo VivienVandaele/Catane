@@ -52,7 +52,7 @@ public class Joueur extends Observable implements Serializable{
 			controller.activerVoleur();
 			nbChevalier++;
 			CartePointsVictoire carteChevalier = controller.getCarteChevalier();
-			if((carteChevalier.getJoueur()==null || carteChevalier.getJoueur().getId() != getId()) && nbChevalier>carteChevalier.getNumber()){
+			if((carteChevalier.getJoueur()==null || carteChevalier.getJoueur().getId() != getId()) && nbChevalier>carteChevalier.getMax()){
 				carteChevalier.setJoueur(this, nbChevalier);
 			}
 			c = new CarteDeveloppement("chevalier");

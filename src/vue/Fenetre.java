@@ -101,7 +101,7 @@ public class Fenetre extends JFrame implements Observer, KeyListener, Serializab
 			c.setRoutePlusLongue();
 			CartePointsVictoire routeLongue = c.getCarteRoute();
 			for(int i=0;i<4;i++){
-				if(c.getJoueurs()[i].getRouteLongue() > routeLongue.getNumber()){
+				if(c.getJoueurs()[i].getRouteLongue() > routeLongue.getMax()){
 					routeLongue.setJoueur(c.getJoueurs()[i], c.getJoueurs()[i].getRouteLongue());
 				}
 			}
